@@ -18,7 +18,7 @@ npm run build
 npm run build --report
 ```
 
-###集成jquery、axios、element-ui、整理function.js助手函数，解决调用接口跨域问题
+#### 集成jquery、axios、element-ui、整理function.js助手函数，解决调用接口跨域问题
 
 
 
