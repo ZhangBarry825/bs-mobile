@@ -11,6 +11,7 @@ Vue.use(Vuex)
 
 Vue.config.productionTip = false
 
+import 'swiper/dist/css/swiper.css';
 /* eslint-disable no-new */
 new Vue({
   el: '#app',
