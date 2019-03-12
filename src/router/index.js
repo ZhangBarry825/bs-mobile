@@ -13,6 +13,8 @@ import Commission from '@/pages/Commission'
 import Encash from '@/pages/Encash'
 import Apply from '@/pages/Apply'
 import Commodity from '@/pages/Commodity'
+import Balance from '@/pages/Balance'
+import Address from '@/pages/Address'
 
 Vue.use(Router)
 
@@ -83,6 +85,16 @@ export default new Router({
       path: '/commodity',
       name: 'Commodity',
       component: Commodity
+    },
+    {
+      path: '/balance',
+      name: 'Balance',
+      component: Balance
+    },
+    {
+      path: '/address',
+      name: 'Address',
+      component: Address
     }
 
   ]

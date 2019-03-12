@@ -1,15 +1,105 @@
 <template>
   <div class="content">
-    <h2>详情</h2>
+    <div class="swiper-container">
+      <div class="swiper-wrapper">
+        <div class="swiper-slide" :style="'background-image: url('+require('../../assets/images/5c1478d532.jpg')+')'" >
+        </div>
+        <div class="swiper-slide" :style="'background-image: url('+require('../../assets/images/5c14791447.jpg')+')'" >
+        </div>
+        <div class="swiper-slide" :style="'background-image: url('+require('../../assets/images/5c6e6d31e4.jpg')+')'" >
+        </div>
+      </div>
+      <div class="swiper-pagination"></div>
+    </div>
+    <div class="title">
+      2018新款百搭斜挎包水貂毛口袋包链条包单肩包
+    </div>
+    <div class="price">
+      <a>￥218元<span>￥300元</span></a>
+    </div>
+    <div class="saleNum">销量221件</div>
+
+    <div class="type" @click="typeDetail">
+      <a>商品规格</a>
+      <a>></a>
+    </div>
+
+    <TypeDetail :isDisplay="isDisplay" v-on:cancelDis="cancelDisply"></TypeDetail>
+
+    <div class="comment">
+      <a>商品评价</a>
+      <a>></a>
+    </div>
+
+    <div class="detail">
+      <div class="detail-title">
+        <a>商品详情</a>
+      </div>
+
+      <div class="detail-content">
+        <div class="item" :style="'background-image: url('+require('../../assets/images/5c06471d63.jpg')+')'" ></div>
+        <div class="item" :style="'background-image: url('+require('../../assets/images/5c06487cee.jpg')+')'" ></div>
+        <div class="item" :style="'background-image: url('+require('../../assets/images/5c064861f9.jpg')+')'" ></div>
+        <div class="item" :style="'background-image: url('+require('../../assets/images/5c0648677a.jpg')+')'" ></div>
+        <div class="item" :style="'background-image: url('+require('../../assets/images/5c0648705c.jpg')+')'" ></div>
+      </div>
+    </div>
 
 
-    <div class="bottom"></div>
+    <div class="blank" style="width: 100%;height: 50px"></div>
+    <div class="bottom">
+      <div class="item" @click="goHome">
+        <img src="../../assets/images/nsy.png">
+        <a>首页</a>
+      </div>
+      <div class="item">
+        <img src="../../assets/images/mall2.png">
+        <a>购物车</a>
+      </div>
+      <div class="item buy">
+        立即购买
+      </div>
+    </div>
   </div>
 </template>
 
 <script>
+  import Swiper from "swiper";
+  import TypeDetail from "../../components/TypeDetail";
   export default {
-    name: "Commodity"
+    name: "Commodity",
+    components:{
+      TypeDetail:TypeDetail
+    },
+    data(){
+      return{
+        isDisplay:false
+      }
+    },
+    mounted() {
+      new Swiper('.swiper-container', {
+        autoplay: true,
+        loop: true,
+        pagination: {
+          el: '.swiper-pagination',
+        },
+
+        scrollbar: {
+          el: '.swiper-scrollbar',
+        },
+      })
+    },
+    methods:{
+      typeDetail(){
+        this.isDisplay=true
+      },
+      goHome(){
+        this.$router.replace({path: '/home'})
+      },
+      cancelDisply(){
+        this.isDisplay=false
+      }
+    }
   }
 </script>
 
@@ -22,5 +112,116 @@
   background-color: #f8f8f8;
   font-size: 15px;
   color: #262626;
+  .swiper-container {
+    width: 100%;
+    height: 400px;
+    .swiper-slide {
+      background-size: cover;
+      background-repeat: no-repeat;
+      background-position: center;
+    }
+  }
+  .title{
+    background-color: white;
+    width: 100%;
+    padding: 10px 10px;
+    box-sizing: border-box;
+  }
+  .price{
+    background-color: white;
+    width: 100%;
+    padding: 5px 5px;
+    box-sizing: border-box;
+    font-size: 20px;
+    a{
+      color: red;
+    }
+    span{
+      color: grey;
+      font-size: 15px;
+      margin-left: 10px;
+      text-decoration: line-through;
+    }
+  }
+  .saleNum{
+    color: grey;
+    background-color: white;
+    width: 100%;
+    padding: 0 10px;
+    padding-bottom: 10px;
+    box-sizing: border-box;
+  }
+  .type,.comment{
+    margin-top: 5px;
+    background-color: white;
+    width: 100%;
+    padding: 10px 10px;
+    box-sizing: border-box;
+    border-top: 1px solid gainsboro;
+    border-bottom: 1px solid gainsboro;
+    display: flex;
+    justify-content: space-between;
+    a:last-child{
+      color: grey;
+    }
+  }
+  .detail{
+    margin-top: 10px;
+    background-color: white;
+    width: 100%;
+    box-sizing: border-box;
+    .detail-title{
+      width: 100%;
+      padding: 10px 10px;
+      box-sizing: border-box;
+      display: flex;
+      justify-content: space-between;
+    }
+    .detail-content{
+      width: 100%;
+      padding: 10px 0;
+      .item{
+        width: 100%;
+        height: 300px;
+        background-repeat: no-repeat;
+        background-size: cover;
+        background-position: center;
+      }
+    }
+  }
+  .bottom{
+    width: 100%;
+    height: 50px;
+    background-color: white;
+    position: fixed;
+    bottom: 0;
+    display: flex;
+    flex-direction: row;
+    overflow: hidden;
+    font-size: 13px;
+    .item{
+      width: 25%;
+      height: 100%;
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      color: grey;
+      justify-content: center;
+      img{
+        width: 25px;
+        height: 25px;
+      }
+    }
+    .buy{
+      width: 50%;
+      height: 100%;
+      display: flex;
+      justify-content: center;
+      align-items: center;
+      background-color: #FF6735;
+      color: white;
+      font-size: 15px;
+    }
+  }
 }
 </style>

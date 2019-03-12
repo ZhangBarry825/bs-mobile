@@ -32,21 +32,21 @@
       </div>
     </div>
     <div class="items">
-      <div class="item">
+      <div class="item" @click="balance">
         <div class="left">
           <img src="../../assets/images/yue.png">
           <a>余额 <span>0.00</span></a>
         </div>
         <div class="right">></div>
       </div>
-      <div class="item">
+      <div class="item" >
         <div class="left">
           <img src="../../assets/images/tuih.png">
           <a>退款/售后 <span>查看详情</span></a>
         </div>
         <div class="right">></div>
       </div>
-      <div class="item">
+      <div class="item" @click="address">
         <div class="left">
           <img src="../../assets/images/dizhi.png">
           <a>地址管理 <span>点击修改</span></a>
@@ -75,6 +75,14 @@
     components: {
       BottomBar: BottomBar
     },
+    methods:{
+      balance(){
+        this.$router.replace({path: '/balance'})
+      },
+      address(){
+        this.$router.replace({path: '/address'})
+      }
+    }
   }
 </script>
 

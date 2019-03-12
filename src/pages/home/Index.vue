@@ -2,11 +2,11 @@
   <div class="content">
     <div class="swiper-container">
       <div class="swiper-wrapper">
-        <div class="swiper-slide" :style="'background-image: url('+require('../../assets/images/5c1478d532.jpg')+')'" >
+        <div class="swiper-slide" :style="'background-image: url('+require('../../assets/images/5c1478d532.jpg')+')'"  @click="goDetail">
         </div>
-        <div class="swiper-slide" :style="'background-image: url('+require('../../assets/images/5c14791447.jpg')+')'" >
+        <div class="swiper-slide" :style="'background-image: url('+require('../../assets/images/5c14791447.jpg')+')'"  @click="goDetail">
         </div>
-        <div class="swiper-slide" :style="'background-image: url('+require('../../assets/images/5c6e6d31e4.jpg')+')'" >
+        <div class="swiper-slide" :style="'background-image: url('+require('../../assets/images/5c6e6d31e4.jpg')+')'"  @click="goDetail">
         </div>
       </div>
       <div class="swiper-pagination"></div>
@@ -27,7 +27,7 @@
       </div>
     </div>
     <div class="items">
-      <div class="item">
+      <div class="item" @click="goDetail">
         <div class="img" :style="'background-image: url('+require('../../assets/images/5c14791447.jpg')+')'" ></div>
         <div class="title">2018新款百搭斜挎包水貂毛口袋包链条包单肩包</div>
         <div class="bottom">
@@ -35,7 +35,7 @@
           <img src="../../assets/images/gwct_x.png" >
         </div>
       </div>
-      <div class="item">
+      <div class="item" @click="goDetail">
         <div class="img" :style="'background-image: url('+require('../../assets/images/5c14791447.jpg')+')'" ></div>
         <div class="title">2018新款百搭斜挎包水貂毛口袋包链条包单肩包</div>
         <div class="bottom">
@@ -43,7 +43,7 @@
           <img src="../../assets/images/gwct_x.png" >
         </div>
       </div>
-      <div class="item">
+      <div class="item" @click="goDetail">
       <div class="img" :style="'background-image: url('+require('../../assets/images/5c14791447.jpg')+')'" ></div>
       <div class="title">2018新款百搭斜挎包水貂毛口袋包链条包单肩包</div>
       <div class="bottom">
@@ -84,6 +84,11 @@
           el: '.swiper-scrollbar',
         },
       })
+    },
+    methods:{
+      goDetail(){
+        this.$router.replace({path: '/commodity'})
+      }
     }
   }
 </script>
