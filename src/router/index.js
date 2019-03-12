@@ -15,6 +15,9 @@ import Apply from '@/pages/Apply'
 import Commodity from '@/pages/Commodity'
 import Balance from '@/pages/Balance'
 import Address from '@/pages/Address'
+import Buy from '@/pages/Buy'
+import Pay from '@/pages/Pay'
+import AddAddress from '@/pages/addAddress'
 
 Vue.use(Router)
 
@@ -95,6 +98,21 @@ export default new Router({
       path: '/address',
       name: 'Address',
       component: Address
+    },
+    {
+      path: '/buy',
+      name: 'Buy',
+      component: Buy
+    },
+    {
+      path: '/pay',
+      name: 'Pay',
+      component: Pay
+    },
+    {
+      path: '/addaddress',
+      name: 'AddAddress',
+      component: AddAddress
     }
 
   ]

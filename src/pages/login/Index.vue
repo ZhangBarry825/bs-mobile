@@ -10,8 +10,8 @@
         <input type="text" placeholder="请输入验证码">
         <img src="../../assets/images/ewm.jpg" alt="">
       </div>
-      <button class="submit-button">立即登录</button>
-      <div class="register-text"><a>立即注册</a></div>
+      <button class="submit-button" @click="goHome">立即登录</button>
+      <div class="register-text" ><a>立即注册</a></div>
     </div>
   </div>
 </template>
@@ -21,6 +21,11 @@
     name: "Login",
     data() {
       return {}
+    },
+    methods:{
+      goHome(){
+        this.$router.push({path: '/home'})
+      }
     }
   }
 </script>

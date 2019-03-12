@@ -24,7 +24,7 @@
 
     </div>
 
-    <div class="add">
+    <div class="add" @click="addAddress">
       <div class="button">添加</div>
     </div>
 
@@ -41,6 +41,11 @@
     components: {
       BottomBar: BottomBar
     },
+    methods:{
+      addAddress(){
+        this.$router.push({path: '/addaddress'})
+      }
+    }
   }
 </script>
 

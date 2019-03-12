@@ -87,7 +87,7 @@
     },
     methods:{
       goDetail(){
-        this.$router.replace({path: '/commodity'})
+        this.$router.push({path: '/commodity'})
       }
     }
   }

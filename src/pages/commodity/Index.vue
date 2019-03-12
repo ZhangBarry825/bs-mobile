@@ -24,7 +24,7 @@
       <a>></a>
     </div>
 
-    <TypeDetail :isDisplay="isDisplay" v-on:cancelDis="cancelDisply"></TypeDetail>
+    <TypeDetail :isDisplay="isDisplay" v-on:cancelDis="cancelDisplay"></TypeDetail>
 
     <div class="comment">
       <a>商品评价</a>
@@ -56,7 +56,7 @@
         <img src="../../assets/images/mall2.png">
         <a>购物车</a>
       </div>
-      <div class="item buy">
+      <div class="item buy" @click="goBuy">
         立即购买
       </div>
     </div>
@@ -94,10 +94,13 @@
         this.isDisplay=true
       },
       goHome(){
-        this.$router.replace({path: '/home'})
+        this.$router.push({path: '/home'})
       },
-      cancelDisply(){
+      cancelDisplay(){
         this.isDisplay=false
+      },
+      goBuy(){
+        this.$router.push({path: '/buy'})
       }
     }
   }

@@ -42,19 +42,19 @@
       goTo(n) {
         switch (n) {
           case 1:
-            this.$router.replace({path: '/home'})
+            this.$router.push({path: '/home'})
             break;
           case 2:
-            this.$router.replace({path: '/class'})
+            this.$router.push({path: '/class'})
             break;
           case 3:
-            this.$router.replace({path: '/sale'})
+            this.$router.push({path: '/sale'})
             break;
           case 4:
-            this.$router.replace({path: '/trolley'})
+            this.$router.push({path: '/trolley'})
             break;
           case 5:
-            this.$router.replace({path: '/mine'})
+            this.$router.push({path: '/mine'})
             break;
         }
       }

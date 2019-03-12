@@ -1,0 +1,167 @@
+<template>
+  <div class="content">
+    <div class="top">
+      确认支付
+    </div>
+    <div class="items">
+      <div class="item">
+        <div class="title">订单信息</div>
+        <div class="line">订单号：111251244</div>
+      </div>
+
+      <div class="item">
+        <div class="title">明细</div>
+        <div class="line">订单金额：<span>￥2555</span></div>
+      </div>
+
+      <div class="item payType">
+        <div class="title">选择支付方式</div>
+        <div class="line">
+          <div class="box">
+            <img src="../../assets/images/cw_xx.png">
+            <a>余额支付</a>
+          </div>
+          <input type="radio" value="1" id="score1" checked>
+        </div>
+      </div>
+    </div>
+
+    <div class="bottom">
+      <div class="tip">应支付：<span>￥225</span></div>
+      <div class="pay" @click="submit">支付</div>
+    </div>
+
+    <GoBack></GoBack>
+  </div>
+</template>
+
+<script>
+  import GoBack from "../../components/GoBack";
+  export default {
+    name: "Pay",
+    components:{
+      GoBack:GoBack
+    },
+    methods:{
+      submit(){
+        this.$router.push({path: '/mine'})
+      }
+    }
+  }
+</script>
+
+<style scoped lang="less">
+  .content {
+    position: fixed;
+    width: 100%;
+    height: 100%;
+    overflow: scroll;
+    background-color: #f8f8f8;
+    font-size: 15px;
+    color: #262626;
+    .top {
+      width: 100%;
+      background-color: white;
+      border-bottom: 1px solid gainsboro;
+      text-align: center;
+      padding: 10px 0;
+    }
+
+    .items {
+      width: 100%;
+      padding: 10px;
+      box-sizing: border-box;
+      .item {
+        width: 100%;
+        border-radius: 5px;
+        background-color: white;
+        padding: 5px;
+        box-sizing: border-box;
+        margin-bottom: 10px;
+        border: 1px solid gainsboro;
+        .title {
+          width: 100%;
+          border-bottom: 1px solid gainsboro;
+          display: flex;
+          align-items: center;
+          height: 30px;
+          font-weight: bold;
+        }
+        .line {
+          width: 100%;
+          border-bottom: 1px solid gainsboro;
+          display: flex;
+          align-items: center;
+          padding: 10px 0;
+          font-size: 13px;
+          span{
+            color: red;
+          }
+        }
+        .line:last-child {
+          border-bottom: none;
+        }
+      }
+
+      .payType {
+        justify-content: space-between;
+        align-items: center;
+        .line {
+          display: flex;
+          justify-content: space-between;
+          align-items: center;
+          padding: 10px 0;
+          box-sizing: border-box;
+          .box {
+            display: flex;
+            align-items: center;
+            height: 100%;
+            img {
+              width: 25px;
+              height: 25px;
+            }
+            a {
+              margin-left: 5px;
+            }
+          }
+        }
+        input {
+          margin-right: 10px;
+        }
+      }
+    }
+
+    .bottom {
+      width: 100%;
+      height: 50px;
+      background-color: white;
+      position: fixed;
+      bottom: 0;
+      display: flex;
+      flex-direction: row;
+      justify-content: space-between;
+      align-items: center;
+      font-size: 13px;
+      padding: 5px;
+      box-sizing: border-box;
+      .tip{
+        color: #444444;
+        span{
+          color: red;
+          font-size: 20px;
+        }
+      }
+      .pay{
+        width: 100px;
+        height: 30px;
+        background-color: #FF6735;
+        color: white;
+        display: flex;
+        justify-content: center;
+        align-items: center;
+
+      }
+    }
+  }
+
+</style>

@@ -70,19 +70,19 @@
     },
     methods: {
       membership() {
-        this.$router.replace({path: '/membership'})
+        this.$router.push({path: '/membership'})
       },
       QRcode() {
-        this.$router.replace({path: '/qrcode'})
+        this.$router.push({path: '/qrcode'})
       },
       team() {
-        this.$router.replace({path: '/team'})
+        this.$router.push({path: '/team'})
       },
       commission() {
-        this.$router.replace({path: '/commission'})
+        this.$router.push({path: '/commission'})
       },
       encash() {
-        this.$router.replace({path: '/encash'})
+        this.$router.push({path: '/encash'})
       }
     }
   }

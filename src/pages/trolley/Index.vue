@@ -13,35 +13,38 @@
         <div class="check">
           <input type="checkbox">
         </div>
-        <div class="left" :style="'background-image: url('+require('../../assets/images/5c1478d532.jpg')+')'"></div>
-        <div class="right">
+        <div  @click="goDetail" class="left" :style="'background-image: url('+require('../../assets/images/5c1478d532.jpg')+')'"></div>
+        <div  @click="goDetail" class="right">
           <div class="title">Gucci️18ss酒神系列最新链条款</div>
           <div class="type">浅蓝色-Normal</div>
           <div class="price">￥552</div>
         </div>
       </div>
+
       <div class="item">
         <div class="check">
           <input type="checkbox">
         </div>
-        <div class="left" :style="'background-image: url('+require('../../assets/images/5c1478d532.jpg')+')'"></div>
-        <div class="right">
+        <div  @click="goDetail" class="left" :style="'background-image: url('+require('../../assets/images/5c1478d532.jpg')+')'"></div>
+        <div  @click="goDetail" class="right">
           <div class="title">Gucci️18ss酒神系列最新链条款</div>
           <div class="type">浅蓝色-Normal</div>
           <div class="price">￥552</div>
         </div>
       </div>
+
       <div class="item">
         <div class="check">
           <input type="checkbox">
         </div>
-        <div class="left" :style="'background-image: url('+require('../../assets/images/5c1478d532.jpg')+')'"></div>
-        <div class="right">
+        <div  @click="goDetail" class="left" :style="'background-image: url('+require('../../assets/images/5c1478d532.jpg')+')'"></div>
+        <div  @click="goDetail" class="right">
           <div class="title">Gucci️18ss酒神系列最新链条款</div>
           <div class="type">浅蓝色-Normal</div>
           <div class="price">￥552</div>
         </div>
       </div>
+
 
       <div class="total">
         <a>合计：<span>￥225</span></a>
@@ -52,32 +55,32 @@
     <div class="suggestion">
       <div class="title">---猜你喜欢---</div>
       <div class="items">
-        <div class="item">
+        <div class="item" @click="goDetail">
           <div class="pic" :style="'background-image: url('+require('../../assets/images/5c1478d532.jpg')+')'"></div>
           <div class="title">2018新款百搭斜挎包水貂毛口袋包链条包单肩包</div>
           <div class="price">￥228.5</div>
         </div>
-        <div class="item">
+        <div class="item"  @click="goDetail">
           <div class="pic" :style="'background-image: url('+require('../../assets/images/5c14791447.jpg')+')'"></div>
           <div class="title">Gucci️18ss酒神系列最新链条款</div>
           <div class="price">￥228.5</div>
         </div>
-        <div class="item">
+        <div class="item"  @click="goDetail">
           <div class="pic" :style="'background-image: url('+require('../../assets/images/5c6e6d31e4.jpg')+')'"></div>
           <div class="title">2018新款百搭斜挎包水貂毛口袋包链条包单肩包</div>
           <div class="price">￥228.5</div>
         </div>
-        <div class="item">
+        <div class="item"  @click="goDetail">
           <div class="pic" :style="'background-image: url('+require('../../assets/images/5c1478d532.jpg')+')'"></div>
           <div class="title">Gucci️18ss酒神系列最新链条款</div>
           <div class="price">￥228.5</div>
         </div>
-        <div class="item">
+        <div class="item"  @click="goDetail">
           <div class="pic" :style="'background-image: url('+require('../../assets/images/5c14791447.jpg')+')'"></div>
           <div class="title">2018新款百搭斜挎包水貂毛口袋包链条包单肩包</div>
           <div class="price">￥228.5</div>
         </div>
-        <div class="item">
+        <div class="item"  @click="goDetail">
           <div class="pic" :style="'background-image: url('+require('../../assets/images/5c14791447.jpg')+')'"></div>
           <div class="title">2018新款百搭斜挎包水貂毛口袋包链条包单肩包</div>
           <div class="price">￥228.5</div>
@@ -99,6 +102,11 @@
     components: {
       BottomBar: BottomBar
     },
+    methods:{
+      goDetail(){
+        this.$router.push({path: '/commodity'})
+      }
+    }
   }
 </script>
 

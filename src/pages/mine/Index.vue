@@ -77,10 +77,10 @@
     },
     methods:{
       balance(){
-        this.$router.replace({path: '/balance'})
+        this.$router.push({path: '/balance'})
       },
       address(){
-        this.$router.replace({path: '/address'})
+        this.$router.push({path: '/address'})
       }
     }
   }
