@@ -2,30 +2,31 @@
   <div class="content">
     <div class="top">
       <div class="message">
-        <img src="../../assets/images/xiaoxi_X.png">
+        <img src="../../assets/images/xiaoxi_X.png" @click="goMessage">
       </div>
       <div class="identity">
         <div class="avatar" :style="'background-image: url('+require('../../assets/images/5c1478d532.jpg')+')'"></div>
         <div class="nickname">普通会员</div>
       </div>
       <div class="buttons">
-        <div class="button">
+        <div class="button" @click="GoOrder(1)">
           <img src="../../assets/images/fk.png">
           <a>待付款</a>
+          <div class="num">2</div>
         </div>
-        <div class="button">
+        <div class="button" @click="GoOrder(2)">
           <img src="../../assets/images/fh1.png">
           <a>待发货</a>
         </div>
-        <div class="button">
+        <div class="button" @click="GoOrder(3)">
           <img src="../../assets/images/fh.png">
           <a>待收货</a>
         </div>
-        <div class="button">
+        <div class="button" @click="GoOrder(4)">
           <img src="../../assets/images/qr.png">
           <a>已完成</a>
         </div>
-        <div class="button">
+        <div class="button" @click="GoOrder(5)">
           <img src="../../assets/images/pj.png">
           <a>售后</a>
         </div>
@@ -39,7 +40,7 @@
         </div>
         <div class="right">></div>
       </div>
-      <div class="item" >
+      <div class="item"  @click="CashBack">
         <div class="left">
           <img src="../../assets/images/tuih.png">
           <a>退款/售后 <span>查看详情</span></a>
@@ -81,6 +82,25 @@
       },
       address(){
         this.$router.push({path: '/address'})
+      },
+      GoOrder(val){
+        this.$router.push({
+          name: 'Order',
+          params: {
+            type: val
+          }
+        })
+      },
+      CashBack(){
+        this.$router.push({
+          name: 'Order',
+          params: {
+            type: 5
+          }
+        })
+      },
+      goMessage(){
+        this.$router.push({path: '/message'})
       }
     }
   }
@@ -155,13 +175,30 @@
           justify-content: center;
           align-items: center;
           width: 25%;
+          position: relative;
           img{
             width: 30px;
             height: 30px;
           }
           a{
-            font-size: 15px;
+            font-size: 13px;
             margin-top: 1px;
+          }
+          .num{
+            min-width: 15px;
+            height: 15px;
+            font-size: 13px;
+            padding: 5px 5px ;
+            box-sizing: border-box;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            right: 15px;
+            top: 5px;
+            color: white;
+            background-color: red;
+            position: absolute;
+            border-radius: 100%;
           }
         }
       }

@@ -118,13 +118,13 @@
         .button{
           margin-top: 10px;
           width: 100%;
+          height: 40px;
           border-radius: 5px;
           background-color: #FF6735;
           color: white;
           display: flex;
           justify-content: center;
           align-items: center;
-          padding: 6px 0;
         }
       }
       .item:last-child{

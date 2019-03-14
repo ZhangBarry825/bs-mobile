@@ -24,9 +24,9 @@
       <a>></a>
     </div>
 
-    <TypeDetail :isDisplay="isDisplay" v-on:cancelDis="cancelDisplay"></TypeDetail>
+    <TypeDetail :isDisplay="isDisplay" v-on:cancelDis="cancelDisplay" v-on:goBuy="goBuy"  v-on:goTrolley="goTrolley"></TypeDetail>
 
-    <div class="comment">
+    <div class="comment" @click="holdOn">
       <a>商品评价</a>
       <a>></a>
     </div>
@@ -52,24 +52,28 @@
         <img src="../../assets/images/nsy.png">
         <a>首页</a>
       </div>
-      <div class="item">
+      <div class="item" @click="typeDetail">
         <img src="../../assets/images/mall2.png">
         <a>购物车</a>
       </div>
-      <div class="item buy" @click="goBuy">
+      <div class="item buy" @click="typeDetail">
         立即购买
       </div>
     </div>
+    <GoBack></GoBack>
   </div>
 </template>
 
 <script>
   import Swiper from "swiper";
+  import { Message } from 'element-ui';
   import TypeDetail from "../../components/TypeDetail";
+  import GoBack from "../../components/GoBack";
   export default {
     name: "Commodity",
     components:{
-      TypeDetail:TypeDetail
+      TypeDetail:TypeDetail,
+      GoBack:GoBack
     },
     data(){
       return{
@@ -101,6 +105,16 @@
       },
       goBuy(){
         this.$router.push({path: '/buy'})
+      },
+      goTrolley(){
+        this.isDisplay=false
+      },
+      holdOn(){
+        Message({
+          showClose: true,
+          message: '敬请期待！',
+          type: 'success'
+        });
       }
     }
   }

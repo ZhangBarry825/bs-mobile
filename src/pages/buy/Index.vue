@@ -27,6 +27,7 @@
       <div class="left" :style="'background-image: url('+require('../../assets/images/5c1478d532.jpg')+')'"></div>
       <div class="right">
         <div class="title">2018新款潮百搭斜挎包蕾丝羽毛包链2018新款潮百搭斜挎包蕾丝羽毛包链</div>
+        <div class="type">淡蓝色-Large</div>
         <div class="price">
           <a>￥218.00</a>
           <a>x1</a>
@@ -68,6 +69,7 @@
 
   import Address from "../../components/Address";
   import GoBack from "../../components/GoBack";
+  import { Message } from 'element-ui';
 
   export default {
     name: "Buy",
@@ -93,7 +95,6 @@
         if (this.num < 1000) {
           this.num++
         }
-
       },
       cancelDisplay() {
         this.isDisplay = false
@@ -104,11 +105,18 @@
       chooseAddress(e) {
         this.choosed = true
         this.isDisplay = false
-        console.log(e)
 
       },
       pay() {
-        this.$router.push({path: '/pay'})
+        if(this.choosed ){
+          this.$router.push({path: '/pay'})
+        }else {
+          Message({
+            showClose: true,
+            message: '请先选择地址！',
+            type: 'warning'
+          });
+        }
       }
     }
 
@@ -208,11 +216,17 @@
           -webkit-line-clamp: 2;
           overflow: hidden;
         }
+        .type{
+          width: 100%;
+          color: grey;
+          font-size: 13px;
+          margin-top: 10px;
+        }
         .price {
           width: 100%;
           display: flex;
           justify-content: space-between;
-          margin-top: 20px;
+          margin-top: 10px;
           a:first-child {
             color: red;
           }

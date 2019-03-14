@@ -18,6 +18,9 @@ import Address from '@/pages/Address'
 import Buy from '@/pages/Buy'
 import Pay from '@/pages/Pay'
 import AddAddress from '@/pages/addAddress'
+import Order from '@/pages/Order'
+import OrderDetail from '@/pages/OrderDetail'
+import Message from '@/pages/Message'
 
 Vue.use(Router)
 
@@ -113,6 +116,21 @@ export default new Router({
       path: '/addaddress',
       name: 'AddAddress',
       component: AddAddress
+    },
+    {
+      path: '/order',
+      name: 'Order',
+      component: Order
+    },
+    {
+      path: '/orderdetail',
+      name: 'OrderDetail',
+      component: OrderDetail
+    },
+    {
+      path: '/message',
+      name: 'Message',
+      component: Message
     }
 
   ]

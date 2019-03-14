@@ -4,7 +4,7 @@
       佣金明细
     </div>
     <div class="items">
-      <div class="item">
+      <div class="item" @click="goDetail">
         <div class="left">
           <a>日期： 2018-12-12</a>
           <a>金额： <span>￥25.6</span></a>
@@ -15,7 +15,7 @@
           <a>[订单详情]</a>
         </div>
       </div>
-      <div class="item">
+      <div class="item" @click="goDetail">
         <div class="left">
           <a>日期： 2018-12-12</a>
           <a>金额： <span>￥25.6</span></a>
@@ -33,11 +33,11 @@
           <a>类型： 佣金提现</a>
           <a>状态： 待审核</a>
         </div>
-        <div class="right">
-          <a>[订单详情]</a>
-        </div>
+        <!--<div class="right">-->
+          <!--<a>[订单详情]</a>-->
+        <!--</div>-->
       </div>
-      <div class="item">
+      <div class="item" @click="goDetail">
         <div class="left">
           <a>日期： 2018-12-12</a>
           <a>金额： <span>￥25.6</span></a>
@@ -55,17 +55,26 @@
     <!--</div>-->
     <div class="blank" style="width: 100%;height: 50px"></div>
     <BottomBar :item="3"></BottomBar>
+    <GoBack></GoBack>
+
   </div>
 </template>
 
 <script>
+  import GoBack from "../../components/GoBack";
   import BottomBar from "../../components/BottomBar";
 
   export default {
     name: "Commission",
     components: {
-      BottomBar: BottomBar
+      BottomBar: BottomBar,
+      GoBack: GoBack,
     },
+    methods:{
+      goDetail(){
+        this.$router.push({path: '/orderDetail'})
+      }
+    }
   }
 </script>
 

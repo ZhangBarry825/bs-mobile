@@ -23,8 +23,8 @@
       </div>
       <div class="bottom-bottom">
         <div class="buttons">
-          <div class="button button1">加入购物车</div>
-          <div class="button button2">立即购买</div>
+          <div class="button button1" @click="goTrolley">加入购物车</div>
+          <div class="button button2" @click="goBuy">立即购买</div>
         </div>
       </div>
     </div>
@@ -46,6 +46,12 @@
       cancel(){
         // this.isDisplay=false
         this.$emit("cancelDis",false)
+      },
+      goBuy(){
+        this.$emit("goBuy")
+      },
+      goTrolley(){
+        this.$emit("goTrolley")
       }
     },
     props:{

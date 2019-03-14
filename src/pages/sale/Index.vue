@@ -2,7 +2,7 @@
   <div class="content">
     <div class="top">
       <div class="message">
-        <img src="../../assets/images/xiaoxi_X.png">
+        <img src="../../assets/images/xiaoxi_X.png"  @click="goMessage">
       </div>
       <div class="identity">
         <div class="left">
@@ -83,6 +83,9 @@
       },
       encash() {
         this.$router.push({path: '/encash'})
+      },
+      goMessage(){
+        this.$router.push({path: '/message'})
       }
     }
   }

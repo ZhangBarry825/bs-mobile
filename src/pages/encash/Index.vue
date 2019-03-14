@@ -41,16 +41,19 @@
     </div>
     <div class="blank" style="width: 100%;height: 50px"></div>
     <BottomBar :item="3"></BottomBar>
+    <GoBack></GoBack>
   </div>
 </template>
 
 <script>
   import BottomBar from "../../components/BottomBar";
+  import GoBack from "../../components/GoBack";
 
   export default {
     name: "Encash",
     components: {
-      BottomBar: BottomBar
+      BottomBar: BottomBar,
+      GoBack: GoBack,
     },
     data() {
       return {

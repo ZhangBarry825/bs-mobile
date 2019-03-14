@@ -30,16 +30,18 @@
 
     <div class="blank" style="width: 100%;height: 50px"></div>
     <BottomBar :item="5"></BottomBar>
+    <GoBack></GoBack>
   </div>
 </template>
 
 <script>
   import BottomBar from "../../components/BottomBar";
-
+  import GoBack from "../../components/GoBack";
   export default {
     name: "Address",
     components: {
-      BottomBar: BottomBar
+      BottomBar: BottomBar,
+      GoBack: GoBack,
     },
     methods:{
       addAddress(){

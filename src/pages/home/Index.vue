@@ -184,6 +184,12 @@
         }
         .title{
           font-size: 15px;
+          word-break: break-all;
+          text-overflow: ellipsis;
+          display: -webkit-box;
+          -webkit-box-orient: vertical;
+          -webkit-line-clamp: 2;
+          overflow: hidden;
         }
         .bottom{
           display: flex;
