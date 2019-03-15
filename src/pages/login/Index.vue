@@ -11,7 +11,7 @@
         <img src="../../assets/images/ewm.jpg" alt="">
       </div>
       <button class="submit-button" @click="goHome">立即登录</button>
-      <div class="register-text" ><a>立即注册</a></div>
+      <div class="register-text" @click="goRegister"><a>立即注册</a></div>
     </div>
   </div>
 </template>
@@ -25,6 +25,9 @@
     methods:{
       goHome(){
         this.$router.push({path: '/home'})
+      },
+      goRegister(){
+        this.$router.push({path: '/register'})
       }
     }
   }

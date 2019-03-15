@@ -54,7 +54,7 @@
         </div>
         <div class="right">></div>
       </div>
-      <div class="item">
+      <div class="item" @click="goSet">
         <div class="left">
           <img src="../../assets/images/pz.png">
           <a>设置 <span>完善个人资料</span></a>
@@ -101,6 +101,9 @@
       },
       goMessage(){
         this.$router.push({path: '/message'})
+      },
+      goSet(){
+        this.$router.push({path: '/set'})
       }
     }
   }

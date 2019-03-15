@@ -14,10 +14,10 @@
         <img src="../../assets/images/ic-list2.png">
         <a>充值记录</a>
       </div>
-      <div class="item">
-        <img src="../../assets/images/money2.png">
-        <a>余额流水</a>
-      </div>
+      <!--<div class="item">-->
+        <!--<img src="../../assets/images/money2.png">-->
+        <!--<a>余额流水</a>-->
+      <!--</div>-->
     </div>
     <div class="charge">
       <div class="button">充值</div>

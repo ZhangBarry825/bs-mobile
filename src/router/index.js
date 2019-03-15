@@ -21,6 +21,11 @@ import AddAddress from '@/pages/addAddress'
 import Order from '@/pages/Order'
 import OrderDetail from '@/pages/OrderDetail'
 import Message from '@/pages/Message'
+import Set from '@/pages/Set'
+import Info from '@/pages/Info'
+import Password from '@/pages/Password'
+import Register from '@/pages/Register'
+
 
 Vue.use(Router)
 
@@ -131,6 +136,26 @@ export default new Router({
       path: '/message',
       name: 'Message',
       component: Message
+    },
+    {
+      path: '/set',
+      name: 'Set',
+      component: Set
+    },
+    {
+      path: '/info',
+      name: 'Info',
+      component: Info
+    },
+    {
+      path: '/password',
+      name: 'Password',
+      component: Password
+    },
+    {
+      path: '/register',
+      name: 'Register',
+      component: Register
     }
 
   ]

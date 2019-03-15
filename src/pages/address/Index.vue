@@ -20,8 +20,10 @@
           <a class="address">北京北京市海淀区上地三街嘉华大厦XXX号</a>
         </div>
       </div>
-
-
+      <!--<div class="empty">-->
+      <!--<img src="../../assets/images/commission.png">-->
+      <!--<a>暂无佣金记录</a>-->
+      <!--</div>-->
     </div>
 
     <div class="add" @click="addAddress">
@@ -106,6 +108,22 @@
             font-size: 13px;
           }
 
+        }
+      }
+      .empty {
+        width: 100%;
+        display: flex;
+        flex-direction: column;
+        justify-content: center;
+        align-items: center;
+        height: 200px;
+        img {
+          width: 60px;
+        }
+        a {
+          margin-top: 10px;
+          font-size: 15px;
+          color: gray;
         }
       }
     }
