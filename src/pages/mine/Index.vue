@@ -5,22 +5,24 @@
         <img src="../../assets/images/xiaoxi_X.png" @click="goMessage">
       </div>
       <div class="identity">
-        <div class="avatar" :style="'background-image: url('+require('../../assets/images/5c1478d532.jpg')+')'"></div>
+        <div class="avatar" :style="'background-image: url('+info.avatar+')'"></div>
         <div class="nickname">普通会员</div>
       </div>
       <div class="buttons">
         <div class="button" @click="GoOrder(1)">
           <img src="../../assets/images/fk.png">
           <a>待付款</a>
-          <div class="num">2</div>
+          <div class="num" v-if="orders.result0.count>0">{{orders.result0.count}}</div>
         </div>
         <div class="button" @click="GoOrder(2)">
           <img src="../../assets/images/fh1.png">
           <a>待发货</a>
+          <div class="num" v-if="orders.result1.count>0">{{orders.result1.count}}</div>
         </div>
         <div class="button" @click="GoOrder(3)">
           <img src="../../assets/images/fh.png">
           <a>待收货</a>
+          <div class="num" v-if="orders.result2.count>0">{{orders.result2.count}}</div>
         </div>
         <div class="button" @click="GoOrder(4)">
           <img src="../../assets/images/qr.png">
@@ -36,7 +38,7 @@
       <div class="item" @click="balance">
         <div class="left">
           <img src="../../assets/images/yue.png">
-          <a>余额 <span>0.00</span></a>
+          <a>余额 <span>￥{{info.balance|numFilter}}</span></a>
         </div>
         <div class="right">></div>
       </div>
@@ -70,9 +72,41 @@
 
 <script>
   import BottomBar from "../../components/BottomBar";
+  import {dataPost} from "../../../plugins/axiosFn";
 
   export default {
     name: "Mine",
+    data(){
+      return{
+        info:[],
+        orders:{
+          result:{
+            count:0,
+            rows:[],
+          },
+          result0:{
+            count:0,
+            rows:[],
+          },
+          result1:{
+            count:0,
+            rows:[],
+          },
+          result2:{
+            count:0,
+            rows:[],
+          },
+          result3:{
+            count:0,
+            rows:[],
+          },
+          result4:{
+            count:0,
+            rows:[],
+          },
+        }
+      }
+    },
     components: {
       BottomBar: BottomBar
     },
@@ -104,6 +138,30 @@
       },
       goSet(){
         this.$router.push({path: '/set'})
+      },
+      fetchDetail(){
+        dataPost('/api/home/user/info', {
+        },(response, all)=>{
+          console.log(response.data)
+          this.info=response.data
+          this.info.avatar='/api/'+response.data.avatar
+
+          dataPost('/api/home/order/listCount', {
+            membership_id:this.info.membership_id
+          },(response, all)=>{
+            console.log(response.data)
+            this.orders=response.data
+          });
+        });
+      }
+    },
+    mounted(){
+      this.fetchDetail()
+    },
+    filters: {
+      numFilter(value) {
+        let realVal = parseFloat(value).toFixed(2)
+        return (realVal)
       }
     }
   }
@@ -118,7 +176,9 @@
     background-color: #f8f8f8;
     font-size: 15px;
     color: #262626;
-
+    a{
+      color: #262626;
+    }
     .top{
       width: 100%;
       background-color: #21b4f8;
@@ -186,6 +246,7 @@
           a{
             font-size: 13px;
             margin-top: 1px;
+            color: white;
           }
           .num{
             min-width: 15px;

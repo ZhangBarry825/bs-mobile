@@ -51,12 +51,15 @@
 <script>
   import Address from "../../components/Address";
   import GoBack from "../../components/GoBack";
+  import {dataPost} from "../../../plugins/axiosFn";
 
   export default {
     name: "Order",
     data() {
       return {
-        toggle: 1
+        toggle: 1,
+        info:'',
+        orders:[]
       }
     },
     methods: {
@@ -68,6 +71,15 @@
       },
       goPay(){
         this.$router.push({path: '/pay'})
+      },
+      fetchDetail(){
+        console.log(this.info,555)
+        dataPost('/api/home/order/listCount', {
+          membership_id:this.info.membership_id
+        },(response, all)=>{
+          console.log(response.data)
+          this.orders=response.data
+        });
       }
     },
     components: {
@@ -78,7 +90,8 @@
       if (this.$route.params.type) {
         this.toggle = this.$route.params.type
       }
-
+      this.info=JSON.parse(localStorage.getItem('info'))
+      this.fetchDetail()
     }
   }
 </script>
@@ -121,6 +134,9 @@
       overflow: scroll;
       box-sizing: border-box;
       padding: 5px;
+      a{
+        color: black;
+      }
       .empty {
         background-color: #f8f8f8;
         width: 100%;

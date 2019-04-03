@@ -7,7 +7,13 @@ import $ from 'jquery'
 import Vuex from 'vuex'
 import store from '../store/store'
 
+import iView from 'iview'
+import 'iview/dist/styles/iview.css'
+import SIdentify from './components/SIdentify'
+
+Vue.use(SIdentify)
 Vue.use(Vuex)
+Vue.use(iView)
 
 Vue.config.productionTip = false
 

@@ -4,31 +4,81 @@
       <div class="top-b">账号密码登录</div>
     </div>
     <div class="text-input">
-      <input class="input1" type="text" placeholder="请输入手机号码">
-      <input class="input1" type="password" placeholder="请输入密码">
+      <input class="input1" type="text" placeholder="请输入手机号码" v-model="username">
+      <input class="input1" type="password" placeholder="请输入密码" v-model="password">
       <div class="yzm">
-        <input type="text" placeholder="请输入验证码">
-        <img src="../../assets/images/ewm.jpg" alt="">
+        <input type="text" placeholder="请输入验证码" v-model="identifyInput">
+        <SIdentify :identifyCode="identifyCode" @refreshCode="refreshCode"></SIdentify>
       </div>
       <button class="submit-button" @click="goHome">立即登录</button>
-      <div class="register-text" @click="goRegister"><a>立即注册</a></div>
+      <div class="register-text"><a @click="goRegister">立即注册</a></div>
     </div>
+
+
   </div>
 </template>
 
 <script>
+  import SIdentify from "../../components/SIdentify";
+  import {dataPost} from "../../../plugins/axiosFn";
   export default {
     name: "Login",
+    components:{
+      SIdentify:SIdentify
+    },
     data() {
-      return {}
+      return {
+        identifyCodes: "1234567890",
+        identifyCode: "",
+        identifyInput:"",
+        username:'15038010321',
+        password:'123123',
+      }
     },
     methods:{
       goHome(){
-        this.$router.push({path: '/home'})
+        if(this.identifyInput!=this.identifyCode){
+          this.$Modal.info({
+            title: '验证码错误',
+            content: '验证码错误'
+          });
+        }else {
+          dataPost('/api/home/user/login', {
+            phone:this.username,
+            password:this.password,
+          },(response, all)=>{
+            console.log(response)
+            localStorage.setItem('info',JSON.stringify(response.data))
+            this.$router.push({path: '/home'})
+          });
+        }
       },
       goRegister(){
-        this.$router.push({path: '/register'})
+        this.$router.push({path: '/register/25'})
+      },
+
+
+      randomNum(min, max) {
+        return Math.floor(Math.random() * (max - min) + min);
+      },
+      refreshCode() {
+        this.identifyCode = "";
+        this.makeCode(this.identifyCodes, 4);
+      },
+      makeCode(o, l) {
+        for (let i = 0; i < l; i++) {
+          this.identifyCode += this.identifyCodes[
+            this.randomNum(0, this.identifyCodes.length)
+            ];
+        }
+
+        this.identifyInput=this.identifyCode
+        console.log(this.identifyCode)
       }
+    },
+    mounted(){
+      this.identifyCode = "";
+      this.makeCode(this.identifyCodes, 4);
     }
   }
 </script>

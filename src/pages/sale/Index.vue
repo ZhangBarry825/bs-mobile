@@ -98,7 +98,13 @@
     height: 100%;
     overflow: scroll;
     background-color: #f8f8f8;
+    a{
+      color: #262626;
+    }
     .top {
+      a{
+        color: white;
+      }
       width: 100%;
       background-color: #21b4f8;
       .message {

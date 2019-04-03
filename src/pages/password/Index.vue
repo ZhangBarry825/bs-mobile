@@ -1,25 +1,25 @@
 <template>
   <div class="content">
     <div class="top">
-      设置密码
+      修改密码
     </div>
 
     <div class="form">
       <div class="type">
         <a>原始密码:</a>
-        <input type="password">
+        <Input v-model="postForm.old_password" placeholder="请输入原始密码" type="password"/>
       </div>
       <div class="type">
         <a>新密码:</a>
-        <input type="password">
+        <Input v-model="postForm.password" placeholder="请输入新密码" type="password"/>
       </div>
       <div class="type">
         <a>确认密码:</a>
-        <input type="password">
+        <Input v-model="postForm.repeat_password" placeholder="请重复密码" type="password"/>
       </div>
     </div>
     <div class="submit">
-      <div class="button">确定</div>
+      <div class="button" @click="submitForm">确定</div>
     </div>
     <GoBack></GoBack>
   </div>
@@ -27,9 +27,69 @@
 
 <script>
   import GoBack from "../../components/GoBack";
+  import {dataPost} from "../../../plugins/axiosFn";
 
   export default {
     name: "Password",
+    data(){
+      return{
+        postForm:{
+          old_password:'',
+          repeat_password:'',
+          password:'',
+        }
+      }
+    },
+    methods:{
+      submitForm(){
+        if(this.postForm.old_password==''){
+          this.$Modal.info({
+            title: '注意',
+            content: '请输入原始密码!'
+          });
+        }else if(this.postForm.password==''){
+          this.$Modal.info({
+            title: '注意',
+            content: '请输入新密码!'
+          });
+        }else if(this.postForm.password.length<6){
+          this.$Modal.info({
+            title: '注意',
+            content: '密码长度不能小于6位!'
+          });
+        }else if(this.postForm.repeat_password!=this.postForm.password){
+          this.$Modal.info({
+            title: '注意',
+            content: '重复密码不一致!'
+          });
+        }else {
+          console.log(this.postForm)
+          dataPost('/api/home/membership/resetPassword', {
+            id:this.postForm.id,
+            password:this.postForm.password,
+            old_password:this.postForm.old_password,
+          },(response, all)=>{
+            console.log(response)
+            this.$Modal.info({
+              title: '成功',
+              content: '保存成功!'
+            });
+          });
+        }
+
+      },
+      fetchDetail(){
+        dataPost('/api/home/user/info', {
+        },(response, all)=>{
+          console.log(response.data)
+          this.postForm.id=response.data.id
+        });
+
+      }
+    },
+    mounted(){
+      this.fetchDetail()
+    },
     components: {
       GoBack: GoBack
     },
@@ -45,7 +105,9 @@
     background-color: #f8f8f8;
     font-size: 15px;
     color: #262626;
-
+    a{
+      color:#262626;
+    }
     .top {
       width: 100%;
       background-color: white;
@@ -67,7 +129,7 @@
         flex-wrap: nowrap;
         align-items: center;
         a {
-          width: 80px;
+          width: 100px;
           display: block;
         }
         select, input {

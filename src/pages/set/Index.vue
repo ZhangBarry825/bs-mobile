@@ -11,7 +11,7 @@
     </div>
     <div class="items">
       <div class="item" @click="goPassword">
-        <a>设置密码</a>
+        <a>修改密码</a>
         <a>></a>
       </div>
     </div>
@@ -25,6 +25,7 @@
 
 <script>
   import GoBack from "../../components/GoBack";
+  import {dataPost} from "../../../plugins/axiosFn";
 
   export default {
     name: "Set",
@@ -33,7 +34,14 @@
     },
     methods:{
       unLogin(){
-        this.$router.push({path: '/'})
+        dataPost('/api/home/user/logout', {
+
+        },(response, all)=>{
+          console.log(response)
+          localStorage.clear()
+          this.$router.push({path: '/'})
+        });
+
       },
       goInfo(){
         this.$router.push({path: '/info'})
@@ -54,7 +62,9 @@
     background-color: #f8f8f8;
     font-size: 15px;
     color: #262626;
-
+    a{
+      color:#262626;
+    }
     .top {
       width: 100%;
       background-color: white;

@@ -102,6 +102,9 @@
     width: 100%;
     height: 100%;
     overflow: scroll;
+    a{
+      color: black;
+    }
     .swiper-container {
       width: 100%;
       height: 300px;

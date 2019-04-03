@@ -1,12 +1,13 @@
 import axios from 'axios'
 import $ from 'jquery'
 import { Message } from 'element-ui';
+import { Modal } from 'iview';
 
 
 let domain = ""; //api域名
 let baseParams = { //基础参数
-    token: "",
-    userid: 0
+    // token: "",
+    // userid: 0
     //......
 };
 
@@ -44,6 +45,10 @@ function dataPost(apiName, params, callback){
         if(data.code===200){ //成功
             if(callback) callback(data, all);
         }else{ //失败
+          Modal.info({
+            title: '注意',
+            content:data.msg
+          });
             console.log(data.msg);
         }
     }).catch((error)=>{
