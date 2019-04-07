@@ -62,6 +62,9 @@
     background-color: #f8f8f8;
     font-size: 15px;
     color: #262626;
+    a{
+      color: #262626;
+    }
     .top {
       width: 100%;
       background-color: white;

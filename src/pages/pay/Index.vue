@@ -6,15 +6,16 @@
     <div class="items">
       <div class="item">
         <div class="title">订单信息</div>
-        <div class="line">订单号：111251244</div>
-        <div class="line">收货人：老白</div>
-        <div class="line">联系方式：15138389776</div>
-        <div class="line">收货地址：北京北京市海淀区上地三街嘉华大厦123号</div>
+        <div class="line">订单号：{{orderDetail.order_id}}</div>
+        <div class="line">收货人：{{orderDetail.contacts}}</div>
+        <div class="line">联系方式：{{orderDetail.phone}}</div>
+        <div class="line">收货地址：{{orderDetail.address}}</div>
       </div>
 
       <div class="item">
         <div class="title">明细</div>
-        <div class="line">订单金额：<span>￥2555</span></div>
+        <div class="line">快递费用：<span>￥{{orderDetail.express_cost}}</span></div>
+        <div class="line">订单金额：<span>￥{{orderDetail.price}}</span></div>
       </div>
 
       <div class="item payType">
@@ -31,15 +32,15 @@
 
 
     <div class="goods">
-      <div class="item">
+      <div class="item" v-for="(item,index) in orderDetail.goods">
         <div class="line commodity">
-          <div class="left" :style="'background-image: url('+require('../../assets/images/5c1478d532.jpg')+')'"></div>
+          <div class="left" :style="'background-image: url('+item.pic1+')'"></div>
           <div class="right">
-            <div class="title">2018新款百搭斜挎包水貂毛口袋包链条包单肩包2018新款百搭斜挎包水貂毛口袋包链条包单肩包2018新款百搭斜挎包水貂毛口袋包链条包单肩包</div>
+            <div class="title">{{item.name}}</div>
             <div class="type">淡蓝色-Large</div>
             <div class="price">
-              <span>￥218</span>
-              <a>x1</a>
+              <span>￥{{item.price}}</span>
+              <a>x{{item.num}}</a>
             </div>
           </div>
         </div>
@@ -47,10 +48,12 @@
     </div>
 
 
-
     <div class="bottom">
-      <div class="tip">应支付：<span>￥225</span></div>
-      <div class="pay" @click="submit">支付</div>
+      <div class="tip">应支付：<span>￥{{orderDetail.price}}</span></div>
+      <div class="right">
+        <div class="cancel" @click="cancelOrder">取消订单</div>
+        <div class="pay" @click="submit">支付</div>
+      </div>
     </div>
 
     <GoBack :goHome="true"></GoBack>
@@ -60,31 +63,66 @@
 <script>
   import GoBack from "../../components/GoBack";
   import {dataPost} from "../../../plugins/axiosFn";
+
   export default {
     name: "Pay",
-    components:{
-      GoBack:GoBack
+    components: {
+      GoBack: GoBack
     },
-    data(){
-      return{
-        order_id:''
+    data() {
+      return {
+        order_id: '',
+        orderDetail: {}
       }
     },
-    methods:{
-      submit(){
-        this.$router.push({path: '/mine'})
+    methods: {
+      cancelOrder(){
+        this.$Modal.confirm({
+          title: '注意',
+          content: '确定取消订单吗？',
+          onOk:()=>{
+            dataPost('/api/home/order/delete', {
+              id: [this.orderDetail.id],
+            }, (response, all) => {
+              this.$router.push({path: '/mine'})
+            });
+          },
+          onCancel:()=>{
+            console.log('否')
+          }
+        });
       },
-      getDetail(){
+      submit() {
+        dataPost('/api/home/order/update', {
+          id: this.orderDetail.id,
+          status: 1,
+        }, (response, all) => {
+          console.log(response.data, 555)
+          this.$Modal.success({
+            title: '成功',
+            content: '支付成功！',
+            onOk:()=>{
+              this.$router.push({path: '/mine'})
+            }
+          });
+
+        });
+
+        // this.$router.push({path: '/mine'})
+      },
+      getDetail() {
         dataPost('/api/home/order/detail', {
           order_id: this.order_id
         }, (response, all) => {
-          console.log(response.data,555)
+          console.log(response.data, 555)
+          this.orderDetail = response.data
         });
       }
     },
-    mounted(){
-      console.log(this.$route.params.order_id,1)
-      this.order_id=this.$route.params.order_id
+    mounted() {
+      console.log(this.$route.params.order_id, 1)
+      this.order_id = this.$route.params.order_id
+
       this.getDetail()
     }
   }
@@ -112,7 +150,7 @@
       padding: 10px;
       padding-bottom: 0;
       box-sizing: border-box;
-      .item:last-child{
+      .item:last-child {
         margin-bottom: 0;
       }
       .item {
@@ -138,7 +176,7 @@
           align-items: center;
           padding: 10px 0;
           font-size: 13px;
-          span{
+          span {
             color: red;
           }
         }
@@ -174,12 +212,11 @@
         }
       }
     }
-    .goods{
+    .goods {
       width: 100%;
       box-sizing: border-box;
       padding: 10px;
-      .item{
-        margin-bottom: 5px;
+      .item {
         background-color: white;
         width: 100%;
         border: 1px solid gainsboro;
@@ -189,23 +226,23 @@
         box-sizing: border-box;
         font-size: 13px;
         padding: 5px;
-        .line{
+        .line {
           padding: 5px 0;
           width: 100%;
           border-bottom: 1px solid gainsboro;
-          .price{
+          .price {
             color: red;
             font-weight: bold;
           }
         }
-        .commodity{
+        .commodity {
           width: 100%;
           display: flex;
           flex-direction: row;
           flex-wrap: nowrap;
           padding: 10px 0;
           box-sizing: border-box;
-          .left{
+          .left {
             height: 70px;
             width: 70px;
             background-position: center;
@@ -213,12 +250,12 @@
             background-repeat: no-repeat;
             border-radius: 5px;
           }
-          .right{
+          .right {
             padding-left: 5px;
             box-sizing: border-box;
             width: calc(100% - 70px);
             height: 100%;
-            .title{
+            .title {
               width: 100%;
               word-break: break-all;
               text-overflow: ellipsis;
@@ -227,22 +264,22 @@
               -webkit-line-clamp: 2;
               overflow: hidden;
             }
-            .type{
+            .type {
               width: 100%;
               color: grey;
               margin-top: 5px;
             }
-            .price{
+            .price {
               display: flex;
               justify-content: space-between;
               margin-top: 5px;
-              span{
+              span {
                 color: red;
               }
             }
           }
         }
-        .line:last-child{
+        .line:last-child {
           border-bottom: none;
         }
       }
@@ -260,23 +297,32 @@
       font-size: 13px;
       padding: 5px;
       box-sizing: border-box;
-      .tip{
+      .tip {
         color: #444444;
-        span{
+        span {
           color: red;
           font-size: 20px;
         }
       }
-      .pay{
-        width: 100px;
-        height: 30px;
-        background-color: #FF6735;
-        color: white;
+      .right {
         display: flex;
-        justify-content: center;
+        flex-direction: row;
         align-items: center;
-
+        .cancel {
+          margin-right: 10px;
+          color: grey;
+        }
+        .pay {
+          width: 100px;
+          height: 30px;
+          background-color: #FF6735;
+          color: white;
+          display: flex;
+          justify-content: center;
+          align-items: center;
+        }
       }
+
     }
   }
 

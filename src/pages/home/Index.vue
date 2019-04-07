@@ -3,8 +3,8 @@
     <div class="swiper-container">
       <div class="swiper-wrapper">
         <div class="swiper-slide" :style="'background-image: url('+top[0].pic1+')'" @click="goDetail(top[0])"></div>
-        <div class="swiper-slide" :style="'background-image: url('+top[1].pic1+')'" @click="goDetail(top[0])"></div>
-        <div class="swiper-slide" :style="'background-image: url('+top[2].pic1+')'" @click="goDetail(top[0])"></div>
+        <div class="swiper-slide" :style="'background-image: url('+top[1].pic1+')'" @click="goDetail(top[1])"></div>
+        <div class="swiper-slide" :style="'background-image: url('+top[2].pic1+')'" @click="goDetail(top[2])"></div>
       </div>
       <div class="swiper-pagination"></div>
       <!--<div class="swiper-button-prev"></div>-->
