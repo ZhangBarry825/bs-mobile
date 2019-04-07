@@ -44,7 +44,18 @@ function dataPost(apiName, params, callback){
         //根据后端实际返回修改
         if(data.code===200){ //成功
             if(callback) callback(data, all);
-        }else{ //失败
+        }else if(data.code===0){
+          Modal.warning({
+            title: '注意',
+            content: '请先登录!',
+            onOk:()=>{
+              console.log(123123)
+              self.location = "/";
+            }
+          });
+
+        }
+        else{ //失败
           Modal.info({
             title: '注意',
             content:data.msg

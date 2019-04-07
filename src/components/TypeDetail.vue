@@ -9,16 +9,14 @@
         <div class="top">
           <div class="pic" :style="'background-image: url('+require('../assets/images/5c06487cee.jpg')+')'"></div>
           <div class="price">
-            <a>￥159</a>
-            <span>库存210件</span>
+            <a>￥{{price}}</a>
+            <span>库存{{stock}}件</span>
           </div>
         </div>
 
         <div class="type-title">分类</div>
         <div class="type-items">
-          <div class="item" v-bind:class="{ active: type == 1 }" @click="select(1)">淡蓝色-Normal</div>
-          <div class="item" v-bind:class="{ active: type == 2 }" @click="select(2)">淡蓝色-Large</div>
-          <div class="item" v-bind:class="{ active: type == 3 }" @click="select(3)">淡蓝色-Small</div>
+          <div class="item" v-for="(item,index) in specification" v-bind:class="{ active: type == index }" @click="select(index)">{{item.name}}</div>
         </div>
       </div>
       <div class="bottom-bottom">
@@ -36,7 +34,7 @@
     name: "TypeDetail",
     data(){
       return{
-        type:1,
+        type:0,
       }
     },
     methods:{
@@ -48,10 +46,10 @@
         this.$emit("cancelDis",false)
       },
       goBuy(){
-        this.$emit("goBuy")
+        this.$emit("goBuy",this.specification[this.type])
       },
       goTrolley(){
-        this.$emit("goTrolley")
+        this.$emit("goTrolley",this.specification[this.type])
       }
     },
     props:{
@@ -59,6 +57,24 @@
         type: Boolean,
         default() {
           return false
+        }
+      },
+      specification: {
+        type: Array,
+        default() {
+          return []
+        }
+      },
+      price: {
+        type: Number,
+        default() {
+          return 0.00
+        }
+      },
+      stock: {
+        type: Number,
+        default() {
+          return 0
         }
       },
     }
@@ -76,6 +92,9 @@
     display: flex;
     flex-direction: column;
     justify-content: flex-end;
+    a{
+      color: #262626;
+    }
     .bottom {
       width: 100%;
       background-color: white;
