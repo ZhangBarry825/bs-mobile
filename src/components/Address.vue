@@ -10,8 +10,8 @@
           <div class="item" @click="chooseAddress">
             <div class="name">老白</div>
             <div class="detail">
-              <a>老白<span>1008611</span></a>
-              <a class="address">北京北京市海淀区上地三街嘉华大厦XXX号北京北京市海淀区上地三街嘉华大厦XXX号</a>
+              <a>老白<span>15138389776</span></a>
+              <a class="address">北京北京市海淀区上地三街嘉华大厦123号</a>
             </div>
           </div>
 
@@ -44,7 +44,7 @@
         this.$emit("cancelDis", false)
       },
       chooseAddress(){
-        this.$emit("chooseAddress", "北京北京市海淀区上地三街嘉华大厦XXX号北京北京市海淀区上地三街嘉华大厦XXX号")
+        this.$emit("chooseAddress", "北京北京市海淀区上地三街嘉华大厦123号")
       },
       addAddress(){
         this.$router.push({path: '/addaddress'})
@@ -72,6 +72,9 @@
     display: flex;
     flex-direction: column;
     justify-content: flex-end;
+    a{
+      color: #262626;
+    }
     .bottom {
       width: 100%;
       background-color: white;

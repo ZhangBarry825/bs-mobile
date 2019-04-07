@@ -38,6 +38,11 @@ export default new Router({
       component: Login
     },
     {
+      path: '/home/:id',
+      name: 'Home',
+      component: Home
+    },
+    {
       path: '/home',
       name: 'Home',
       component: Home

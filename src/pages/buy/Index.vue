@@ -7,54 +7,54 @@
 
     <div class="address" @click="displayAddress">
       <a class="tip" v-if="!choosed">选择地址</a>
-
-
       <div class="info" v-if="choosed">
-        <a>收货人：张三 <span>1008611</span></a>
-        <a>收货地址：北京北京市海淀区上地三街嘉华大厦XXX号北京北京市海淀区上地三街嘉华大厦XXX号</a>
+        <a>收货人：{{contacts}} <span>{{phone}}</span></a>
+        <a>收货地址：{{address}}</a>
       </div>
       <a class="right">></a>
-
-
     </div>
     <div class="border"></div>
 
     <div class="store">
-      大番薯的店
+      <!--大番薯的店-->
     </div>
 
-    <div class="commodity">
-      <div class="left" :style="'background-image: url('+require('../../assets/images/5c1478d532.jpg')+')'"></div>
-      <div class="right">
-        <div class="title">2018新款潮百搭斜挎包蕾丝羽毛包链2018新款潮百搭斜挎包蕾丝羽毛包链</div>
-        <div class="type">淡蓝色-Large</div>
-        <div class="price">
-          <a>￥218.00</a>
-          <a>x1</a>
+    <div v-for="(item,index) in goodsList">
+      <div class="commodity">
+        <div class="left" :style="'background-image: url('+item.detail.pic1+')'"></div>
+        <div class="right">
+          <div class="title">{{item.detail.name}}</div>
+          <div class="type">{{item.specification.name}}</div>
+          <div class="price">
+            <a>￥{{item.detail.price}}</a>
+            <a>x1</a>
+          </div>
+        </div>
+      </div>
+      <div class="num">
+        <div class="tip">购买数量</div>
+        <div class="number">
+          <div class="pre" @click="decreaseNum(index)">-</div>
+          <input oninput="if(value>1000)value=1000" type="number" v-model="goodsList[index].num">
+          <div class="next" @click="addNum(index)">+</div>
         </div>
       </div>
     </div>
-
-    <div class="num">
-      <div class="tip">购买数量</div>
-      <div class="number">
-        <div class="pre" @click="decreaseNum">-</div>
-        <input oninput="if(value>1000)value=1000" type="number" v-model="num">
-        <div class="next" @click="addNum">+</div>
-      </div>
-    </div>
-
     <div class="total">
-      <div class="price">小计：<span>￥218</span></div>
+      <!--<div class="price">小计：<span>￥218</span></div>-->
       <div class="express">
         <a>运费</a>
-        <span>￥12</span>
+        <span>￥{{expressCost}}</span>
+      </div>
+      <div class="remark">
+        <a>订单备注：</a>
+        <Input v-model="remark" :rows="1" type="textarea" placeholder="请输入订单备注..."/>
       </div>
     </div>
 
     <div class="bottom">
       <div class="price">
-        共<span> {{num}} </span>件商品 合计：<span>￥{{num*218+12}}</span>
+        共<span> {{totalNum}} </span>件商品 合计：<span>￥{{totalAccount}}</span>
       </div>
       <div class="button" @click="pay">确认订单</div>
     </div>
@@ -69,16 +69,61 @@
 
   import Address from "../../components/Address";
   import GoBack from "../../components/GoBack";
-  import { Message } from 'element-ui';
+  import {Message} from 'element-ui';
+  import {dataPost} from "../../../plugins/axiosFn";
+  import {Modal} from 'iview';
 
   export default {
     name: "Buy",
     data() {
       return {
-        num: 1,
+        totalNum: 0,
+        remark: '',
+        totalAccount: 0,
+        expressCost: 0,
         isDisplay: false,
-        address: {},
-        choosed: false
+        choosed: false,
+        specification: [],
+        contacts: '老白',
+        phone: '15138389776',
+        address: '北京北京市海淀区上地三街嘉华大厦123号',
+        goodsList: [
+          {
+            detail: {},
+            specification: {},
+            num: 1
+          }
+        ]
+      }
+    },
+    watch: {
+      goodsList: {
+        handler: function (newName, oldName) {
+          let total = 0;
+          let maxExpressCost = 0;
+          let totalNum = 0;
+          for (let i = 0; i < newName.length; i++) {
+            if (newName[i].detail.express_cost > maxExpressCost) {
+              maxExpressCost = newName[i].detail.express_cost
+            }
+            total += newName[i].num * newName[i].detail.price
+            totalNum += newName[i].num
+          }
+          this.totalAccount = total + maxExpressCost
+          this.expressCost = maxExpressCost
+          this.totalNum = totalNum
+
+          let buyDetail = {
+            totalNum: this.totalNum,
+            totalAccount: this.totalAccount,
+            expressCost: this.expressCost,
+            specification: this.specification,
+            goodsList: this.goodsList,
+            remark: this.remark
+          }
+          localStorage.setItem('buyDetail', JSON.stringify(buyDetail))
+        },
+        deep: true
       }
     },
     components: {
@@ -86,14 +131,14 @@
       GoBack: GoBack
     },
     methods: {
-      decreaseNum() {
-        if (this.num > 1) {
-          this.num--
+      decreaseNum(index) {
+        if (this.goodsList[index].num > 1) {
+          this.goodsList[index].num--
         }
       },
-      addNum() {
-        if (this.num < 1000) {
-          this.num++
+      addNum(index) {
+        if (this.goodsList[index].num < 1000) {
+          this.goodsList[index].num++
         }
       },
       cancelDisplay() {
@@ -108,16 +153,98 @@
 
       },
       pay() {
-        if(this.choosed ){
-          this.$router.push({path: '/pay'})
-        }else {
-          Message({
-            showClose: true,
-            message: '请先选择地址！',
-            type: 'warning'
+        if (this.choosed) {
+          dataPost('/api/home/user/info', {}, (response, all) => {
+            let info = response.data
+            let shopper = JSON.parse(localStorage.getItem('shopper'))
+            let postForm = {}
+            let specification = []
+            console.log(this.goodsList)
+            for (let i = 0; i < this.goodsList.length; i++) {
+              specification.push(
+                {
+                  goods_id:this.goodsList[i].detail.goods_id,
+                  name:this.goodsList[i].detail.name,
+                  price:this.goodsList[i].detail.price,
+                  pic1:this.goodsList[i].detail.pic1,
+                  pic2:this.goodsList[i].detail.pic2,
+                  pic3:this.goodsList[i].detail.pic3,
+                  express_cost:this.goodsList[i].detail.express_cost,
+                  num:this.goodsList[i].num,
+                  type:this.goodsList[i].specification.name,
+                }
+              )
+            }
+            if (shopper) {
+              postForm.shopper = shopper.nickname
+              postForm.shopper_id = shopper.membership_id
+            } else {
+              postForm.shopper = '总店'
+              postForm.shopper_id = 0
+            }
+            postForm.nickname = info.nickname
+            postForm.membership_id = info.membership_id
+            postForm.name = info.name
+            postForm.status = 0
+            postForm.contacts = this.contacts
+            postForm.phone = this.phone
+            postForm.address = this.address
+            postForm.price = this.totalAccount
+            postForm.express_cost = this.expressCost
+            postForm.remark = this.remark || ''
+            console.log(postForm)
+            console.log(specification)
+
+
+            dataPost('/api/home/order/create', {
+              shopper: postForm.shopper,
+              shopper_id: postForm.shopper_id,
+              nickname: postForm.nickname,
+              membership_id: postForm.membership_id,
+              name: postForm.name,
+              status: postForm.status,
+              contacts: postForm.contacts,
+              phone: postForm.phone,
+              address: postForm.address,
+              price: postForm.price,
+              express_cost: postForm.express_cost,
+              remark: postForm.remark,
+              specification: specification
+            }, (response, all) => {
+              console.log(response.data,5000)
+              this.$router.push({
+                name: 'Pay',
+                params:{
+                  order_id:response.data.order_id
+                }
+              })
+            });
+          });
+        } else {
+          Modal.warning({
+            title: '注意',
+            content: '请先选择地址!',
           });
         }
+      },
+    },
+    mounted() {
+      this.goodsList = this.$route.params.goodsList
+      console.log(this.goodsList)
+      console.log(this.$route.params.ifBack)
+
+      if (!this.$route.params.ifNew) {
+        let buyDetail = JSON.parse(localStorage.getItem('buyDetail'))
+        if (buyDetail) {
+          this.totalNum = buyDetail.totalNum
+          this.totalAccount = buyDetail.totalAccount
+          this.expressCost = buyDetail.expressCost
+          this.specification = buyDetail.specification
+          this.goodsList = buyDetail.goodsList
+          this.remark = buyDetail.remark
+        }
       }
+
     }
 
   }
@@ -132,7 +259,9 @@
     background-color: #f8f8f8;
     font-size: 15px;
     color: #262626;
-
+    a {
+      color: #262626;
+    }
     .top {
       width: 100%;
       background-color: white;
@@ -149,6 +278,7 @@
       justify-content: space-between;
       background-color: white;
       align-items: center;
+
       .tip {
         padding: 5px 0;
       }
@@ -216,7 +346,7 @@
           -webkit-line-clamp: 2;
           overflow: hidden;
         }
-        .type{
+        .type {
           width: 100%;
           color: grey;
           font-size: 13px;
@@ -292,6 +422,14 @@
         justify-content: space-between;
         span {
           color: red;
+        }
+      }
+      .remark {
+        padding: 10px 0;
+        box-sizing: border-box;
+        a {
+          display: block;
+          margin-bottom: 10px;
         }
       }
     }

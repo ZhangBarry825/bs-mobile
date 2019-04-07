@@ -83,16 +83,26 @@
         },
       })
       this.getList()
+      console.log(this.$route.params.id)
+      if (this.$route.params.id) {
+        localStorage.clear()
+        dataPost('/api/home/user/shopperInfo', {
+          membership_id: this.$route.params.id
+        }, (response, all) => {
+          console.log(response.data)
+          localStorage.setItem('shopper',JSON.stringify(response.data))
+        });
+      }
     },
     methods: {
       goDetail(e) {
         console.log(e)
-        this.$router.push({path: '/commodity?id='+e.id})
+        this.$router.push({path: '/commodity?id=' + e.id})
       },
       getList() {
         dataPost('/api/home/goods/homeList', {
           page_num: 1,
-          page_size: 5
+          page_size: 10
         }, (response, all) => {
           console.log(response.data)
           this.top = response.data.top

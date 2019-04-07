@@ -7,9 +7,9 @@
       <div class="item">
         <div class="title">订单信息</div>
         <div class="line">订单号：111251244</div>
-        <div class="line">收货人：燕小六</div>
-        <div class="line">联系方式：1234567890</div>
-        <div class="line">收货地址：北京北京市海淀区上地三街嘉华大厦XXX号</div>
+        <div class="line">收货人：老白</div>
+        <div class="line">联系方式：15138389776</div>
+        <div class="line">收货地址：北京北京市海淀区上地三街嘉华大厦123号</div>
       </div>
 
       <div class="item">
@@ -53,21 +53,39 @@
       <div class="pay" @click="submit">支付</div>
     </div>
 
-    <GoBack></GoBack>
+    <GoBack :goHome="true"></GoBack>
   </div>
 </template>
 
 <script>
   import GoBack from "../../components/GoBack";
+  import {dataPost} from "../../../plugins/axiosFn";
   export default {
     name: "Pay",
     components:{
       GoBack:GoBack
     },
+    data(){
+      return{
+        order_id:''
+      }
+    },
     methods:{
       submit(){
         this.$router.push({path: '/mine'})
+      },
+      getDetail(){
+        dataPost('/api/home/order/detail', {
+          order_id: this.order_id
+        }, (response, all) => {
+          console.log(response.data,555)
+        });
       }
+    },
+    mounted(){
+      console.log(this.$route.params.order_id,1)
+      this.order_id=this.$route.params.order_id
+      this.getDetail()
     }
   }
 </script>

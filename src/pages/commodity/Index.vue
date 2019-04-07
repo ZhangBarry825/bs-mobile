@@ -25,7 +25,7 @@
     </div>
 
     <TypeDetail :isDisplay="isDisplay" v-on:cancelDis="cancelDisplay" v-on:goBuy="goBuy"
-                v-on:goTrolley="goTrolley" :specification="detail.specification" :price="detail.price" :stock="detail.stock"></TypeDetail>
+                v-on:goTrolley="goTrolley" :specification="detail.specification" :price="detail.price" :stock="detail.stock" :pic="pic1"></TypeDetail>
 
     <div class="comment" @click="holdOn">
       <a>商品评价</a>
@@ -37,8 +37,8 @@
         <a>商品详情</a>
       </div>
 
-      <div class="detail-content" v-html="detail.content">
-
+      <div class="detail-content" >
+        <div v-html="detail.content"></div>
       </div>
     </div>
 
@@ -78,16 +78,16 @@
       return {
         id: '',
         isDisplay: false,
-        pic1: require('../../assets/images/5c1478d532.jpg'),
-        pic2: require('../../assets/images/5c14791447.jpg'),
-        pic3: require('../../assets/images/5c6e6d31e4.jpg'),
+        pic1: '',
+        pic2: '',
+        pic3: '',
         detail: {}
       }
     },
     mounted() {
       new Swiper('.swiper-container', {
         autoplay: true,
-        loop: true,
+        loop: false,
         pagination: {
           el: '.swiper-pagination',
         },
@@ -100,6 +100,7 @@
       console.log(this.$route.query.id)
       this.getDetail()
     },
+
     methods: {
       typeDetail() {
         this.isDisplay = true
@@ -111,8 +112,20 @@
         this.isDisplay = false
       },
       goBuy(e) {
-        console.log(e)
-        // this.$router.push({path: '/buy'})
+        let list=[
+          {
+            detail:this.detail,
+            specification:e,
+            num:1
+          }
+        ]
+        this.$router.push({
+          name: 'Buy',
+          params: {
+            goodsList:list,
+            ifNew:true
+          }
+        })
       },
       goTrolley(e) {
         console.log(e)
@@ -220,18 +233,17 @@
       .detail-content {
         width: 100%;
         padding: 10px 0;
-        p{
+        box-sizing: border-box;
+        overflow: hidden;
+        div{
           width: 100%;
-        }
-        img{
-          width: 100%;
-        }
-        .item {
-          width: 100%;
-          height: 300px;
-          background-repeat: no-repeat;
-          background-size: cover;
-          background-position: center;
+          /deep/p{
+            width: 100%;
+            display: block;
+          }
+          /deep/img{
+            width: 100%;
+          }
         }
       }
     }

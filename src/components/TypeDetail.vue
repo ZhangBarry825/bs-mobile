@@ -7,7 +7,7 @@
           <div class="cancel" @click="cancel">x</div>
         </div>
         <div class="top">
-          <div class="pic" :style="'background-image: url('+require('../assets/images/5c06487cee.jpg')+')'"></div>
+          <div class="pic" :style="'background-image: url('+pic+')'"></div>
           <div class="price">
             <a>￥{{price}}</a>
             <span>库存{{stock}}件</span>
@@ -75,6 +75,12 @@
         type: Number,
         default() {
           return 0
+        }
+      },
+      pic: {
+        type: String,
+        default() {
+          return ''
         }
       },
     }
