@@ -50,6 +50,7 @@
         <a>订单备注：</a>
         <Input v-model="remark" :rows="1" type="textarea" placeholder="请输入订单备注..."/>
       </div>
+      <div class="blank" style="width: 100%;height: 50px"></div>
     </div>
 
     <div class="bottom">
@@ -93,7 +94,8 @@
             specification: {},
             num: 1
           }
-        ]
+        ],
+        ifTrolley: false
       }
     },
     watch: {
@@ -163,15 +165,15 @@
             for (let i = 0; i < this.goodsList.length; i++) {
               specification.push(
                 {
-                  goods_id:this.goodsList[i].detail.goods_id,
-                  name:this.goodsList[i].detail.name,
-                  price:this.goodsList[i].detail.price,
-                  pic1:this.goodsList[i].detail.pic1,
-                  pic2:this.goodsList[i].detail.pic2,
-                  pic3:this.goodsList[i].detail.pic3,
-                  express_cost:this.goodsList[i].detail.express_cost,
-                  num:this.goodsList[i].num,
-                  type:this.goodsList[i].specification.name,
+                  goods_id: this.goodsList[i].detail.goods_id,
+                  name: this.goodsList[i].detail.name,
+                  price: this.goodsList[i].detail.price,
+                  pic1: this.goodsList[i].detail.pic1,
+                  pic2: this.goodsList[i].detail.pic2,
+                  pic3: this.goodsList[i].detail.pic3,
+                  express_cost: this.goodsList[i].detail.express_cost,
+                  num: this.goodsList[i].num,
+                  type: this.goodsList[i].specification.name,
                 }
               )
             }
@@ -211,13 +213,33 @@
               remark: postForm.remark,
               specification: specification
             }, (response, all) => {
-              console.log(response.data,5000)
+              console.log(response.data, 5000)
               this.$router.push({
                 name: 'Pay',
-                params:{
-                  order_id:response.data.order_id
+                params: {
+                  order_id: response.data.order_id
                 }
               })
+
+              //删除购物车内容
+              if (this.ifTrolley) {
+                console.log(this.goodsList, '购物车跳转1')
+
+                let localStorageTrolley = localStorage.getItem('trolley');
+                if (localStorageTrolley != null) {
+                  let trolley = JSON.parse(localStorageTrolley)
+                  for (let i = 0; i < trolley.length; i++) {
+                    for (let j = 0; j < this.goodsList.length; j++) {
+                      if (trolley[i]['trolleyId'] == this.goodsList[j]['trolleyId']) {
+                        trolley.splice(i, 1)
+                      }
+                    }
+                  }
+                  localStorage.setItem('trolley', JSON.stringify(trolley))
+                  console.log(trolley, '购物车跳转2')
+                }
+
+              }
             });
           });
         } else {
@@ -232,7 +254,7 @@
       this.goodsList = this.$route.params.goodsList
       console.log(this.goodsList)
       console.log(this.$route.params.ifBack)
-
+      this.ifTrolley = this.$route.params.ifTrolley
       if (!this.$route.params.ifNew) {
         let buyDetail = JSON.parse(localStorage.getItem('buyDetail'))
         if (buyDetail) {

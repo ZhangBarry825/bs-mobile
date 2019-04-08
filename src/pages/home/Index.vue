@@ -85,7 +85,7 @@
       this.getList()
       console.log(this.$route.params.id)
       if (this.$route.params.id) {
-        localStorage.clear()
+        localStorage.removeItem('shopper')
         dataPost('/api/home/user/shopperInfo', {
           membership_id: this.$route.params.id
         }, (response, all) => {

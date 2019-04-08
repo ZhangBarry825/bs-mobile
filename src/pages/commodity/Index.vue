@@ -25,7 +25,8 @@
     </div>
 
     <TypeDetail :isDisplay="isDisplay" v-on:cancelDis="cancelDisplay" v-on:goBuy="goBuy"
-                v-on:goTrolley="goTrolley" :specification="detail.specification" :price="detail.price" :stock="detail.stock" :pic="pic1"></TypeDetail>
+                v-on:goTrolley="addTrolley" :specification="detail.specification" :price="detail.price"
+                :stock="detail.stock" :pic="pic1"></TypeDetail>
 
     <div class="comment" @click="holdOn">
       <a>商品评价</a>
@@ -37,7 +38,7 @@
         <a>商品详情</a>
       </div>
 
-      <div class="detail-content" >
+      <div class="detail-content">
         <div v-html="detail.content"></div>
       </div>
     </div>
@@ -49,7 +50,7 @@
         <img src="../../assets/images/nsy.png">
         <a>首页</a>
       </div>
-      <div class="item" @click="typeDetail">
+      <div class="item" @click="goTrolley">
         <img src="../../assets/images/mall2.png">
         <a>购物车</a>
       </div>
@@ -112,23 +113,47 @@
         this.isDisplay = false
       },
       goBuy(e) {
-        let list=[
+        let list = [
           {
-            detail:this.detail,
-            specification:e,
-            num:1
+            detail: this.detail,
+            specification: e,
+            num: 1
           }
         ]
         this.$router.push({
           name: 'Buy',
           params: {
-            goodsList:list,
-            ifNew:true
+            goodsList: list,
+            ifNew: true
           }
         })
       },
-      goTrolley(e) {
-        console.log(e)
+      goTrolley(){
+        this.$router.push({path: '/trolley'})
+      },
+      addTrolley(e) {
+        let goodsList = [
+          {
+            detail: this.detail,
+            specification: e,
+            num: 1,
+            trolleyId: Date.parse(new Date())
+          }
+        ]
+        let trolleyStorage = localStorage.getItem('trolley')
+        if (trolleyStorage == null) {
+          localStorage.setItem('trolley', JSON.stringify(goodsList))
+        } else {
+          let trolley = JSON.parse(trolleyStorage);
+          trolley = trolley.concat(goodsList)
+          localStorage.setItem('trolley', JSON.stringify(trolley))
+        }
+        Message({
+          showClose: true,
+          message: '已加入购物车！',
+          type: 'success'
+        });
+        console.log(JSON.parse(localStorage.getItem('trolley')))
         this.isDisplay = false
       },
       holdOn() {
@@ -235,13 +260,13 @@
         padding: 10px 0;
         box-sizing: border-box;
         overflow: hidden;
-        div{
+        div {
           width: 100%;
-          /deep/p{
+          /deep/ p {
             width: 100%;
             display: block;
           }
-          /deep/img{
+          /deep/ img {
             width: 100%;
           }
         }

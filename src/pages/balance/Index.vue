@@ -20,7 +20,7 @@
       <!--</div>-->
     </div>
     <div class="charge">
-      <div class="button">充值</div>
+      <div class="button" @click="chargeBalance">充值</div>
     </div>
     <div class="blank" style="width: 100%;height: 50px"></div>
     <BottomBar :item="5"></BottomBar>
@@ -31,6 +31,7 @@
 <script>
   import BottomBar from "../../components/BottomBar";
   import GoBack from "../../components/GoBack";
+  import {Message} from "element-ui";
 
   export default {
     name: "Balance",
@@ -38,6 +39,21 @@
       BottomBar: BottomBar,
       GoBack: GoBack,
     },
+    methods:{
+      chargeBalance(){
+        this.$Modal.confirm({
+          title: '提醒',
+          content: '确定充值￥100吗？',
+          onOk: () => {
+
+            Message({message: '充值成功！', type: 'success'});
+          }
+        });
+      }
+    },
+    mounted(){
+
+    }
   }
 </script>
 
@@ -50,6 +66,9 @@
     background-color: #f8f8f8;
     font-size: 15px;
     color: #262626;
+    a{
+      color: #262626;
+    }
     .top {
       width: 100%;
       background-color: white;

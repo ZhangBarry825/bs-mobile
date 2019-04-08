@@ -55,7 +55,7 @@
         <div class="pay" @click="submit">支付</div>
       </div>
     </div>
-
+    <div class="blank" style="width: 100%;height: 50px"></div>
     <GoBack :goHome="true"></GoBack>
   </div>
 </template>

@@ -4,88 +4,42 @@
       购物车
     </div>
     <div class="items-trolley">
-      <!--<div class="empty">-->
-        <!--<img src="../../assets/images/cart.png">-->
-        <!--<a>您的购物车是空的，您可以先</a>-->
-        <!--<a class="a2">逛逛首页</a>-->
-      <!--</div>-->
-      <div class="item">
+      <div class="empty" v-if="ifEmpty">
+        <img src="../../assets/images/cart.png">
+        <a>您的购物车是空的，您可以先</a>
+        <a class="a2" @click="goHome">逛逛首页</a>
+      </div>
+      <div class="item" v-for="(item ,index) in goodsList">
         <div class="check">
-          <input type="checkbox">
+          <input type="checkbox" @click="selectItem(index,!goodsList[index].ifSelect)"
+                 v-model="goodsList[index].ifSelect">
         </div>
-        <div  @click="goDetail" class="left" :style="'background-image: url('+require('../../assets/images/5c1478d532.jpg')+')'"></div>
-        <div  @click="goDetail" class="right">
-          <div class="title">Gucci️18ss酒神系列最新链条款</div>
-          <div class="type">浅蓝色-Normal</div>
-          <div class="price">￥552</div>
+        <div @click="goDetail(item.detail)" class="left"
+             :style="'background-image: url('+item.detail.pic1+')'"></div>
+        <div class="right">
+          <div class="title" @click="goDetail(item.detail)">{{item.detail.name}}</div>
+          <div class="type">{{item.specification.name}}</div>
+          <div class="price">
+            <a class="price-left">￥{{item.detail.price}}</a>
+            <a class="price-right" @click="goDetele(item.trolleyId)">删除</a>
+          </div>
         </div>
       </div>
-
-      <div class="item">
-        <div class="check">
-          <input type="checkbox">
-        </div>
-        <div  @click="goDetail" class="left" :style="'background-image: url('+require('../../assets/images/5c1478d532.jpg')+')'"></div>
-        <div  @click="goDetail" class="right">
-          <div class="title">Gucci️18ss酒神系列最新链条款</div>
-          <div class="type">浅蓝色-Normal</div>
-          <div class="price">￥552</div>
-        </div>
-      </div>
-
-      <div class="item">
-        <div class="check">
-          <input type="checkbox">
-        </div>
-        <div  @click="goDetail" class="left" :style="'background-image: url('+require('../../assets/images/5c1478d532.jpg')+')'"></div>
-        <div  @click="goDetail" class="right">
-          <div class="title">Gucci️18ss酒神系列最新链条款</div>
-          <div class="type">浅蓝色-Normal</div>
-          <div class="price">￥552</div>
-        </div>
-      </div>
-
 
       <div class="total">
-        <a>合计：<span>￥225</span></a>
-        <div class="submit">结算</div>
+        <a>合计：<span>￥{{totalAccont}}</span></a>
+        <div class="submit" @click="submitForm">结算</div>
       </div>
     </div>
 
     <div class="suggestion">
       <div class="title">---猜你喜欢---</div>
       <div class="items">
-        <div class="item" @click="goDetail">
-          <div class="pic" :style="'background-image: url('+require('../../assets/images/5c1478d532.jpg')+')'"></div>
-          <div class="title">2018新款百搭斜挎包水貂毛口袋包链条包单肩包</div>
-          <div class="price">￥228.5</div>
+        <div class="item" @click="goDetail(item)" v-for="(item,index) in rows">
+          <div class="pic" :style="'background-image: url('+item.pic1+')'"></div>
+          <div class="title">{{item.name}}</div>
+          <div class="price">￥{{item.price}}</div>
         </div>
-        <div class="item"  @click="goDetail">
-          <div class="pic" :style="'background-image: url('+require('../../assets/images/5c14791447.jpg')+')'"></div>
-          <div class="title">Gucci️18ss酒神系列最新链条款</div>
-          <div class="price">￥228.5</div>
-        </div>
-        <div class="item"  @click="goDetail">
-          <div class="pic" :style="'background-image: url('+require('../../assets/images/5c6e6d31e4.jpg')+')'"></div>
-          <div class="title">2018新款百搭斜挎包水貂毛口袋包链条包单肩包</div>
-          <div class="price">￥228.5</div>
-        </div>
-        <div class="item"  @click="goDetail">
-          <div class="pic" :style="'background-image: url('+require('../../assets/images/5c1478d532.jpg')+')'"></div>
-          <div class="title">Gucci️18ss酒神系列最新链条款</div>
-          <div class="price">￥228.5</div>
-        </div>
-        <div class="item"  @click="goDetail">
-          <div class="pic" :style="'background-image: url('+require('../../assets/images/5c14791447.jpg')+')'"></div>
-          <div class="title">2018新款百搭斜挎包水貂毛口袋包链条包单肩包</div>
-          <div class="price">￥228.5</div>
-        </div>
-        <div class="item"  @click="goDetail">
-          <div class="pic" :style="'background-image: url('+require('../../assets/images/5c14791447.jpg')+')'"></div>
-          <div class="title">2018新款百搭斜挎包水貂毛口袋包链条包单肩包</div>
-          <div class="price">￥228.5</div>
-        </div>
-
       </div>
     </div>
 
@@ -96,16 +50,112 @@
 
 <script>
   import BottomBar from "../../components/BottomBar";
+  import {dataPost} from "../../../plugins/axiosFn";
 
   export default {
     name: "Trolley",
     components: {
       BottomBar: BottomBar
     },
-    methods:{
-      goDetail(){
-        this.$router.push({path: '/commodity'})
+    data() {
+      return {
+        ifEmpty: false,
+        goodsList: [],
+        totalAccont: 0,
+        rows:[]
       }
+    },
+    methods: {
+      goHome() {
+        this.$router.push({path: '/home'})
+      },
+      goDetail(item) {
+        console.log(item)
+        this.$router.push({path: '/commodity?id=' + item.id})
+      },
+      goDetele(trolleyId) {
+        this.$Modal.confirm({
+          title: '提醒',
+          content: '确定删除吗？',
+          onOk: () => {
+            console.log(trolleyId)
+            for (let i = 0; i < this.goodsList.length; i++) {
+              if (this.goodsList[i]['trolleyId'] == trolleyId) {
+                this.goodsList.splice(i, 1);
+                if (this.goodsList.length == 0) {
+                  this.ifEmpty = true
+                }
+              }
+            }
+            let trolleyStorage = localStorage.getItem('trolley')
+            let trolley = JSON.parse(trolleyStorage)
+            trolley = this.goodsList
+            localStorage.setItem('trolley', JSON.stringify(trolley))
+          }
+        });
+      },
+      submitForm() {
+        let selectList=[]
+        for (let i = 0; i < this.goodsList.length; i++) {
+          if (this.goodsList[i]['ifSelect']) {
+            selectList.push(this.goodsList[i])
+          }
+        }
+        if(selectList.length==0){
+          this.$Modal.info({
+            title: '提示',
+            content: '请先选中商品'
+          });
+        }else {
+          console.log(selectList)
+          let list = selectList
+          this.$router.push({
+            name: 'Buy',
+            params: {
+              goodsList: list,
+              ifNew: true,
+              ifTrolley:true
+            }
+          })
+        }
+
+      },
+      selectItem(index, boo) {
+        this.goodsList[index].ifSelect = boo
+        let totalAccount = 0
+        for (let i = 0; i < this.goodsList.length; i++) {
+          if (this.goodsList[i]['ifSelect']) {
+            totalAccount += this.goodsList[i]['detail']['price']
+          }
+        }
+        this.totalAccont = totalAccount
+        console.log(this.goodsList)
+      },
+      getList() {
+        dataPost('/api/home/goods/homeList', {
+          page_num: 1,
+          page_size: 10
+        }, (response, all) => {
+          this.rows = response.data.rows
+        });
+      }
+    },
+
+    mounted() {
+      this.getList()
+      let trolleyStorage = localStorage.getItem('trolley')
+      if (trolleyStorage == null||trolleyStorage.length==0) {
+        this.ifEmpty = true
+      } else {
+        this.goodsList = JSON.parse(trolleyStorage)
+        for (let i = 0; i < this.goodsList.length; i++) {
+          this.goodsList[i]['ifSelect'] = false
+        }
+        if(this.goodsList.length==0){
+          this.ifEmpty = true
+        }
+      }
+      console.log(this.goodsList)
     }
   }
 </script>
@@ -119,7 +169,7 @@
     background-color: #f8f8f8;
     font-size: 15px;
     color: #262626;
-    a{
+    a {
       color: #262626;
     }
     .top {
@@ -156,7 +206,7 @@
           border-radius: 5px;
         }
       }
-      .item{
+      .item {
         width: 100%;
         height: 100px;
         padding: 10px;
@@ -166,20 +216,20 @@
         display: flex;
         flex-direction: row;
         flex-wrap: nowrap;
-        border-radius:10px;
+        border-radius: 10px;
         margin-bottom: 5px;
-        .check{
+        .check {
           width: 20px;
           height: 80px;
           display: flex;
           flex-direction: row;
           align-items: center;
-          input{
+          input {
             width: 15px;
             height: 15px;
           }
         }
-        .left{
+        .left {
           width: 80px;
           height: 80px;
           border-radius: 3px;
@@ -187,17 +237,17 @@
           background-position: center;
           background-repeat: no-repeat;
         }
-        .right{
-          width:-webkit-calc(100% - 100px);
-          width:-moz-calc(100% - 100px);
-          width:calc(100% - 100px);
+        .right {
+          width: -webkit-calc(100% - 100px);
+          width: -moz-calc(100% - 100px);
+          width: calc(100% - 100px);
           height: 100%;
           padding: 0 10px;
           box-sizing: border-box;
           display: flex;
           flex-direction: column;
           justify-content: space-around;
-          .title{
+          .title {
             word-break: break-all;
             text-overflow: ellipsis;
             display: -webkit-box;
@@ -206,19 +256,26 @@
             overflow: hidden;
             font-size: 15px;
           }
-          .type{
+          .type {
             font-size: 13px;
             color: grey;
           }
-          .price{
-            color: red;
+          .price {
+            display: flex;
+            justify-content: space-between;
+            .price-left {
+              color: red;
+            }
+            .price-right {
+              z-index: 1000;
+            }
           }
         }
       }
-      .item:first-child{
+      .item:first-child {
         border-top: none;
       }
-      .total{
+      .total {
         display: flex;
         flex-direction: row;
         flex-wrap: nowrap;
@@ -226,12 +283,12 @@
         width: 100%;
         text-align: right;
         align-items: center;
-        a{
-          span{
+        a {
+          span {
             color: red;
           }
         }
-        .submit{
+        .submit {
           background-color: #ff784c;
           color: white;
           padding: 7px 12px;
@@ -266,6 +323,7 @@
           border-bottom: 5px solid #f8f8f8;
           display: flex;
           flex-direction: column;
+          justify-content: space-between;
           .pic {
             width: 100%;
             height: 140px;
@@ -276,8 +334,8 @@
           .title {
             color: black;
             text-align: left;
-            padding: 2px;
-
+            padding: 0 2px;
+            box-sizing: border-box;
             word-break: break-all;
             text-overflow: ellipsis;
             display: -webkit-box;
@@ -289,6 +347,7 @@
             font-size: 20px;
             color: red;
             padding: 5px 0;
+            padding-bottom: 0;
           }
         }
         .item:nth-child(n) {
