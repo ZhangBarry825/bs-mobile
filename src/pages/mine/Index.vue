@@ -5,7 +5,7 @@
         <img src="../../assets/images/xiaoxi_X.png" @click="goMessage">
       </div>
       <div class="identity">
-        <div class="avatar" :style="'background-image: url('+info.avatar+')'"></div>
+        <div class="avatar" :style="'background-image: url('+info.avatar+')'" @click="goInfo"></div>
         <div class="nickname">普通会员</div>
       </div>
       <div class="buttons">
@@ -116,6 +116,11 @@
       },
       address(){
         this.$router.push({path: '/address'})
+      },
+      goInfo(){
+        this.$router.push({
+          path: '/info'
+        })
       },
       GoOrder(val){
         this.$router.push({

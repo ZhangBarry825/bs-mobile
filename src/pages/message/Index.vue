@@ -3,36 +3,15 @@
     <div class="top">
       消息通知
     </div>
-
-
     <div class="items">
-      <div class="item">
+      <div class="item" v-for="(item,index) in messageList" @click="goDetail(item)">
         <div class="left"  :style="'background-image: url('+require('../../assets/images/voice.png')+')'"></div>
         <div class="right">
-          <a>高级VIP客户通知</a>
-          <span>2018/12/25</span>
-          <a>热门TOP榜单出炉，走过路过千万不要错过热门TOP榜单出炉，走过路过千万不要错过热门TOP榜单出炉，走过路过千万不要错过热门TOP榜单出炉，走过路过千万不要错过热门TOP榜单出炉，走过路过千万不要错过热门TOP榜单出炉，走过路过千万不要错过</a>
+          <a>{{item.title}}</a>
+          <span>{{format(item.create_time)}}</span>
+          <a class="content_short">{{item.content_short}}</a>
         </div>
       </div>
-      <div class="item">
-        <div class="left"  :style="'background-image: url('+require('../../assets/images/voice.png')+')'"></div>
-        <div class="right">
-          <a>高级VIP客户通知</a>
-          <span>2018/12/25</span>
-          <a>热门TOP榜单出炉，走过路过千万不要错过热门TOP榜单出炉，走过路过千万不要错过热门TOP榜单出炉，走过路过千万不要错过热门TOP榜单出炉，走过路过千万不要错过热门TOP榜单出炉，走过路过千万不要错过热门TOP榜单出炉，走过路过千万不要错过</a>
-        </div>
-      </div>
-      <div class="item">
-        <div class="left"  :style="'background-image: url('+require('../../assets/images/voice.png')+')'"></div>
-        <div class="right">
-          <a>高级VIP客户通知</a>
-          <span>2018/12/25</span>
-          <a>热门TOP榜单出炉，走过路过千万不要错过热门TOP榜单出炉，走过路过千万不要错过热门TOP榜单出炉，走过路过千万不要错过热门TOP榜单出炉，走过路过千万不要错过热门TOP榜单出炉，走过路过千万不要错过热门TOP榜单出炉，走过路过千万不要错过</a>
-        </div>
-      </div>
-
-
-
     </div>
     <GoBack></GoBack>
   </div>
@@ -40,11 +19,45 @@
 
 <script>
   import GoBack from "../../components/GoBack";
+  import {dataPost} from "../../../plugins/axiosFn";
+  import {parseTime} from "../../../plugins/functions";
 
   export default {
     name: "Message",
     components:{
       GoBack:GoBack
+    },
+    data(){
+      return{
+        page_num:1,
+        page_size:10,
+        messageList:[]
+      }
+    },
+    methods:{
+      goDetail(item){
+        this.$router.push({
+          path:'/messageDetail',
+          query:{
+            id:item.id
+          }
+        })
+      },
+      format(val){
+        return parseTime(val,'{y}/{m}/{d}')
+      },
+      getList(){
+        dataPost('/api/home/message/lists', {
+          page_num:this.page_num,
+          page_size:this.page_size,
+        },(response, all)=>{
+          this.messageList=response.data.rows
+          console.log(this.messageList)
+        });
+      }
+    },
+    mounted(){
+      this.getList()
     }
   }
 </script>
@@ -110,15 +123,20 @@
             overflow: hidden;
             color:black ;
           }
+          .content_short{
+            word-break: break-all;
+            text-overflow: ellipsis;
+            display: -webkit-box;
+            -webkit-box-orient: vertical;
+            -webkit-line-clamp: 2;
+            overflow: hidden;
+            font-size: 13px;
+            color: grey;
+          }
           span{
             width: 100%;
             color: #444;
             font-size: 13px;
-          }
-          a:last-child{
-            font-size: 13px;
-            -webkit-line-clamp: 2;
-            color: grey;
           }
         }
       }

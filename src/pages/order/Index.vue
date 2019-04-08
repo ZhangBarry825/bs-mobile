@@ -12,35 +12,36 @@
     </div>
 
     <div class="items">
-      <!--<div class="empty">-->
-        <!--<img src="../../assets/images/order.png">-->
-        <!--<a>暂无订单</a>-->
-      <!--</div>-->
-      <div class="item">
+      <div class="empty" v-if="!orderNow.count>0">
+        <img src="../../assets/images/order.png">
+        <a>暂无订单</a>
+      </div>
+      <div class="item" v-for="(item,index) in orderNow.rows">
         <div class="orderNum" @click="goDetail">
-          <a>订单号：1125445224</a>
+          <a>订单号：{{item.order_id}}</a>
         </div>
-        <div class="goods">
-          <div class="left" :style="'background-image: url('+require('../../assets/images/5c1478d532.jpg')+')'"></div>
+        <div class="goods" v-for="(item1,index1) in item.goods" @click="goGoods(item1)">
+          <div class="left" :style="'background-image: url('+item1.pic1+')'"></div>
           <div class="right">
-            <div class="title">2018新款百搭斜挎包水貂毛口袋包链条包单肩包2018新款百搭斜挎包水貂毛口袋包链条包单肩包2018新款百搭斜挎包水貂毛口袋包链条包单肩包</div>
-            <div class="type">淡蓝色-Large</div>
+            <div class="title">{{item1.name}}</div>
+            <div class="type">{{item1.type}}</div>
             <div class="price">
-              <span>￥218</span>
-              <a>x1</a>
+              <span>￥{{item1.price}}</span>
+              <a>x{{item1.num}}</a>
             </div>
           </div>
         </div>
         <div class="total">
           <a>合计：</a>
-          <span>￥218</span>
+          <span>￥{{item.price-item.express_cost}}</span>
         </div>
         <div class="buttons">
-          <div class="button" v-if="toggle!=4 && toggle!=5">取消订单</div>
-          <div class="button" v-if="toggle==4">申请退货</div>
+          <div class="button" v-if="toggle!=4 && toggle!=5 && toggle!=3" @click="cancelOrder(item)">取消订单</div>
+          <div class="button" v-if="toggle==3" @click="refundOrder(item)">申请退货</div>
+          <!--<div class="button" v-if="toggle==4">申请退货</div>-->
           <div class="button" v-if="toggle==5">退货中</div>
-          <div class="button confirm" v-if="toggle==3">确认收货</div>
-          <div class="button confirm" v-if="toggle==1" @click="goPay">付款</div>
+          <div class="button confirm" v-if="toggle==3" @click="confirmGoods(item)">确认收货</div>
+          <div class="button confirm" v-if="toggle==1" @click="goPay(item)">付款</div>
         </div>
       </div>
     </div>
@@ -57,28 +58,132 @@
     name: "Order",
     data() {
       return {
+        refund_express_company:5,
+        refund_express_code:'',
         toggle: 1,
-        info:'',
-        orders:[]
+        info: '',
+        orderOne: {},
+        orderTwo: {},
+        orderThree: {},
+        orderFour: {},
+        orderFive: {},
+        orderNow: {
+          count:0,
+          rows:[]
+        }
       }
     },
     methods: {
       toggleTab(val) {
         this.toggle = val
+        switch (this.toggle) {
+          case 1:
+            this.orderNow = this.orderOne
+            break;
+          case 2:
+            this.orderNow = this.orderTwo
+            break;
+          case 3:
+            this.orderNow = this.orderThree
+            break;
+          case 4:
+            this.orderNow = this.orderFour
+            break;
+          case 5:
+            this.orderNow = this.orderFive
+            break;
+        }
+        console.log(this.orderNow)
       },
-      goDetail(){
+      goDetail() {
         this.$router.push({path: '/orderdetail'})
       },
-      goPay(){
-        this.$router.push({path: '/pay'})
+      goGoods(item){
+        this.$router.push({path: '/commodity?goods_id=' + item.goods_id})
       },
-      fetchDetail(){
-        console.log(this.info,555)
+      confirmGoods(item){
+        this.$Modal.confirm({
+          title: '注意',
+          content: '是否确认收货？',
+          onOk:()=>{
+            dataPost('/api/home/order/update', {
+              id: item.id,
+              status:3,
+              querenshouhuo:true
+            }, (response, all) => {
+              this.fetchDetail()
+              console.log(response)
+            });
+          }
+        });
+      },
+      goPay(item) {
+        this.$router.push({
+          name: 'Pay',
+          params: {
+            order_id: item.order_id
+          }
+        })
+
+      },
+      fetchDetail() {
         dataPost('/api/home/order/listCount', {
-          membership_id:this.info.membership_id
-        },(response, all)=>{
+          membership_id: this.info.membership_id
+        }, (response, all) => {
           console.log(response.data)
-          this.orders=response.data
+          this.orderOne = response.data['result0']
+          this.orderTwo = response.data['result1']
+          this.orderThree = response.data['result2']
+          this.orderFour = response.data['result3']
+          this.orderFive = response.data['result4']
+
+          switch (this.toggle) {
+            case 1:
+              this.orderNow = this.orderOne
+              break;
+            case 2:
+              this.orderNow = this.orderTwo
+              break;
+            case 3:
+              this.orderNow = this.orderThree
+              break;
+            case 4:
+              this.orderNow = this.orderFour
+              break;
+            case 5:
+              this.orderNow = this.orderFive
+              break;
+          }
+        });
+
+      },
+      refundOrder(item){
+        this.$Modal.confirm({
+          title: '注意',
+          content: '确定申请退货吗？',
+          onOk:()=>{
+            dataPost('/api/home/order/update', {
+              id:item.id,
+              status:4
+            }, (response, all) => {
+              console.log(response)
+            });
+          }
+        });
+        console.log(item)
+      },
+      cancelOrder(item){
+        console.log(item)
+        this.$Modal.confirm({
+          title: '注意',
+          content: '确定取消订单吗？',
+          onOk:()=>{
+            dataPost('/api/home/order/delete', {
+              id: [item.id],
+            }, (response, all) => {
+              this.fetchDetail()
+            });
+          }
         });
       }
     },
@@ -90,7 +195,7 @@
       if (this.$route.params.type) {
         this.toggle = this.$route.params.type
       }
-      this.info=JSON.parse(localStorage.getItem('info'))
+      this.info = JSON.parse(localStorage.getItem('info'))
       this.fetchDetail()
     }
   }
@@ -134,7 +239,7 @@
       overflow: scroll;
       box-sizing: border-box;
       padding: 5px;
-      a{
+      a {
         color: black;
       }
       .empty {
@@ -154,7 +259,7 @@
           color: gray;
         }
       }
-      .item{
+      .item {
         margin-bottom: 5px;
         background-color: white;
         width: 100%;
@@ -165,21 +270,21 @@
         box-sizing: border-box;
         font-size: 13px;
         padding: 5px;
-        .orderNum{
+        .orderNum {
           width: 100%;
           border-bottom: 1px solid gainsboro;
           padding: 5px 0;
           box-sizing: border-box;
           font-size: 14px;
         }
-        .goods{
+        .goods {
           width: 100%;
           display: flex;
           flex-direction: row;
           flex-wrap: nowrap;
           padding: 10px 0;
           box-sizing: border-box;
-          .left{
+          .left {
             height: 70px;
             width: 70px;
             background-position: center;
@@ -187,12 +292,12 @@
             background-repeat: no-repeat;
             border-radius: 5px;
           }
-          .right{
+          .right {
             padding-left: 5px;
             box-sizing: border-box;
             width: calc(100% - 70px);
             height: 100%;
-            .title{
+            .title {
               width: 100%;
               word-break: break-all;
               text-overflow: ellipsis;
@@ -201,22 +306,22 @@
               -webkit-line-clamp: 2;
               overflow: hidden;
             }
-            .type{
+            .type {
               width: 100%;
               color: grey;
               margin-top: 5px;
             }
-            .price{
+            .price {
               display: flex;
               justify-content: space-between;
               margin-top: 5px;
-              span{
+              span {
                 color: red;
               }
             }
           }
         }
-        .total{
+        .total {
           width: 100%;
           display: flex;
           flex-direction: row;
@@ -224,11 +329,11 @@
           border-bottom: 1px solid gainsboro;
           padding-bottom: 10px;
           box-sizing: border-box;
-          span{
+          span {
             color: red;
           }
         }
-        .buttons{
+        .buttons {
           width: 100%;
           margin-top: 5px;
           padding: 5px 0;
@@ -237,7 +342,7 @@
           flex-direction: row;
           flex-wrap: nowrap;
           justify-content: flex-end;
-          .button{
+          .button {
             font-size: 15px;
             margin-left: 5px;
             padding: 2px 10px;
@@ -245,7 +350,7 @@
             color: grey;
             border-radius: 14px;
           }
-          .confirm{
+          .confirm {
             color: #ff6702;
             border: 1px solid #ff6702;
           }

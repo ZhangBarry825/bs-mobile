@@ -78,6 +78,7 @@
     data() {
       return {
         id: '',
+        goods_id:'',
         isDisplay: false,
         pic1: '',
         pic2: '',
@@ -98,6 +99,7 @@
         },
       })
       this.id = this.$route.query.id
+      this.goods_id = this.$route.query.goods_id
       console.log(this.$route.query.id)
       this.getDetail()
     },
@@ -165,7 +167,8 @@
       },
       getDetail() {
         dataPost('/api/home/goods/detail', {
-          id: this.id
+          id: this.id,
+          goods_id: this.goods_id
         }, (response, all) => {
           console.log(response.data)
           this.pic1 = response.data.pic1

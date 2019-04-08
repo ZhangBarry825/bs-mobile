@@ -25,6 +25,7 @@ import Set from '@/pages/Set'
 import Info from '@/pages/Info'
 import Password from '@/pages/Password'
 import Register from '@/pages/Register'
+import MessageDetail from '@/pages/messageDetail'
 
 
 Vue.use(Router)
@@ -141,6 +142,11 @@ export default new Router({
       path: '/message',
       name: 'Message',
       component: Message
+    },
+    {
+      path: '/messageDetail',
+      name: 'MessageDetail',
+      component: MessageDetail
     },
     {
       path: '/set',
