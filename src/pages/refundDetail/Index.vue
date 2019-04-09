@@ -1,7 +1,7 @@
 <template>
   <div class="content">
     <div class="top">
-      订单详情
+      退货信息
     </div>
 
     <div class="items">
@@ -18,10 +18,7 @@
           <a>付款时间:</a>
           <a>{{format(orderDetail.pay_time)}}</a>
         </div>
-        <div class="line" v-if="orderDetail.status==7">
-          <a>退款时间:</a>
-          <a>{{format(orderDetail.refund_time)}}</a>
-        </div>
+
         <div class="line">
           <a>订单状态:</a>
           <a>{{orderDetail.status|statusF}}</a>
@@ -42,31 +39,39 @@
       </div>
       <div class="item">
         <div class="line">
-          <a>收货人:</a>
-          <a>{{orderDetail.contacts}}</a>
+          <a>商家收货人:</a>
+          <a>{{orderDetail.refund_contacts}}</a>
         </div>
         <div class="line">
-          <a>联系电话:</a>
-          <a>{{orderDetail.phone}}</a>
+          <a>商家电话:</a>
+          <a>{{orderDetail.refund_phone}}</a>
         </div>
         <div class="line">
-          <a>收货地址:</a>
-          <a>{{orderDetail.address}}</a>
+          <a>商家地址:</a>
+          <a>{{orderDetail.refund_address}}</a>
         </div>
       </div>
-      <div class="item" v-for="(item,index) in orderDetail.goods">
-        <div class="line commodity">
-          <div class="left" :style="'background-image: url('+item.pic1+')'"></div>
+      <div class="item">
+        <div class="line">
+          <a class="title">退货信息:</a>
+          <a></a>
+        </div>
+        <div class="line">
+          <a>快递公司:</a>
           <div class="right">
-            <div class="title">{{item.name}}</div>
-            <div class="type">{{item.type}}</div>
-            <div class="price">
-              <span>￥{{item.price}}</span>
-              <a>x{{item.num}}</a>
-            </div>
+            <Select v-model="orderDetail.refund_express_company" style="width:200px">
+              <Option v-for="item in companyList" :value="item.value" :key="item.value">{{ item.label }}</Option>
+            </Select>
+          </div>
+        </div>
+        <div class="line">
+          <a>快递编号:</a>
+          <div class="right">
+            <Input v-model="orderDetail.refund_express_code" placeholder="请输入快递编号..." type="number" style="width: 300px" />
           </div>
         </div>
       </div>
+      <div class="saveButton" @click="submitForm">保存</div>
     </div>
 
     <GoBack></GoBack>
@@ -79,7 +84,7 @@
   import {parseTime} from "../../../plugins/functions";
 
   export default {
-    name: "OrderDetail",
+    name: "RefundDetail",
     components: {
       GoBack: GoBack,
     },
@@ -88,10 +93,71 @@
         order_id:'',
         orderDetail:{
 
-        }
+        },
+        postForm:{
+          refund_express_code:'',
+          refund_express_company:'',
+        },
+        companyList: [
+          {
+            value: 1,
+            label: '顺丰快递'
+          },
+          {
+            value: 2,
+            label: '中通快递'
+          },
+          {
+            value: 3,
+            label: '圆通快递'
+          },
+          {
+            value: 4,
+            label: '申通快递'
+          },
+          {
+            value: 5,
+            label: '其他'
+          }
+        ],
+        model1: ''
       }
     },
     methods:{
+      submitForm(){
+        this.postForm.refund_express_company=this.orderDetail.refund_express_company
+        this.postForm.refund_express_code=this.orderDetail.refund_express_code
+        console.log(this.postForm)
+        if(this.postForm.refund_express_company==''){
+          this.$Modal.warning({
+            title: '提醒',
+            content: '请选择快递公司！'
+          });
+        }else if(this.postForm.refund_express_code==''){
+          this.$Modal.warning({
+            title: '提醒',
+            content: '请填写快递编号！'
+          });
+        }else {
+          dataPost('/api/home/order/update', {
+            id: this.orderDetail.id,
+            refund_express_company: this.postForm.refund_express_company,
+            refund_express_code: this.postForm.refund_express_code,
+            refund_address: this.orderDetail.refund_address,
+            refund_contacts: this.orderDetail.refund_contacts,
+            refund_phone: this.orderDetail.refund_phone,
+            status: 5,
+          }, (response, all) => {
+            this.$Modal.info({
+              title: '提示',
+              content: '保存成功！',
+            })
+            console.log(response)
+          });
+
+        }
+
+      },
       format(val){
         return parseTime(val)
       },
@@ -173,9 +239,19 @@
           padding: 5px 0;
           width: 100%;
           border-bottom: 1px solid gainsboro;
+          display: flex;
+          flex-direction: row;
+          align-items: center;
+          .title{
+            font-weight: bold;
+            font-size: 14px;
+          }
           .price{
             color: red;
             font-weight: bold;
+          }
+          .right{
+            margin-left: 10px;
           }
         }
         .commodity{
@@ -225,6 +301,19 @@
         .line:last-child{
           border-bottom: none;
         }
+      }
+      .saveButton{
+        margin-top: 10px;
+        background-color: #ff6633;
+        color: white;
+        width: 100%;
+        border-radius: 5px;
+        display: flex;
+        flex-direction: row;
+        justify-content: center;
+        box-sizing: border-box;
+        font-size: 15px;
+        padding: 7px 0;
       }
     }
   }

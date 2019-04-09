@@ -10,7 +10,7 @@
 
 
     <div class="items">
-      <div class="item">
+      <div class="item" @click="goHistory">
         <img src="../../assets/images/ic-list2.png">
         <a>充值记录</a>
       </div>
@@ -46,6 +46,11 @@
       }
     },
     methods: {
+      goHistory(){
+        this.$router.push({
+          path:'/balanceHistory'
+        })
+      },
       chargeBalance() {
         this.$Modal.confirm({
           title: '提醒',

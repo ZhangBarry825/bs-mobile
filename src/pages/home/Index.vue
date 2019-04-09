@@ -70,14 +70,10 @@
     mounted() {
       new Swiper('.swiper-container', {
         autoplay: true,
-        loop: true,
+        loop: false,
         pagination: {
           el: '.swiper-pagination',
         },
-        // navigation: {
-        //   nextEl: '.swiper-button-next',
-        //   prevEl: '.swiper-button-prev',
-        // },
         scrollbar: {
           el: '.swiper-scrollbar',
         },

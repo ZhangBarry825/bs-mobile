@@ -7,11 +7,11 @@
           <div class="cancel" @click="cancel">x</div>
         </div>
         <div class="items">
-          <div class="item" @click="chooseAddress">
-            <div class="name">老白</div>
+          <div class="item" @click="chooseAddress(item)" v-for="(item,index) in addressList.rows">
+            <div class="name">{{item.contacts}}</div>
             <div class="detail">
-              <a>老白<span>15138389776</span></a>
-              <a class="address">北京北京市海淀区上地三街嘉华大厦123号</a>
+              <a>{{item.contacts}}<span>{{item.phone}}</span></a>
+              <a class="address">{{item.address}}</a>
             </div>
           </div>
 
@@ -28,11 +28,20 @@
 </template>
 
 <script>
+  import {dataPost} from "../../plugins/axiosFn";
+
   export default {
     name: "Address",
     data() {
       return {
         type: 1,
+        page_num: 1,
+        page_size: 1000,
+        addressList: {
+          count: 0,
+          rows: []
+        },
+        info: {}
       }
     },
     methods: {
@@ -43,12 +52,27 @@
         // this.isDisplay=false
         this.$emit("cancelDis", false)
       },
-      chooseAddress(){
-        this.$emit("chooseAddress", "北京北京市海淀区上地三街嘉华大厦123号")
+      chooseAddress(item) {
+        console.log(item)
+        this.$emit("chooseAddress", item)
       },
-      addAddress(){
+      addAddress() {
         this.$router.push({path: '/addaddress'})
+      },
+      getList() {
+        dataPost('/api/home/address/lists', {
+          page_num: this.page_num,
+          page_size: this.page_size,
+          membership_id: this.info.membership_id,
+        }, (response, all) => {
+          this.addressList = response.data
+          console.log(response)
+        });
       }
+    },
+    mounted() {
+      this.info = JSON.parse(localStorage.getItem('info'))
+      this.getList()
     },
     props: {
       isDisplay: {
@@ -57,7 +81,8 @@
           return false
         }
       },
-    }
+    },
+
   }
 </script>
 
@@ -72,7 +97,7 @@
     display: flex;
     flex-direction: column;
     justify-content: flex-end;
-    a{
+    a {
       color: #262626;
     }
     .bottom {
@@ -110,7 +135,7 @@
             align-items: center;
           }
         }
-        .items{
+        .items {
           width: 100%;
           height: 300px;
           overflow: scroll;
@@ -147,7 +172,7 @@
                   color: grey;
                 }
               }
-              .address{
+              .address {
                 font-size: 13px;
               }
 

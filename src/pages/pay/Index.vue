@@ -15,7 +15,7 @@
       <div class="item">
         <div class="title">明细</div>
         <div class="line">快递费用：<span>￥{{orderDetail.express_cost}}</span></div>
-        <div class="line">订单金额：<span>￥{{orderDetail.price}}</span></div>
+        <div class="line">订单金额：<span>￥{{orderDetail.price - orderDetail.express_cost}}</span></div>
       </div>
 
       <div class="item payType">

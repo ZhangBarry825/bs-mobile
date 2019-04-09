@@ -5,25 +5,18 @@
     </div>
 
     <div class="items">
-      <div class="item">
-        <div class="name">老白</div>
+      <div class="item" v-for="(item,index) in addressList.rows">
+        <div class="name">{{item.contacts}}</div>
         <div class="detail">
-          <a>老白<span>1008611</span></a>
-          <a class="address">北京北京市海淀区上地三街嘉华大厦XXX号北京北京市海淀区上地三街嘉华大厦XXX号</a>
+          <a>{{item.contacts}}<span>{{item.phone}}</span><img @click="deleteItem(item)" src="../../assets/images/delete.png"></a>
+          <a class="address">{{item.address}}</a>
         </div>
       </div>
 
-      <div class="item">
-        <div class="name">燕小六</div>
-        <div class="detail">
-          <a>燕小六<span>1008611</span></a>
-          <a class="address">北京北京市海淀区上地三街嘉华大厦XXX号</a>
-        </div>
+      <div class="empty" v-if="addressList.count<1">
+        <img src="../../assets/images/addresss.png">
+        <a>暂无地址记录</a>
       </div>
-      <!--<div class="empty">-->
-      <!--<img src="../../assets/images/commission.png">-->
-      <!--<a>暂无佣金记录</a>-->
-      <!--</div>-->
     </div>
 
     <div class="add" @click="addAddress">
@@ -39,16 +32,57 @@
 <script>
   import BottomBar from "../../components/BottomBar";
   import GoBack from "../../components/GoBack";
+  import {dataPost} from "../../../plugins/axiosFn";
+
   export default {
     name: "Address",
     components: {
       BottomBar: BottomBar,
       GoBack: GoBack,
     },
-    methods:{
-      addAddress(){
-        this.$router.push({path: '/addaddress'})
+    data() {
+      return {
+        info:{},
+        page_num: 1,
+        page_size: 1000,
+        addressList: {
+          count:0,
+          rows:[]
+        }
       }
+    },
+    methods: {
+      deleteItem(item){
+        this.$Modal.confirm({
+          title: '注意',
+          content: '是否删除？',
+          onOk: () => {
+            dataPost('/api/home/address/delete', {
+              id: item.id
+            }, (response, all) => {
+              this.getList()
+              console.log(response)
+            });
+          }
+        });
+      },
+      addAddress() {
+        this.$router.push({path: '/addaddress'})
+      },
+      getList() {
+        dataPost('/api/home/address/lists', {
+          page_num: this.page_num,
+          page_size: this.page_size,
+          membership_id: this.info.membership_id,
+        }, (response, all) => {
+          this.addressList = response.data
+          console.log(response)
+        });
+      }
+    },
+    mounted() {
+      this.info=JSON.parse(localStorage.getItem('info'))
+      this.getList()
     }
   }
 </script>
@@ -62,7 +96,7 @@
     background-color: #f8f8f8;
     font-size: 15px;
     color: #262626;
-    a{
+    a {
       color: #262626;
     }
     .top {
@@ -96,18 +130,23 @@
           justify-content: center;
         }
         .detail {
-          max-width: calc(100% - 60px);
+          width: calc(100% - 60px);
           margin-left: 10px;
           display: flex;
           flex-direction: column;
           a {
+            width: 100%;
             span {
               font-size: 13px;
               margin-left: 10px;
               color: grey;
             }
+            img{
+              width: 20px;
+              float: right;
+            }
           }
-          .address{
+          .address {
             font-size: 13px;
           }
 
@@ -131,12 +170,12 @@
       }
     }
 
-    .add{
+    .add {
       margin-top: 20px;
       width: 100%;
       display: flex;
       justify-content: center;
-      .button{
+      .button {
         width: 90%;
         border-radius: 5px;
         background-color: #169bd5;

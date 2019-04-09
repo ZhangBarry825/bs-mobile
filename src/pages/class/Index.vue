@@ -1,41 +1,21 @@
 <template>
   <div class="content">
     <div class="top">
-      <input type="text" placeholder="请输入商品名称...">
+      <input type="text" placeholder="请输入关键词...">
       <div class="search" :style="'background-image: url('+require('../../assets/images/sss.png')+')'"></div>
     </div>
     <div class="middle">
       <div class="left">
-        <div class="item">包</div>
-        <div class="item">箱</div>
-        <div class="item">日常品</div>
-        <div class="item">水果</div>
-        <div class="item">家电</div>
-        <div class="item">护肤品</div>
-        <div class="item">男装</div>
-        <div class="item">女装</div>
-        <div class="item">食品</div>
-        <div class="item">化妆品</div>
-        <div class="item">家具</div>
+        <div class="item" v-bind:class="{'active':activeIndex==index}" @click="selectType(item,index)"
+             v-for="(item,index) in typeList.rows">{{item.name}}
+        </div>
       </div>
       <div class="right">
-        <div class="title">包</div>
+        <div class="title">{{typeList.rows[activeIndex].name}}</div>
         <div class="items">
-          <div class="item">
-            <div class="img" :style="'background-image: url('+require('../../assets/images/5c14791447.jpg')+')'"></div>
-            <div class="title-detail">链条包</div>
-          </div>
-          <div class="item">
-            <div class="img" :style="'background-image: url('+require('../../assets/images/5c6e6d31e4.jpg')+')'"></div>
-            <div class="title-detail">信封包</div>
-          </div>
-          <div class="item">
-            <div class="img" :style="'background-image: url('+require('../../assets/images/5c1478d532.jpg')+')'"></div>
-            <div class="title-detail">手提包</div>
-          </div>
-          <div class="item">
-            <div class="img" :style="'background-image: url('+require('../../assets/images/5c6e6d31e4.jpg')+')'"></div>
-            <div class="title-detail">水桶包</div>
+          <div class="item" v-for="(item,index) in typeList.rows[activeIndex].children" @click="goType(item)">
+            <div class="img" :style="'background-image: url('+item.avatar+')'"></div>
+            <div class="title-detail">{{item.name}}</div>
           </div>
         </div>
       </div>
@@ -48,12 +28,49 @@
 
 <script>
   import BottomBar from "../../components/BottomBar";
+  import {dataPost} from "../../../plugins/axiosFn";
 
   export default {
     name: "Class",
     components: {
       BottomBar: BottomBar
     },
+    data() {
+      return {
+        page_num: 1,
+        page_size: 1000,
+        typeList: {
+          rows: [
+            {
+              name: ''
+            }
+          ],
+          count: 0
+        },
+        activeIndex: 0
+      }
+    },
+    methods: {
+      goType(item){
+        console.log(item.name)
+      },
+      getTypeList() {
+        dataPost('/api/home/goodsType/lists', {
+          page_num: this.page_num,
+          page_size: this.page_size,
+          level: 1
+        }, (response, all) => {
+          console.log(response.data)
+          this.typeList = response.data
+        });
+      },
+      selectType(item, index) {
+        this.activeIndex = index
+      }
+    },
+    mounted() {
+      this.getTypeList()
+    }
   }
 </script>
 
@@ -67,9 +84,7 @@
     .top {
       background-color: white;
       width: 100%;
-      padding: 10px;
-      padding-left: 10px;
-      padding-right: 10px;
+      padding: 10px 10px;
       display: flex;
       flex-direction: row;
       box-sizing: border-box;
@@ -110,7 +125,7 @@
           align-items: center;
           box-sizing: border-box;
         }
-        .item:hover {
+        .active {
           background-color: #f8f8f8;
           border-right: none;
           border-left: 2px solid #ff6633;

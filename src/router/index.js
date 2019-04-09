@@ -26,6 +26,8 @@ import Info from '@/pages/Info'
 import Password from '@/pages/Password'
 import Register from '@/pages/Register'
 import MessageDetail from '@/pages/messageDetail'
+import RefundDetail from '@/pages/RefundDetail'
+import BalanceHistory from '@/pages/BalanceHistory'
 
 
 Vue.use(Router)
@@ -109,6 +111,11 @@ export default new Router({
       component: Balance
     },
     {
+      path: '/balanceHistory',
+      name: 'BalanceHistory',
+      component: BalanceHistory
+    },
+    {
       path: '/address',
       name: 'Address',
       component: Address
@@ -172,6 +179,11 @@ export default new Router({
       path: '/register/:id',
       name: 'Register',
       component: Register
+    },
+    {
+      path: '/refundDetail',
+      name: 'RefundDetail',
+      component: RefundDetail
     }
 
   ]

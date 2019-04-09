@@ -85,9 +85,9 @@
         isDisplay: false,
         choosed: false,
         specification: [],
-        contacts: '老白',
-        phone: '15138389776',
-        address: '北京北京市海淀区上地三街嘉华大厦123号',
+        contacts: '',
+        phone: '',
+        address: '',
         goodsList: [
           {
             detail: {},
@@ -150,6 +150,10 @@
         this.isDisplay = true
       },
       chooseAddress(e) {
+        console.log(e,123)
+        this.contacts=e.contacts
+        this.phone=e.phone
+        this.address=e.address
         this.choosed = true
         this.isDisplay = false
 

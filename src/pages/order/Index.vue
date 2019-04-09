@@ -17,7 +17,7 @@
         <a>暂无订单</a>
       </div>
       <div class="item" v-for="(item,index) in orderNow.rows">
-        <div class="orderNum" @click="goDetail">
+        <div class="orderNum" @click="goDetail(item.order_id)">
           <a>订单号：{{item.order_id}}</a>
         </div>
         <div class="goods" v-for="(item1,index1) in item.goods" @click="goGoods(item1)">
@@ -38,8 +38,7 @@
         <div class="buttons">
           <div class="button" v-if="toggle!=4 && toggle!=5 && toggle!=3" @click="cancelOrder(item)">取消订单</div>
           <div class="button" v-if="toggle==3" @click="refundOrder(item)">申请退货</div>
-          <!--<div class="button" v-if="toggle==4">申请退货</div>-->
-          <div class="button" v-if="toggle==5">退货中</div>
+          <div class="button" v-if="toggle==5" @click="goRefundDetail(item)">{{item.status|statusF}}</div>
           <div class="button confirm" v-if="toggle==3" @click="confirmGoods(item)">确认收货</div>
           <div class="button confirm" v-if="toggle==1" @click="goPay(item)">付款</div>
         </div>
@@ -58,8 +57,8 @@
     name: "Order",
     data() {
       return {
-        refund_express_company:5,
-        refund_express_code:'',
+        refund_express_company: 5,
+        refund_express_code: '',
         toggle: 1,
         info: '',
         orderOne: {},
@@ -68,8 +67,30 @@
         orderFour: {},
         orderFive: {},
         orderNow: {
-          count:0,
-          rows:[]
+          count: 0,
+          rows: []
+        }
+      }
+    },
+    filters: {
+      statusF: (val) => {
+        switch (val) {
+          case 0:
+            return '待付款'
+          case 1:
+            return '待发货'
+          case 2:
+            return '待收货'
+          case 3:
+            return '已完成'
+          case 4:
+            return '待退款'
+          case 5:
+            return '商家同意退款'
+          case 6:
+            return '商家拒绝退款'
+          case 7:
+            return '已退款'
         }
       }
     },
@@ -95,21 +116,39 @@
         }
         console.log(this.orderNow)
       },
-      goDetail() {
-        this.$router.push({path: '/orderdetail'})
+      goDetail(order_id) {
+        this.$router.push({
+          path: '/orderdetail',
+          query: {
+            order_id: order_id
+          }
+        })
       },
-      goGoods(item){
+      goRefundDetail(item){
+        if(item.status==5){
+          this.$router.push({
+            path: '/refundDetail',
+            query: {
+              order_id: item.order_id
+            }
+          })
+        }else {
+          console.log(item)
+        }
+
+      },
+      goGoods(item) {
         this.$router.push({path: '/commodity?goods_id=' + item.goods_id})
       },
-      confirmGoods(item){
+      confirmGoods(item) {
         this.$Modal.confirm({
           title: '注意',
           content: '是否确认收货？',
-          onOk:()=>{
+          onOk: () => {
             dataPost('/api/home/order/update', {
               id: item.id,
-              status:3,
-              querenshouhuo:true
+              status: 3,
+              querenshouhuo: true
             }, (response, all) => {
               this.fetchDetail()
               console.log(response)
@@ -157,27 +196,28 @@
         });
 
       },
-      refundOrder(item){
+      refundOrder(item) {
         this.$Modal.confirm({
           title: '注意',
           content: '确定申请退货吗？',
-          onOk:()=>{
+          onOk: () => {
             dataPost('/api/home/order/update', {
-              id:item.id,
-              status:4
+              id: item.id,
+              status: 4
             }, (response, all) => {
+              this.fetchDetail()
               console.log(response)
             });
           }
         });
         console.log(item)
       },
-      cancelOrder(item){
+      cancelOrder(item) {
         console.log(item)
         this.$Modal.confirm({
           title: '注意',
           content: '确定取消订单吗？',
-          onOk:()=>{
+          onOk: () => {
             dataPost('/api/home/order/delete', {
               id: [item.id],
             }, (response, all) => {
