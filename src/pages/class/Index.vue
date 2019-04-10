@@ -1,8 +1,9 @@
 <template>
   <div class="content">
     <div class="top">
-      <input type="text" placeholder="请输入关键词...">
-      <div class="search" :style="'background-image: url('+require('../../assets/images/sss.png')+')'"></div>
+      <input type="text" placeholder="请输入关键词..." v-model="keyword">
+      <div class="search" :style="'background-image: url('+require('../../assets/images/sss.png')+')'"
+           @click="searchKeyword"></div>
     </div>
     <div class="middle">
       <div class="left">
@@ -13,7 +14,7 @@
       <div class="right">
         <div class="title">{{typeList.rows[activeIndex].name}}</div>
         <div class="items">
-          <div class="item" v-for="(item,index) in typeList.rows[activeIndex].children" @click="goType(item)">
+          <div class="item" v-for="(item,index) in typeList.rows[activeIndex].children" @click="searchType(item)">
             <div class="img" :style="'background-image: url('+item.avatar+')'"></div>
             <div class="title-detail">{{item.name}}</div>
           </div>
@@ -37,6 +38,7 @@
     },
     data() {
       return {
+        keyword: '',
         page_num: 1,
         page_size: 1000,
         typeList: {
@@ -51,8 +53,29 @@
       }
     },
     methods: {
-      goType(item){
-        console.log(item.name)
+      searchKeyword() {
+        if (this.keyword == '') {
+          this.$Modal.warning({
+            title: '注意',
+            content: '请先输入关键词!',
+          });
+        } else {
+          this.$router.push({
+            path: '/goodsList',
+            query: {
+              keyword: this.keyword
+            }
+          })
+        }
+      },
+      searchType(item) {
+        console.log(item.type_id)
+        this.$router.push({
+          path: '/goodsList',
+          query: {
+            type_id: item.type_id
+          }
+        })
       },
       getTypeList() {
         dataPost('/api/home/goodsType/lists', {

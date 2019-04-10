@@ -42,44 +42,64 @@
     },
     data() {
       return {
-        info: {}
+        info: {},
+        balance: ''
       }
     },
     methods: {
-      goHistory(){
+      goHistory() {
         this.$router.push({
-          path:'/balanceHistory'
+          path: '/balanceHistory'
         })
       },
       chargeBalance() {
+        this.balance = ''
         this.$Modal.confirm({
-          title: '提醒',
-          content: '确定充值￥100吗？',
+          title: '充值金额',
+          render: (h) => {
+            return h('Input', {
+              props: {
+                value: this.balance,
+                type: 'number',
+                autofocus: true,
+                placeholder: '请输入充值金额'
+              },
+              on: {
+                input: (val) => {
+                  this.balance = val;
+                  console.log(this.balance, 1)
+                }
+              }
+            })
+          },
           onOk: () => {
-            dataPost('/api/home/charge/charge', {
-              membership_id: this.info.membership_id,
-              nickname: this.info.nickname,
-              charge_account: 100,
-            }, (response, all) => {
-              console.log(response.data)
-              Message({message: '充值成功！', type: 'success'});
-              this.getInfo()
-            });
+            if (this.balance != '') {
+              dataPost('/api/home/charge/charge', {
+                membership_id: this.info.membership_id,
+                nickname: this.info.nickname,
+                charge_account: this.balance,
+              }, (response, all) => {
+                console.log(response.data)
+                Message({message: '充值成功！', type: 'success'});
+                this.getInfo()
+              });
+            }
+
           }
-        });
+        })
       },
-      getInfo(){
+      getInfo() {
         dataPost('/api/home/membership/getMembership', {
-          id:this.info.id
+          id: this.info.id
         }, (response, all) => {
           console.log(response.data)
-          this.info=response.data
+          this.info = response.data
         });
       }
     },
     mounted() {
-      let info=JSON.parse(localStorage.getItem('info'))
-      this.info=info
+      let info = JSON.parse(localStorage.getItem('info'))
+      this.info = info
       this.getInfo()
     }
   }

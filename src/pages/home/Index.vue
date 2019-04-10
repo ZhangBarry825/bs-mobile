@@ -11,8 +11,8 @@
       <!--<div class="swiper-button-next"></div>-->
     </div>
     <div class="search-text">
-      <input type="text" placeholder="请输入搜索内容">
-      <button class="search-button">搜索</button>
+      <input type="text" placeholder="请输入搜索内容" v-model="keyword">
+      <button class="search-button" @click="searchKeyword">搜索</button>
     </div>
     <div class="adv" :style="'background-image: url('+require('../../assets/images/5c7356b1b5.png')+')'">
     </div>
@@ -53,6 +53,7 @@
     },
     data() {
       return {
+        keyword:'',
         top: [
           {
             pic1: require('../../assets/images/5c1478d532.jpg')
@@ -91,6 +92,21 @@
       }
     },
     methods: {
+      searchKeyword(){
+        if (this.keyword == '') {
+          this.$Modal.warning({
+            title: '注意',
+            content: '请先输入关键词!',
+          });
+        } else {
+          this.$router.push({
+            path: '/goodsList',
+            query: {
+              keyword: this.keyword
+            }
+          })
+        }
+      },
       goDetail(e) {
         console.log(e)
         this.$router.push({path: '/commodity?id=' + e.id})

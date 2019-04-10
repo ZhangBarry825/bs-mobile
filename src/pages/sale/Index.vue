@@ -2,7 +2,7 @@
   <div class="content">
     <div class="top">
       <div class="message">
-        <img src="../../assets/images/xiaoxi_X.png"  @click="goMessage">
+        <img src="../../assets/images/xiaoxi_X.png" @click="goMessage">
       </div>
       <div class="identity">
         <div class="left">
@@ -62,11 +62,17 @@
 
 <script>
   import BottomBar from "../../components/BottomBar";
+  import {dataPost} from "../../../plugins/axiosFn";
 
   export default {
     name: "Sale",
     components: {
       BottomBar: BottomBar
+    },
+    data() {
+      return {
+        info: {}
+      }
     },
     methods: {
       membership() {
@@ -84,9 +90,32 @@
       encash() {
         this.$router.push({path: '/encash'})
       },
-      goMessage(){
+      goMessage() {
         this.$router.push({path: '/message'})
+      },
+      getInfo() {
+        dataPost('/api/home/user/info', {
+
+        }, (response, all) => {
+          console.log(response.data,111)
+          this.info = response.data
+          this.info.avatar = '/api/' + response.data.avatar
+
+          this.judgeCondition()
+        })
+      },
+      judgeCondition(){
+        console.log('检测',this.info.status)
+        if(this.info.status==0){
+          this.$router.push({path: '/apply'})
+        }
       }
+    },
+    mounted() {
+      let info = JSON.parse(localStorage.getItem('info'))
+      this.info = info
+      this.getInfo()
+
     }
   }
 </script>
@@ -98,11 +127,11 @@
     height: 100%;
     overflow: scroll;
     background-color: #f8f8f8;
-    a{
+    a {
       color: #262626;
     }
     .top {
-      a{
+      a {
         color: white;
       }
       width: 100%;

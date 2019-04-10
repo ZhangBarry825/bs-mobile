@@ -28,12 +28,13 @@ import Register from '@/pages/Register'
 import MessageDetail from '@/pages/messageDetail'
 import RefundDetail from '@/pages/RefundDetail'
 import BalanceHistory from '@/pages/BalanceHistory'
+import GoodsList from '@/pages/GoodsList'
 
 
 Vue.use(Router)
 
 export default new Router({
-  mode:'history',
+  mode: 'history',
   routes: [
     {
       path: '/',
@@ -184,6 +185,11 @@ export default new Router({
       path: '/refundDetail',
       name: 'RefundDetail',
       component: RefundDetail
+    },
+    {
+      path: '/goodsList',
+      name: 'GoodsList',
+      component: GoodsList
     }
 
   ]

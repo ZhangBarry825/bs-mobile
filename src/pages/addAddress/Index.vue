@@ -46,7 +46,7 @@
       <div class="item">
         <div class="left">详细地址:</div>
         <div class="right">
-          <Input v-model="detailAddress" placeholder="请输入详细地址" style="width: 300px" type="number"/>
+          <Input v-model="detailAddress" placeholder="请输入详细地址" style="width: 300px" />
         </div>
       </div>
 

@@ -20,7 +20,7 @@
         <div class="orderNum" @click="goDetail(item.order_id)">
           <a>订单号：{{item.order_id}}</a>
         </div>
-        <div class="goods" v-for="(item1,index1) in item.goods" @click="goGoods(item1)">
+        <div class="goods" v-for="(item1,index1) in item.goods" @click="goDetail(item.order_id)">
           <div class="left" :style="'background-image: url('+item1.pic1+')'"></div>
           <div class="right">
             <div class="title">{{item1.name}}</div>
@@ -137,9 +137,7 @@
         }
 
       },
-      goGoods(item) {
-        this.$router.push({path: '/commodity?goods_id=' + item.goods_id})
-      },
+
       confirmGoods(item) {
         this.$Modal.confirm({
           title: '注意',

@@ -35,6 +35,14 @@
           <a class="price" v-if="orderDetail.status>0">￥{{orderDetail.price}}</a>
           <a class="price" v-if="orderDetail.status==0">￥0.00</a>
         </div>
+        <div class="line" v-if="orderDetail.status>1">
+          <a>物流公司:</a>
+          <a>{{orderDetail.express_company|ExpressF}}</a>
+        </div>
+        <div class="line"  v-if="orderDetail.status>1">
+          <a>物流编号:</a>
+          <a>{{orderDetail.express_code}}</a>
+        </div>
         <div class="line">
           <a>订单备注:</a>
           <a class="price">{{orderDetail.remark}}</a>
@@ -54,7 +62,7 @@
           <a>{{orderDetail.address}}</a>
         </div>
       </div>
-      <div class="item" v-for="(item,index) in orderDetail.goods">
+      <div class="item" v-for="(item,index) in orderDetail.goods"  @click="goGoods(item)">
         <div class="line commodity">
           <div class="left" :style="'background-image: url('+item.pic1+')'"></div>
           <div class="right">
@@ -92,6 +100,9 @@
       }
     },
     methods:{
+      goGoods(item) {
+        this.$router.push({path: '/commodity?goods_id=' + item.goods_id})
+      },
       format(val){
         return parseTime(val)
       },
@@ -109,6 +120,22 @@
       this.getDetail()
     },
     filters:{
+      ExpressF:function(val){
+        switch (val) {
+          case 1:
+            return "顺丰快递"
+          case 2:
+            return "中通快递"
+          case 3:
+            return "圆通快递"
+          case 4:
+            return "申通快递"
+          case 5:
+            return "其他"
+          default :
+            return ''
+        }
+      },
       statusF:(val)=>{
         switch (val) {
           case 0:
