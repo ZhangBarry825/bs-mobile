@@ -85,6 +85,9 @@
     height: 100%;
     overflow: scroll;
     background-color: #f8f8f8;
+    a{
+      color: #262626;
+    }
     .top {
       width: 100%;
       background-color: white;

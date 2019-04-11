@@ -4,7 +4,7 @@
         我的二维码
       </div>
       <div class="qrcode">
-        <div class="ewm"  :style="'background-image: url('+require('../../assets/images/qrcode.jpg')+')'"></div>
+        <img class="ewm"  :style="'background-image: url(http://qr.liantu.com/api.php?text=http://www.baidu.com?id=555)'"></img>
       </div>
       <div class="blank" style="width: 100%;height: 50px"></div>
       <BottomBar :item="3"></BottomBar>

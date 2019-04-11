@@ -29,6 +29,7 @@ import MessageDetail from '@/pages/messageDetail'
 import RefundDetail from '@/pages/RefundDetail'
 import BalanceHistory from '@/pages/BalanceHistory'
 import GoodsList from '@/pages/GoodsList'
+import HelloWorld from '@/components/HelloWorld'
 
 
 Vue.use(Router)
@@ -190,6 +191,11 @@ export default new Router({
       path: '/goodsList',
       name: 'GoodsList',
       component: GoodsList
+    },
+    {
+      path: '/helloworld',
+      name: 'HelloWorld',
+      component: HelloWorld
     }
 
   ]

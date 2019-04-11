@@ -9,74 +9,31 @@
     </div>
 
     <div class="items" v-if="toggle">
-      <!--<div class="empty">-->
-        <!--<img src="../../assets/images/personnel.png">-->
-        <!--<a>暂无成员，去推广吧</a>-->
-      <!--</div>-->
-      <div class="item">
+      <div class="empty" v-if="!levelTwo.length>0">
+        <img src="../../assets/images/personnel.png">
+        <a>暂无成员，去推广吧</a>
+      </div>
+      <div class="item" v-for="(item, index) in levelTwo">
         <div class="left">
-          <div class="avatar" :style="'background-image: url('+require('../../assets/images/5c1478d532.jpg')+')'"></div>
+          <div class="avatar" :style="'background-image: url('+item.avatar+')'"></div>
           <div class="nickname">
-            <a>会员ID：11252</a>
-            <a>大番薯吃西瓜</a>
+            <a>会员ID：{{item.membership_id}}</a>
+            <a>{{item.nickname}}</a>
           </div>
         </div>
         <div class="right">
-          <a>消费总额：<span>￥25.25</span></a>
-          <a>佣金反额：<span>￥2552.5</span></a>
-          <a>反佣比例：<span>5%</span></a>
+          <a>消费总额：<span>￥{{item.expense}}</span></a>
+          <a>佣金反额：<span>￥</span></a>
+          <a>反佣比例：<span>%</span></a>
         </div>
       </div>
-      <div class="item">
-        <div class="left">
-          <div class="avatar" :style="'background-image: url('+require('../../assets/images/5c1478d532.jpg')+')'"></div>
-          <div class="nickname">
-            <a>会员ID：11252</a>
-            <a>大番薯吃西瓜</a>
-          </div>
-        </div>
-        <div class="right">
-          <a>消费总额：<span>￥25.25</span></a>
-          <a>佣金反额：<span>￥2552.5</span></a>
-          <a>反佣比例：<span>5%</span></a>
-        </div>
-      </div>
-      <div class="item">
-        <div class="left">
-          <div class="avatar" :style="'background-image: url('+require('../../assets/images/5c1478d532.jpg')+')'"></div>
-          <div class="nickname">
-            <a>会员ID：11252</a>
-            <a>大番薯吃西瓜</a>
-          </div>
-        </div>
-        <div class="right">
-          <a>消费总额：<span>￥25.25</span></a>
-          <a>佣金反额：<span>￥2552.5</span></a>
-          <a>反佣比例：<span>5%</span></a>
-        </div>
-      </div>
-
     </div>
     <div class="items" v-if="!toggle">
-      <!--<div class="empty">-->
-        <!--<img src="../../assets/images/personnel.png">-->
-        <!--<a>暂无成员，去推广吧</a>-->
-      <!--</div>-->
-      <div class="item">
-        <div class="left">
-          <div class="avatar" :style="'background-image: url('+require('../../assets/images/5c14791447.jpg')+')'"></div>
-          <div class="nickname">
-            <a>会员ID：11252</a>
-            <a>大番薯吃西瓜</a>
-          </div>
-        </div>
-        <div class="right">
-          <a>消费总额：<span>￥25.25</span></a>
-          <a>佣金反额：<span>￥2552.5</span></a>
-          <a>反佣比例：<span>3%</span></a>
-        </div>
+      <div class="empty"v-if="!levelThree.length>0">
+        <img src="../../assets/images/personnel.png">
+        <a>暂无成员，去推广吧</a>
       </div>
-      <div class="item">
+      <div class="item"  v-for="(item, index) in levelThree">
         <div class="left">
           <div class="avatar" :style="'background-image: url('+require('../../assets/images/5c14791447.jpg')+')'"></div>
           <div class="nickname">
@@ -101,6 +58,7 @@
 <script>
   import BottomBar from "../../components/BottomBar";
   import GoBack from "../../components/GoBack";
+  import {dataPost} from "../../../plugins/axiosFn";
   export default {
     name: "Team",
     components: {
@@ -109,7 +67,10 @@
     },
     data(){
       return{
-        toggle:true
+        toggle:true,
+        info: {},
+        levelThree:[],
+        levelTwo:[],
       }
     },
     methods:{
@@ -119,7 +80,36 @@
         }else {
           this.toggle=false
         }
+      },
+      getInfo() {
+        dataPost('/api/home/user/info', {
+        }, (response, all) => {
+          localStorage.setItem('info',JSON.stringify(response.data))
+          this.info = response.data
+          this.info.avatar = '/api/' + response.data.avatar
+        })
+      },
+      getMemberList(){
+        dataPost('/api/home/membership/getmembership', {
+          id:this.info.id
+        }, (response, all) => {
+          console.log(response,852)
+          this.levelTwo=response.data.levelTwo
+          for (let i=0;i<response.data.levelTwo.length;i++){
+            this.levelTwo[i].avatar='/api'+this.levelTwo[i].avatar
+          }
+          this.levelThree=response.data.levelThree
+          for (let i=0;i<response.data.levelThree.length;i++){
+            this.levelThree[i].avatar='/api'+this.levelThree[i].avatar
+          }
+        })
       }
+    },
+    mounted(){
+      let info = JSON.parse(localStorage.getItem('info'))
+      this.info = info
+      this.getInfo()
+      this.getMemberList()
     }
   }
 </script>
@@ -131,6 +121,9 @@
     height: 100%;
     overflow: scroll;
     background-color: #f8f8f8;
+    a{
+      color: #262626;
+    }
     .top {
       width: 100%;
       background-color: white;

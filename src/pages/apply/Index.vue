@@ -42,7 +42,9 @@
         </div>
       </div>
       <div class="submit">
-        <div class="button" @click="applySubmit">申请成销商</div>
+        <Button type="success" size="large" :disabled="info.status!=0"
+                style="background-color: #169bd5;border-color: #169bd5" @click="applySubmit" long>{{tip}}
+        </Button>
       </div>
     </div>
 
@@ -69,7 +71,8 @@
         regulationDetail: {
           require_type: 1
         },
-        info: {}
+        info: {},
+        tip: '申请成销商'
       }
     },
     methods: {
@@ -85,6 +88,7 @@
         }, (response, all) => {
           console.log(response.data)
           this.info = response.data
+          this.judgeStatus()
         });
       },
       applySubmit() {
@@ -103,43 +107,129 @@
 
               } else {
                 //进行购买
+                dataPost('/api/home/membership/updateStatus', {
+                  id: this.info.id,
+                  status: 1,
+                  require_type: this.regulationDetail.require_type,
+                  require_expense: this.regulationDetail.require_expense,
+                  require_price: this.regulationDetail.require_price,
+                }, (response, all) => {
+                  console.log(response.data, 555)
+                  setTimeout(() => {
+                    this.$Modal.success({
+                      title: '提示',
+                      content: '购买成功！请等待审核结果',
+                      onOk: () => {
+                        this.getInfo()
+                      }
+                    })
+                  }, 500)
+                });
               }
 
             }
           });
 
         } else if (this.regulationDetail.require_type == 2) {
-          if (this.info.expense > 0) {
-            //申请
-          } else {
-            setTimeout(() => {
-              this.$Modal.warning({
-                title: '提示',
-                content: '您暂未有消费记录！',
-              })
-            }, 500)
-          }
+          this.$Modal.confirm({
+            title: '提示',
+            content: '确定申请分销商吗？',
+            onOk: () => {
+              if (this.info.expense > 0) {
+                //申请
+                dataPost('/api/home/membership/updateStatus', {
+                  id: this.info.id,
+                  status: 1,
+                  require_type: this.regulationDetail.require_type,
+                  require_expense: this.regulationDetail.require_expense,
+                  require_price: this.regulationDetail.require_price,
+                }, (response, all) => {
+                  console.log(response.data, 555)
+                  setTimeout(() => {
+                    this.$Modal.success({
+                      title: '提示',
+                      content: '申请成功！请等待审核结果',
+                      onOk: () => {
+                        this.getInfo()
+                      }
+                    })
+                  }, 500)
+                });
+              } else {
+                setTimeout(() => {
+                  this.$Modal.warning({
+                    title: '提示',
+                    content: '您暂未有消费记录！',
+                  })
+                }, 500)
+              }
+            }
+          })
         } else if (this.regulationDetail.require_type == 3) {
-          if (this.info.expense > this.regulationDetail.require_expense) {
-            //申请
-          } else {
-            setTimeout(() => {
-              this.$Modal.warning({
-                title: '提示',
-                content: '您暂未达到指定消费额！',
-              })
-            }, 500)
-          }
+          this.$Modal.confirm({
+            title: '提示',
+            content: '确定申请分销商吗？',
+            onOk: () => {
+              if (this.info.expense > this.regulationDetail.require_expense) {
+                //申请
+                dataPost('/api/home/membership/updateStatus', {
+                  id: this.info.id,
+                  status: 1,
+                  require_type: this.regulationDetail.require_type,
+                  require_expense: this.regulationDetail.require_expense,
+                  require_price: this.regulationDetail.require_price,
+                }, (response, all) => {
+                  console.log(response.data, 555)
+                  setTimeout(() => {
+                    this.$Modal.success({
+                      title: '提示',
+                      content: '申请成功！请等待审核结果',
+                      onOk: () => {
+                        this.getInfo()
+                      }
+                    })
+                  }, 500)
+                });
+              } else {
+                setTimeout(() => {
+                  this.$Modal.warning({
+                    title: '提示',
+                    content: '您暂未达到指定消费额！',
+                  })
+                }, 500)
+              }
+            }
+          })
         }
 
 
         // this.$router.push({path: '/'})
+      },
+      judgeStatus() {
+        switch (this.info.status) {
+          case 0:
+            this.tip = "申请成为分销商"
+            break;
+          case 1:
+            this.tip = "审核中"
+            break;
+          case 2:
+            this.tip = "申请分销商成功"
+            break;
+          case 3:
+            this.tip = "申请已被拒绝"
+            break;
+          case 4:
+            this.tip = "分销功能已被禁用"
+            break;
+        }
       }
     },
     mounted() {
       this.info = JSON.parse(localStorage.getItem('info'))
       this.getInfo()
       this.getRegulation()
+
     },
     filters: {
       regulationF(val) {

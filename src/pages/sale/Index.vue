@@ -6,10 +6,10 @@
       </div>
       <div class="identity">
         <div class="left">
-          <div class="avatar" :style="'background-image: url('+require('../../assets/images/5c6e6d31e4.jpg')+')'"></div>
+          <div class="avatar" :style="'background-image: url('+info.avatar+')'"></div>
           <div class="nickname">
-            <a>会员ID:22565</a>
-            <a>大番薯的店</a>
+            <a>会员ID:{{info.membership_id}}</a>
+            <a>{{info.nickname}}的店</a>
           </div>
         </div>
         <div class="right">
@@ -20,19 +20,19 @@
       <div class="turnover">
         <div class="left">
           <a>累计营销额（元）</a>
-          <h2>32.10</h2>
+          <h2>{{info.sale_account}}</h2>
         </div>
         <div class="middle"></div>
         <div class="right">
           <a>累计营佣金（元）</a>
-          <h2>1.50</h2>
+          <h2>{{info.commission+encashList.success_account}}</h2>
         </div>
       </div>
     </div>
     <div class="pay">
       <div class="num">
-        <a>可提现佣金（元）</a>
-        <h2>22.01</h2>
+        <a>可提现佣金</a>
+        <h2>￥{{info.commission}}</h2>
       </div>
       <div class="button" @click="encash">提现</div>
     </div>
@@ -71,7 +71,8 @@
     },
     data() {
       return {
-        info: {}
+        info: {},
+        encashList:{}
       }
     },
     methods: {
@@ -95,26 +96,33 @@
       },
       getInfo() {
         dataPost('/api/home/user/info', {
-
         }, (response, all) => {
-          console.log(response.data,111)
+          localStorage.setItem('info',JSON.stringify(response.data))
           this.info = response.data
           this.info.avatar = '/api/' + response.data.avatar
-
           this.judgeCondition()
         })
       },
       judgeCondition(){
         console.log('检测',this.info.status)
-        if(this.info.status==0){
+        if(this.info.status!=2){
           this.$router.push({path: '/apply'})
         }
+      },
+      getEncashList(){
+        dataPost('/api/home/encash/getEncash', {
+          membership_id:this.info.membership_id
+        }, (response, all) => {
+          console.log(response.data,963)
+          this.encashList=response.data
+        })
       }
     },
     mounted() {
       let info = JSON.parse(localStorage.getItem('info'))
       this.info = info
       this.getInfo()
+      this.getEncashList()
 
     }
   }
