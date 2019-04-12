@@ -5,143 +5,26 @@
     </div>
 
     <div class="items">
-      <div class="item">
+      <div class="item" v-for="(item,index) in memberships">
         <div class="left">
-          <div class="avatar" :style="'background-image: url('+require('../../assets/images/5c1478d532.jpg')+')'"></div>
+          <div class="avatar" :style="'background-image: url('+item.avatar+')'"></div>
           <div class="nickname">
-            <a>会员ID：11252</a>
-            <a>大番薯吃西瓜</a>
+            <a>会员ID：{{item.membership_id}}</a>
+            <a>{{item.nickname}}</a>
           </div>
         </div>
         <div class="right">
-          <a>消费总额：<span>￥25.25</span></a>
-          <a>佣金反额：<span>￥2552.5</span></a>
+          <a>消费总额：<span>￥{{item.expense}}</span></a>
+          <a>反佣金额：<span>￥{{item.refund_commission}}</span></a>
+          <a>反佣比例：<span>{{regulationDetail.level_three}}%</span></a>
         </div>
       </div>
-      <div class="item">
-        <div class="left">
-          <div class="avatar" :style="'background-image: url('+require('../../assets/images/5c1478d532.jpg')+')'"></div>
-          <div class="nickname">
-            <a>会员ID：11252</a>
-            <a>大番薯吃西瓜</a>
-          </div>
-        </div>
-        <div class="right">
-          <a>消费总额：<span>￥25.25</span></a>
-          <a>佣金反额：<span>￥2552.5</span></a>
-        </div>
-      </div>
-      <div class="item">
-        <div class="left">
-          <div class="avatar" :style="'background-image: url('+require('../../assets/images/5c1478d532.jpg')+')'"></div>
-          <div class="nickname">
-            <a>会员ID：11252</a>
-            <a>大番薯吃西瓜</a>
-          </div>
-        </div>
-        <div class="right">
-          <a>消费总额：<span>￥25.25</span></a>
-          <a>佣金反额：<span>￥2552.5</span></a>
-        </div>
-      </div>
-      <div class="item">
-        <div class="left">
-          <div class="avatar" :style="'background-image: url('+require('../../assets/images/5c1478d532.jpg')+')'"></div>
-          <div class="nickname">
-            <a>会员ID：11252</a>
-            <a>大番薯吃西瓜</a>
-          </div>
-        </div>
-        <div class="right">
-          <a>消费总额：<span>￥25.25</span></a>
-          <a>佣金反额：<span>￥2552.5</span></a>
-        </div>
-      </div>
-      <div class="item">
-        <div class="left">
-          <div class="avatar" :style="'background-image: url('+require('../../assets/images/5c1478d532.jpg')+')'"></div>
-          <div class="nickname">
-            <a>会员ID：11252</a>
-            <a>大番薯吃西瓜</a>
-          </div>
-        </div>
-        <div class="right">
-          <a>消费总额：<span>￥25.25</span></a>
-          <a>佣金反额：<span>￥2552.5</span></a>
-        </div>
-      </div>
-      <div class="item">
-        <div class="left">
-          <div class="avatar" :style="'background-image: url('+require('../../assets/images/5c1478d532.jpg')+')'"></div>
-          <div class="nickname">
-            <a>会员ID：11252</a>
-            <a>大番薯吃西瓜</a>
-          </div>
-        </div>
-        <div class="right">
-          <a>消费总额：<span>￥25.25</span></a>
-          <a>佣金反额：<span>￥2552.5</span></a>
-        </div>
-      </div>
-      <div class="item">
-        <div class="left">
-          <div class="avatar" :style="'background-image: url('+require('../../assets/images/5c1478d532.jpg')+')'"></div>
-          <div class="nickname">
-            <a>会员ID：11252</a>
-            <a>大番薯吃西瓜</a>
-          </div>
-        </div>
-        <div class="right">
-          <a>消费总额：<span>￥25.25</span></a>
-          <a>佣金反额：<span>￥2552.5</span></a>
-        </div>
-      </div>
-      <div class="item">
-        <div class="left">
-          <div class="avatar" :style="'background-image: url('+require('../../assets/images/5c1478d532.jpg')+')'"></div>
-          <div class="nickname">
-            <a>会员ID：11252</a>
-            <a>大番薯吃西瓜</a>
-          </div>
-        </div>
-        <div class="right">
-          <a>消费总额：<span>￥25.25</span></a>
-          <a>佣金反额：<span>￥2552.5</span></a>
-        </div>
-      </div>
-      <div class="item">
-        <div class="left">
-          <div class="avatar" :style="'background-image: url('+require('../../assets/images/5c1478d532.jpg')+')'"></div>
-          <div class="nickname">
-            <a>会员ID：11252</a>
-            <a>大番薯吃西瓜</a>
-          </div>
-        </div>
-        <div class="right">
-          <a>消费总额：<span>￥25.25</span></a>
-          <a>佣金反额：<span>￥2552.5</span></a>
-        </div>
-      </div>
-      <div class="item">
-        <div class="left">
-          <div class="avatar" :style="'background-image: url('+require('../../assets/images/5c1478d532.jpg')+')'"></div>
-          <div class="nickname">
-            <a>会员ID：11252</a>
-            <a>大番薯吃西瓜</a>
-          </div>
-        </div>
-        <div class="right">
-          <a>消费总额：<span>￥25.25</span></a>
-          <a>佣金反额：<span>￥2552.5</span></a>
-        </div>
-      </div>
-
 
     </div>
-    <!--<div class="empty">-->
-      <!--<img src="../../assets/images/personnel.png">-->
-      <!--<a>暂无会员，去推广吧</a>-->
-    <!--</div>-->
+    <div class="empty" v-if="!memberships.length>0">
+      <img src="../../assets/images/personnel.png">
+      <a>暂无客户，去推广吧</a>
+    </div>
     <div class="blank" style="width: 100%;height: 50px"></div>
     <BottomBar :item="3"></BottomBar>
     <GoBack></GoBack>
@@ -151,6 +34,7 @@
 <script>
   import BottomBar from "../../components/BottomBar";
   import GoBack from "../../components/GoBack";
+  import {dataPost} from "../../../plugins/axiosFn";
 
   export default {
     name: "Membership",
@@ -158,6 +42,45 @@
       BottomBar: BottomBar,
       GoBack:GoBack
     },
+    data(){
+      return{
+        info:{},
+        memberships:[],
+        regulationDetail:{}
+      }
+    },
+    methods:{
+      getMemberships(){
+        dataPost('/api/home/membership/getMyMembership', {
+          membership_id:this.info.membership_id
+        }, (response, all) => {
+          this.memberships=response.data
+          for(let i=0;i<this.memberships.length;i++){
+            this.memberships[i].avatar='/api'+this.memberships[i].avatar
+          }
+        })
+      },
+      getInfo() {
+        dataPost('/api/home/user/info', {
+        }, (response, all) => {
+          localStorage.setItem('info',JSON.stringify(response.data))
+          this.info = response.data
+          this.info.avatar = '/api/' + response.data.avatar
+        })
+      },
+      getRegulation() {
+        dataPost('/api/home/regulation/detail', {}, (response, all) => {
+          this.regulationDetail = response.data
+        })
+      },
+    },
+    mounted(){
+      let info = JSON.parse(localStorage.getItem('info'))
+      this.info = info
+      this.getInfo()
+      this.getMemberships()
+      this.getRegulation()
+    }
   }
 </script>
 
@@ -170,6 +93,9 @@
     background-color: #f8f8f8;
     font-size: 15px;
     color: #262626;
+    a{
+      color: #262626;
+    }
     .top {
       width: 100%;
       background-color: white;

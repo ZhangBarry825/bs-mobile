@@ -22,9 +22,9 @@
           </div>
         </div>
         <div class="right">
-          <a>消费总额：<span>￥{{item.expense}}</span></a>
-          <a>佣金反额：<span>￥</span></a>
-          <a>反佣比例：<span>%</span></a>
+          <a>销售总额：<span>￥{{item.sale_account}}</span></a>
+          <!--<a>佣金反额：<span>￥</span></a>-->
+          <a>反佣比例：<span>{{regulationDetail.level_two}}%</span></a>
         </div>
       </div>
     </div>
@@ -42,9 +42,9 @@
           </div>
         </div>
         <div class="right">
-          <a>消费总额：<span>￥25.25</span></a>
-          <a>佣金反额：<span>￥2552.5</span></a>
-          <a>反佣比例：<span>3%</span></a>
+          <a>销售总额：<span>￥{{item.sale_account}}</span></a>
+          <!--<a>佣金反额：<span>￥2552.5</span></a>-->
+          <a>反佣比例：<span>{{regulationDetail.level_one}}%</span></a>
         </div>
       </div>
     </div>
@@ -71,6 +71,7 @@
         info: {},
         levelThree:[],
         levelTwo:[],
+        regulationDetail:{}
       }
     },
     methods:{
@@ -103,13 +104,20 @@
             this.levelThree[i].avatar='/api'+this.levelThree[i].avatar
           }
         })
-      }
+      },
+      getRegulation() {
+        dataPost('/api/home/regulation/detail', {}, (response, all) => {
+          console.log(response.data,123123)
+          this.regulationDetail = response.data
+        })
+      },
     },
     mounted(){
       let info = JSON.parse(localStorage.getItem('info'))
       this.info = info
       this.getInfo()
       this.getMemberList()
+      this.getRegulation()
     }
   }
 </script>

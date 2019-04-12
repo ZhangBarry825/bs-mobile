@@ -7,7 +7,7 @@
     </div>
     <div class="middle">
       <div class="left">
-        <div class="item" v-bind:class="{'active':activeIndex==index}" @click="selectType(item,index)"
+        <div class="item" :class="{'active':activeIndex==index}" @click="selectType(item,index)"
              v-for="(item,index) in typeList.rows">{{item.name}}
         </div>
       </div>

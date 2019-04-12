@@ -70,7 +70,6 @@
           localStorage.setItem('info',JSON.stringify(response.data))
           this.info = response.data
           this.info.avatar = '/api/' + response.data.avatar
-          this.judgeCondition()
         })
       },
       applySubmit(){

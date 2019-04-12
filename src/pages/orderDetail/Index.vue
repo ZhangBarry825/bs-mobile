@@ -11,6 +11,10 @@
           <a>{{orderDetail.order_id}}</a>
         </div>
         <div class="line">
+          <a>订单用户:</a>
+          <a>{{orderDetail.nickname}}(会员ID:{{orderDetail.membership_id}})</a>
+        </div>
+        <div class="line">
           <a>下单时间:</a>
           <a>{{format(orderDetail.create_time)}}</a>
         </div>
