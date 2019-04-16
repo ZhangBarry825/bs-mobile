@@ -4,7 +4,7 @@
         我的二维码
       </div>
       <div class="qrcode">
-        <img class="ewm"  :style="'background-image: url(http://qr.liantu.com/api.php?text=http://www.baidu.com?id=555)'"></img>
+        <img class="ewm"  :style="'background-image: url(http://qr.liantu.com/api.php?text=http://bs-mobile.luckyme.com.cn/)'"></img>
       </div>
       <div class="blank" style="width: 100%;height: 50px"></div>
       <BottomBar :item="3"></BottomBar>
@@ -21,6 +21,15 @@
       BottomBar: BottomBar,
       GoBack: GoBack,
     },
+    data(){
+      return{
+        info:{}
+      }
+    },
+    mounted(){
+      let info = JSON.parse(localStorage.getItem('info'))
+      this.info = info
+    }
   }
 </script>
 

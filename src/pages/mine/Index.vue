@@ -78,7 +78,7 @@
     name: "Mine",
     data(){
       return{
-        info:[],
+        info:{},
         orders:{
           result:{
             count:0,
@@ -145,22 +145,33 @@
         this.$router.push({path: '/set'})
       },
       fetchDetail(){
-        dataPost('/api/home/user/info', {
+        dataPost(this.GLOBALDATA.serverUrl+'/home/user/info', {
         },(response, all)=>{
           console.log(response.data)
           this.info=response.data
-          this.info.avatar='/api/'+response.data.avatar
+          this.info.avatar=this.GLOBALDATA.absoluteUrl+'/'+response.data.avatar
 
-          dataPost('/api/home/order/listCount', {
+          dataPost(this.GLOBALDATA.serverUrl+'/home/order/listCount', {
             membership_id:this.info.membership_id
           },(response, all)=>{
             console.log(response.data)
             this.orders=response.data
           });
         });
-      }
+      },
+      getInfo() {
+        dataPost(this.GLOBALDATA.serverUrl+'/home/user/info', {
+        }, (response, all) => {
+          localStorage.setItem('info',JSON.stringify(response.data))
+          this.info = response.data
+          this.info.avatar = this.GLOBALDATA.absoluteUrl+'/' + response.data.avatar
+        })
+      },
     },
     mounted(){
+      let info = JSON.parse(localStorage.getItem('info'))
+      this.info = info
+      this.getInfo()
       this.fetchDetail()
     },
     filters: {

@@ -83,7 +83,7 @@
       console.log(this.$route.params.id)
       if (this.$route.params.id) {
         localStorage.removeItem('shopper')
-        dataPost('/api/home/user/shopperInfo', {
+        dataPost(this.GLOBALDATA.serverUrl+'/home/user/shopperInfo', {
           membership_id: this.$route.params.id
         }, (response, all) => {
           console.log(response.data)
@@ -112,7 +112,7 @@
         this.$router.push({path: '/commodity?id=' + e.id})
       },
       getList() {
-        dataPost('/api/home/goods/homeList', {
+        dataPost(this.GLOBALDATA.serverUrl+'/home/goods/homeList', {
           page_num: 1,
           page_size: 10
         }, (response, all) => {

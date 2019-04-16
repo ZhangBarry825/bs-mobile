@@ -20,7 +20,7 @@
       };
     },
     mounted() {
-      dataGet('/api/home/article/lists', {
+      dataGet(this.GLOBALDATA.serverUrl+'/home/article/lists', {
           type: '赴加生子福利',
           page_num:1,
           page_size:2

@@ -57,7 +57,7 @@
           title: '注意',
           content: '是否删除？',
           onOk: () => {
-            dataPost('/api/home/address/delete', {
+            dataPost(this.GLOBALDATA.serverUrl+'/home/address/delete', {
               id: item.id
             }, (response, all) => {
               this.getList()
@@ -70,7 +70,7 @@
         this.$router.push({path: '/addaddress'})
       },
       getList() {
-        dataPost('/api/home/address/lists', {
+        dataPost(this.GLOBALDATA.serverUrl+'/home/address/lists', {
           page_num: this.page_num,
           page_size: this.page_size,
           membership_id: this.info.membership_id,

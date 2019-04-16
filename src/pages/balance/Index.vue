@@ -74,7 +74,7 @@
           },
           onOk: () => {
             if (this.balance != '') {
-              dataPost('/api/home/charge/charge', {
+              dataPost(this.GLOBALDATA.serverUrl+'/home/charge/charge', {
                 membership_id: this.info.membership_id,
                 nickname: this.info.nickname,
                 charge_account: this.balance,
@@ -89,7 +89,7 @@
         })
       },
       getInfo() {
-        dataPost('/api/home/membership/getMembership', {
+        dataPost(this.GLOBALDATA.serverUrl+'/home/membership/getMembership', {
           id: this.info.id
         }, (response, all) => {
           console.log(response.data)

@@ -81,7 +81,7 @@
           title: '注意',
           content: '确定取消订单吗？',
           onOk:()=>{
-            dataPost('/api/home/order/delete', {
+            dataPost(this.GLOBALDATA.serverUrl+'/home/order/delete', {
               id: [this.orderDetail.id],
             }, (response, all) => {
               this.$router.push({path: '/mine'})
@@ -93,7 +93,7 @@
         });
       },
       submit() {
-        dataPost('/api/home/order/update', {
+        dataPost(this.GLOBALDATA.serverUrl+'/home/order/update', {
           id: this.orderDetail.id,
           status: 1,
         }, (response, all) => {
@@ -111,7 +111,7 @@
         // this.$router.push({path: '/mine'})
       },
       getDetail() {
-        dataPost('/api/home/order/detail', {
+        dataPost(this.GLOBALDATA.serverUrl+'/home/order/detail', {
           order_id: this.order_id
         }, (response, all) => {
           console.log(response.data, 555)

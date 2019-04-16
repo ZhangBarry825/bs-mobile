@@ -64,7 +64,7 @@
           });
         }else {
           console.log(this.postForm)
-          dataPost('/api/home/membership/resetPassword', {
+          dataPost(this.GLOBALDATA.serverUrl+'/home/membership/resetPassword', {
             id:this.postForm.id,
             password:this.postForm.password,
             old_password:this.postForm.old_password,
@@ -79,7 +79,7 @@
 
       },
       fetchDetail(){
-        dataPost('/api/home/user/info', {
+        dataPost(this.GLOBALDATA.serverUrl+'/home/user/info', {
         },(response, all)=>{
           console.log(response.data)
           this.postForm.id=response.data.id

@@ -65,11 +65,11 @@
     },
     methods:{
       getInfo(){
-        dataPost('/api/home/user/info', {
+        dataPost(this.GLOBALDATA.serverUrl+'/home/user/info', {
         }, (response, all) => {
           localStorage.setItem('info',JSON.stringify(response.data))
           this.info = response.data
-          this.info.avatar = '/api/' + response.data.avatar
+          this.info.avatar = this.GLOBALDATA.serverUrl+'/' + response.data.avatar
         })
       },
       applySubmit(){
@@ -89,7 +89,7 @@
             content: '提现金额大于可提现佣金！',
           })
         }else {
-          dataPost('/api/home/encash/newEncash', {
+          dataPost(this.GLOBALDATA.serverUrl+'/home/encash/newEncash', {
             nickname:this.info.nickname,
             membership_id:this.info.membership_id,
             account:this.account,

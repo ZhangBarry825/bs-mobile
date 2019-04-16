@@ -49,7 +49,7 @@
     },
     methods: {
       goList(){
-        dataPost('/api/home/charge/lists', {
+        dataPost(this.GLOBALDATA.serverUrl+'/home/charge/lists', {
           membership_id:this.info.membership_id,
           page_num:this.page_num,
           page_size:this.page_size,
@@ -59,7 +59,7 @@
         });
       },
       getInfo(){
-        dataPost('/api/home/membership/getMembership', {
+        dataPost(this.GLOBALDATA.serverUrl+'/home/membership/getMembership', {
           id:this.info.id
         }, (response, all) => {
           console.log(response.data)

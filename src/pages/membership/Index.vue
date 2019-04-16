@@ -51,25 +51,25 @@
     },
     methods:{
       getMemberships(){
-        dataPost('/api/home/membership/getMyMembership', {
+        dataPost(this.GLOBALDATA.serverUrl+'/home/membership/getMyMembership', {
           membership_id:this.info.membership_id
         }, (response, all) => {
           this.memberships=response.data
           for(let i=0;i<this.memberships.length;i++){
-            this.memberships[i].avatar='/api'+this.memberships[i].avatar
+            this.memberships[i].avatar=this.GLOBALDATA.serverUrl+this.memberships[i].avatar
           }
         })
       },
       getInfo() {
-        dataPost('/api/home/user/info', {
+        dataPost(this.GLOBALDATA.serverUrl+'/home/user/info', {
         }, (response, all) => {
           localStorage.setItem('info',JSON.stringify(response.data))
           this.info = response.data
-          this.info.avatar = '/api/' + response.data.avatar
+          this.info.avatar = this.GLOBALDATA.serverUrl+'/' + response.data.avatar
         })
       },
       getRegulation() {
-        dataPost('/api/home/regulation/detail', {}, (response, all) => {
+        dataPost(this.GLOBALDATA.serverUrl+'/home/regulation/detail', {}, (response, all) => {
           this.regulationDetail = response.data
         })
       },

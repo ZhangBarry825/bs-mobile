@@ -83,30 +83,30 @@
         }
       },
       getInfo() {
-        dataPost('/api/home/user/info', {
+        dataPost(this.GLOBALDATA.serverUrl+'/home/user/info', {
         }, (response, all) => {
           localStorage.setItem('info',JSON.stringify(response.data))
           this.info = response.data
-          this.info.avatar = '/api/' + response.data.avatar
+          this.info.avatar = this.GLOBALDATA.serverUrl+'/' + response.data.avatar
         })
       },
       getMemberList(){
-        dataPost('/api/home/membership/getmembership', {
+        dataPost(this.GLOBALDATA.serverUrl+'/home/membership/getmembership', {
           id:this.info.id
         }, (response, all) => {
           console.log(response,852)
           this.levelTwo=response.data.levelTwo
           for (let i=0;i<response.data.levelTwo.length;i++){
-            this.levelTwo[i].avatar='/api'+this.levelTwo[i].avatar
+            this.levelTwo[i].avatar=this.GLOBALDATA.serverUrl+this.levelTwo[i].avatar
           }
           this.levelThree=response.data.levelThree
           for (let i=0;i<response.data.levelThree.length;i++){
-            this.levelThree[i].avatar='/api'+this.levelThree[i].avatar
+            this.levelThree[i].avatar=this.GLOBALDATA.serverUrl+this.levelThree[i].avatar
           }
         })
       },
       getRegulation() {
-        dataPost('/api/home/regulation/detail', {}, (response, all) => {
+        dataPost(this.GLOBALDATA.serverUrl+'/home/regulation/detail', {}, (response, all) => {
           console.log(response.data,123123)
           this.regulationDetail = response.data
         })

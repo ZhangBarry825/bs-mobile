@@ -10,6 +10,9 @@ import store from '../store/store'
 import iView from 'iview'
 import 'iview/dist/styles/iview.css'
 import SIdentify from './components/SIdentify'
+//挂载全局常量
+import global_ from './components/Global'
+Vue.prototype.GLOBALDATA = global_
 
 Vue.use(SIdentify)
 Vue.use(Vuex)

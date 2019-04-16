@@ -43,7 +43,7 @@
         return parseTime(val,'{y}/{m}/{d}')
       },
       getList() {
-        dataPost('/api/home/message/detail', {
+        dataPost(this.GLOBALDATA.serverUrl+'/home/message/detail', {
           id: this.id
         }, (response, all) => {
           this.detail = response.data

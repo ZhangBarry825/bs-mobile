@@ -111,7 +111,7 @@
         return parseTime(val)
       },
       getDetail(){
-        dataPost('/api/home/order/detail', {
+        dataPost(this.GLOBALDATA.serverUrl+'/home/order/detail', {
           order_id: this.order_id,
         }, (response, all) => {
           console.log(response)

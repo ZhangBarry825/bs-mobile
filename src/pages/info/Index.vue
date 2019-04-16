@@ -8,7 +8,7 @@
       <div class="type avatar">
         <Upload
           class="avatar-uploader"
-          action="/api/admin/upload/upload"
+          :action="this.GLOBALDATA.serverUrl+'/admin/upload/upload'"
           name="files"
           :show-file-list="false"
           :on-success="handleAvatarSuccess"
@@ -77,7 +77,7 @@
     methods:{
       handleAvatarSuccess(res, file) {
         console.log(res)
-        this.imageUrl = '/api'+res.data
+        this.imageUrl = this.GLOBALDATA.absoluteUrl+'/'+res.data
         this.postForm.avatar=res.data
       },
       beforeAvatarUpload(file) {
@@ -125,7 +125,7 @@
             content: '手机号格式错误!'
           });
         }else {
-          dataPost('/api/home/membership/updateMembership', {
+          dataPost(this.GLOBALDATA.serverUrl+'/home/membership/updateMembership', {
             id:this.postForm.id,
             avatar:this.postForm.avatar,
             nickname:this.postForm.nickname,
@@ -146,13 +146,13 @@
         console.log(this.postForm)
       },
       fetchDetail(){
-        dataPost('/api/home/user/info', {
+        dataPost(this.GLOBALDATA.serverUrl+'/home/user/info', {
 
         },(response, all)=>{
           console.log(response.data)
           localStorage.setItem('info',JSON.stringify(response.data))
           this.postForm=response.data
-          this.imageUrl='/api'+response.data.avatar
+          this.imageUrl=this.GLOBALDATA.absoluteUrl+'/'+response.data.avatar
         });
 
       }

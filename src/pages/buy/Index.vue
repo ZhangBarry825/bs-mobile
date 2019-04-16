@@ -160,7 +160,7 @@
       },
       pay() {
         if (this.choosed) {
-          dataPost('/api/home/user/info', {}, (response, all) => {
+          dataPost(this.GLOBALDATA.serverUrl+'/home/user/info', {}, (response, all) => {
             let info = response.data
             let shopper = JSON.parse(localStorage.getItem('shopper'))
             let postForm = {}
@@ -202,7 +202,7 @@
             console.log(specification)
 
 
-            dataPost('/api/home/order/create', {
+            dataPost(this.GLOBALDATA.serverUrl+'/home/order/create', {
               shopper: postForm.shopper,
               shopper_id: postForm.shopper_id,
               nickname: postForm.nickname,

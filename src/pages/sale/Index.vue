@@ -95,11 +95,11 @@
         this.$router.push({path: '/message'})
       },
       getInfo() {
-        dataPost('/api/home/user/info', {
+        dataPost(this.GLOBALDATA.serverUrl+'/home/user/info', {
         }, (response, all) => {
           localStorage.setItem('info',JSON.stringify(response.data))
           this.info = response.data
-          this.info.avatar = '/api/' + response.data.avatar
+          this.info.avatar = this.GLOBALDATA.absoluteUrl+'/' + response.data.avatar
           this.judgeCondition()
         })
       },
@@ -110,7 +110,7 @@
         }
       },
       getEncashList(){
-        dataPost('/api/home/encash/getEncash', {
+        dataPost(this.GLOBALDATA.serverUrl+'/home/encash/getEncash', {
           membership_id:this.info.membership_id
         }, (response, all) => {
           console.log(response.data,963)

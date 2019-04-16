@@ -55,7 +55,7 @@
             content: '请先输入关键词!',
           });
         }else {
-          dataPost('/api/home/goods/search', {
+          dataPost(this.GLOBALDATA.serverUrl+'/home/goods/search', {
             page_num: this.page_num,
             page_size: this.page_size,
             keyword: this.keyword
@@ -67,7 +67,7 @@
 
       },
       searchType() {
-        dataPost('/api/home/goods/search', {
+        dataPost(this.GLOBALDATA.serverUrl+'/home/goods/search', {
           page_num: this.page_num,
           page_size: this.page_size,
           type_id: this.type_id

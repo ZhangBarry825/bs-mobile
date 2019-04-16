@@ -47,7 +47,7 @@
         return parseTime(val,'{y}/{m}/{d}')
       },
       getList(){
-        dataPost('/api/home/message/lists', {
+        dataPost(this.GLOBALDATA.serverUrl+'/home/message/lists', {
           page_num:this.page_num,
           page_size:this.page_size,
         },(response, all)=>{

@@ -77,13 +77,13 @@
     },
     methods: {
       getRegulation() {
-        dataPost('/api/home/regulation/detail', {}, (response, all) => {
+        dataPost(this.GLOBALDATA.serverUrl+'/home/regulation/detail', {}, (response, all) => {
           console.log(response.data)
           this.regulationDetail = response.data
         })
       },
       getInfo() {
-        dataPost('/api/home/membership/getMembership', {
+        dataPost(this.GLOBALDATA.serverUrl+'/home/membership/getMembership', {
           id: this.info.id
         }, (response, all) => {
           console.log(response.data)
@@ -107,7 +107,7 @@
 
               } else {
                 //进行购买
-                dataPost('/api/home/membership/updateStatus', {
+                dataPost(this.GLOBALDATA.serverUrl+'/home/membership/updateStatus', {
                   id: this.info.id,
                   status: 1,
                   require_type: this.regulationDetail.require_type,
@@ -137,7 +137,7 @@
             onOk: () => {
               if (this.info.expense > 0) {
                 //申请
-                dataPost('/api/home/membership/updateStatus', {
+                dataPost(this.GLOBALDATA.serverUrl+'/home/membership/updateStatus', {
                   id: this.info.id,
                   status: 1,
                   require_type: this.regulationDetail.require_type,
@@ -172,7 +172,7 @@
             onOk: () => {
               if (this.info.expense > this.regulationDetail.require_expense) {
                 //申请
-                dataPost('/api/home/membership/updateStatus', {
+                dataPost(this.GLOBALDATA.serverUrl+'/home/membership/updateStatus', {
                   id: this.info.id,
                   status: 1,
                   require_type: this.regulationDetail.require_type,

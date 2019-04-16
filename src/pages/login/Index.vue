@@ -43,7 +43,7 @@
             content: '验证码错误'
           });
         }else {
-          dataPost('/api/home/user/login', {
+          dataPost(this.GLOBALDATA.serverUrl+'/home/user/login', {
             phone:this.username,
             password:this.password,
           },(response, all)=>{

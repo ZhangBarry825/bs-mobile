@@ -93,7 +93,7 @@
           console.log(newVal)
           for (let i = 0; i < this.provinceList.length; i++) {
             if (newVal == this.provinceList[i].name1) {
-              dataPost('/api/home/address/area', {
+              dataPost(this.GLOBALDATA.serverUrl+'/home/address/area', {
                 pid: this.provinceList[i].pid
               }, (response, all) => {
                 console.log(response.data)
@@ -109,7 +109,7 @@
           console.log(newVal)
           for (let i = 0; i < this.cityList.length; i++) {
             if (newVal == this.cityList[i].name1) {
-              dataPost('/api/home/address/area', {
+              dataPost(this.GLOBALDATA.serverUrl+'/home/address/area', {
                 pid: this.cityList[i].pid
               }, (response, all) => {
                 console.log(response.data)
@@ -155,7 +155,7 @@
         } else {
           this.postForm.address = this.province + this.city + this.block + this.detailAddress
           console.log(this.postForm)
-          dataPost('/api/home/address/create', {
+          dataPost(this.GLOBALDATA.serverUrl+'/home/address/create', {
             membership_id: this.info.membership_id,
             contacts: this.postForm.contacts,
             phone: this.postForm.phone,
@@ -177,7 +177,7 @@
         console.log(item, 123)
       },
       getProvince() {
-        dataGet('/api/home/address/province', {}, (response, all) => {
+        dataGet(this.GLOBALDATA.serverUrl+'/home/address/province', {}, (response, all) => {
           console.log(response.data)
           this.provinceList = response.data.rows
         });

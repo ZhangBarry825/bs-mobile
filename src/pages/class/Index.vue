@@ -78,7 +78,7 @@
         })
       },
       getTypeList() {
-        dataPost('/api/home/goodsType/lists', {
+        dataPost(this.GLOBALDATA.serverUrl+'/home/goodsType/lists', {
           page_num: this.page_num,
           page_size: this.page_size,
           level: 1

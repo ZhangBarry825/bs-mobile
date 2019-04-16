@@ -143,7 +143,7 @@
           title: '注意',
           content: '是否确认收货？',
           onOk: () => {
-            dataPost('/api/home/order/update', {
+            dataPost(this.GLOBALDATA.serverUrl+'/home/order/update', {
               id: item.id,
               status: 3,
               querenshouhuo: true
@@ -164,7 +164,7 @@
 
       },
       fetchDetail() {
-        dataPost('/api/home/order/listCount', {
+        dataPost(this.GLOBALDATA.serverUrl+'/home/order/listCount', {
           membership_id: this.info.membership_id
         }, (response, all) => {
           console.log(response.data)
@@ -199,7 +199,7 @@
           title: '注意',
           content: '确定申请退货吗？',
           onOk: () => {
-            dataPost('/api/home/order/update', {
+            dataPost(this.GLOBALDATA.serverUrl+'/home/order/update', {
               id: item.id,
               status: 4
             }, (response, all) => {
@@ -216,7 +216,7 @@
           title: '注意',
           content: '确定取消订单吗？',
           onOk: () => {
-            dataPost('/api/home/order/delete', {
+            dataPost(this.GLOBALDATA.serverUrl+'/home/order/delete', {
               id: [item.id],
             }, (response, all) => {
               this.fetchDetail()

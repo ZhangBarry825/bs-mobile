@@ -139,7 +139,7 @@
             content: '请填写快递编号！'
           });
         }else {
-          dataPost('/api/home/order/update', {
+          dataPost(this.GLOBALDATA.serverUrl+'/home/order/update', {
             id: this.orderDetail.id,
             refund_express_company: this.postForm.refund_express_company,
             refund_express_code: this.postForm.refund_express_code,
@@ -162,7 +162,7 @@
         return parseTime(val)
       },
       getDetail(){
-        dataPost('/api/home/order/detail', {
+        dataPost(this.GLOBALDATA.serverUrl+'/home/order/detail', {
           order_id: this.order_id,
         }, (response, all) => {
           console.log(response)

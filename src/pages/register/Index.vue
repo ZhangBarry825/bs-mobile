@@ -8,7 +8,7 @@
       <div class="type avatar">
         <Upload
           class="avatar-uploader"
-          action="/api/admin/upload/upload"
+          :action="this.GLOBALDATA.serverUrl+'/admin/upload/upload'"
           name="files"
           :show-file-list="false"
           :on-success="handleAvatarSuccess"
@@ -81,7 +81,7 @@
       },
       handleAvatarSuccess(res, file) {
         console.log(res)
-        this.imageUrl = '/api'+res.data
+        this.imageUrl = this.GLOBALDATA.absoluteUrl+'/'+res.data
         this.postForm.avatar=res.data
       },
       beforeAvatarUpload(file) {
@@ -144,7 +144,7 @@
             content: '手机号格式错误!'
           });
         }else {
-          dataPost('/api/home/membership/newMembership', {
+          dataPost(this.GLOBALDATA.serverUrl+'/home/membership/newMembership', {
             referrer:this.postForm.referrer,
             referrer_id:this.postForm.referrer_id,
             avatar:this.postForm.avatar,
@@ -157,7 +157,7 @@
           },(response, all)=>{
             console.log(response)
             localStorage.setItem('info',response.data)
-            this.$Modal.confirm({
+            this.$Modal.success({
               title: '成功',
               content: '注册成功！',
               onOk: () => {

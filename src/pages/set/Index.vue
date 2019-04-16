@@ -34,7 +34,7 @@
     },
     methods:{
       unLogin(){
-        dataPost('/api/home/user/logout', {
+        dataPost(this.GLOBALDATA.serverUrl+'/home/user/logout', {
 
         },(response, all)=>{
           console.log(response)

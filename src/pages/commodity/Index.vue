@@ -166,7 +166,7 @@
         });
       },
       getDetail() {
-        dataPost('/api/home/goods/detail', {
+        dataPost(this.GLOBALDATA.serverUrl+'/home/goods/detail', {
           id: this.id,
           goods_id: this.goods_id
         }, (response, all) => {
