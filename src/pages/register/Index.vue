@@ -167,7 +167,7 @@
               title: '成功',
               content: '注册成功！',
               onOk: () => {
-                this.$router.push({path: '/'})
+                this.$router.push({path: '/',query:{id:this.postForm.referrer_id}})
               }
             });
           });
