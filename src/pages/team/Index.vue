@@ -97,11 +97,11 @@
           console.log(response,852)
           this.levelTwo=response.data.levelTwo
           for (let i=0;i<response.data.levelTwo.length;i++){
-            this.levelTwo[i].avatar=this.GLOBALDATA.serverUrl+this.levelTwo[i].avatar
+            this.levelTwo[i].avatar=this.GLOBALDATA.absoluteUrl+'/'+this.levelTwo[i].avatar
           }
           this.levelThree=response.data.levelThree
           for (let i=0;i<response.data.levelThree.length;i++){
-            this.levelThree[i].avatar=this.GLOBALDATA.serverUrl+this.levelThree[i].avatar
+            this.levelThree[i].avatar=this.GLOBALDATA.absoluteUrl+'/'+this.levelThree[i].avatar
           }
         })
       },
