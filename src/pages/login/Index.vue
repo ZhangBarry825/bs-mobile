@@ -31,8 +31,8 @@
         identifyCodes: "1234567890",
         identifyCode: "",
         identifyInput:"",
-        username:'15038010321',
-        password:'123123',
+        username:'',
+        password:'',
       }
     },
     methods:{
@@ -72,7 +72,7 @@
             ];
         }
 
-        this.identifyInput=this.identifyCode
+        // this.identifyInput=this.identifyCode
         console.log(this.identifyCode)
       }
     },

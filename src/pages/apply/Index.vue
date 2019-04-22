@@ -41,12 +41,16 @@
           <span>{{info.referrer_id}}</span>
         </div>
       </div>
+      <div class="agreement" v-if="regulationDetail.display_agreement">
+        <a @click="goAgreement">查看购买协议内容</a>
+      </div>
       <div class="submit">
         <Button type="success" size="large" :disabled="info.status!=0"
                 style="background-color: #169bd5;border-color: #169bd5" @click="applySubmit" long>{{tip}}
         </Button>
       </div>
     </div>
+
 
 
     <div class="blank" style="width: 100%;height: 50px"></div>
@@ -76,6 +80,12 @@
       }
     },
     methods: {
+      goAgreement(){
+        this.$Modal.info({
+          title: this.regulationDetail.agreement_title,
+          content: this.regulationDetail.agreement_content
+        });
+      },
       getRegulation() {
         dataPost(this.GLOBALDATA.serverUrl+'/home/regulation/detail', {}, (response, all) => {
           console.log(response.data)
@@ -305,11 +315,17 @@
             color: red;
           }
         }
+
         .gray {
           span {
             color: gray;
           }
         }
+      }
+      .agreement{
+        margin-top: 5px;
+        margin-left: 5px;
+        font-size: 14px;
       }
       .submit {
         width: 100%;

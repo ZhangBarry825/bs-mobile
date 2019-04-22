@@ -181,11 +181,15 @@
                 }
               )
             }
-            console.log(shopper,888)
+            console.log(shopper,852)
             if (shopper) {
               postForm.shopper = shopper.nickname
               postForm.shopper_id = shopper.membership_id
             } else {
+              postForm.shopper = '总店'
+              postForm.shopper_id = 0
+            }
+            if( JSON.stringify(shopper) === '[]'){
               postForm.shopper = '总店'
               postForm.shopper_id = 0
             }
@@ -369,7 +373,9 @@
           word-break: break-all;
           text-overflow: ellipsis;
           display: -webkit-box;
+          /*! autoprefixer: off */
           -webkit-box-orient: vertical;
+          /* autoprefixer: on */
           -webkit-line-clamp: 2;
           overflow: hidden;
         }

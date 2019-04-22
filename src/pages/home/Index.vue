@@ -65,7 +65,8 @@
             pic1: require('../../assets/images/5c6e6d31e4.jpg')
           }
         ],
-        rows: []
+        rows: [],
+        info:{}
       }
     },
     mounted() {
@@ -81,10 +82,18 @@
       })
       this.getList()
       console.log(this.$route.params.id)
-      if (this.$route.params.id) {
+      let info = JSON.parse(localStorage.getItem('info'))
+      this.info = info
+      this.getInfo()
+      let shopper = JSON.parse(localStorage.getItem('shopper'))
+      console.log(shopper,'shopper')
+
+
+      if (!shopper) {
+        console.log('!shopper')
         localStorage.removeItem('shopper')
         dataPost(this.GLOBALDATA.serverUrl+'/home/user/shopperInfo', {
-          membership_id: this.$route.params.id
+          membership_id: info.referrer_id
         }, (response, all) => {
           console.log(response.data)
           localStorage.setItem('shopper',JSON.stringify(response.data))
@@ -92,6 +101,14 @@
       }
     },
     methods: {
+      getInfo() {
+        dataPost(this.GLOBALDATA.serverUrl+'/home/user/info', {
+        }, (response, all) => {
+          localStorage.setItem('info',JSON.stringify(response.data))
+          this.info = response.data
+          this.info.avatar = this.GLOBALDATA.absoluteUrl+'/' + response.data.avatar
+        })
+      },
       searchKeyword(){
         if (this.keyword == '') {
           this.$Modal.warning({
