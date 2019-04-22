@@ -56,7 +56,7 @@
         }, (response, all) => {
           this.memberships=response.data
           for(let i=0;i<this.memberships.length;i++){
-            this.memberships[i].avatar=this.GLOBALDATA.serverUrl+this.memberships[i].avatar
+            this.memberships[i].avatar=this.GLOBALDATA.absoluteUrl+this.memberships[i].avatar
           }
         })
       },

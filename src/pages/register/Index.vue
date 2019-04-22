@@ -41,7 +41,7 @@
       </div>
       <div class="type">
         <a>推荐人:</a>
-        <Input v-model="postForm.referrer_id" placeholder="请输入推荐人ID"/>
+        <Input v-model="postForm.referrer_id" disabled placeholder="请输入推荐人ID"/>
       </div>
     </div>
     <div class="submit">
@@ -62,14 +62,20 @@
       return {
         postForm: {
           avatar:'',
-          nickname:'哆啦A梦',
-          name:'小叮当',
-          phone:'15038010321',
-          password:'123123',
-          repeat_password:'123123',
-          referrer_id:'96114956'
+          nickname:'',
+          name:'',
+          phone:'',
+          password:'',
+          repeat_password:'',
+          referrer_id:'0'
         },
         imageUrl: ''
+      }
+    },
+    mounted(){
+      let shopper=JSON.parse(localStorage.getItem('shopper'))
+      if(shopper){
+        this.postForm.referrer_id=shopper.membership_id
       }
     },
     methods:{

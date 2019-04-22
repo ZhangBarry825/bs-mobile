@@ -79,6 +79,18 @@
     mounted(){
       this.identifyCode = "";
       this.makeCode(this.identifyCodes, 4);
+
+      console.log(this.$route.query.id,'QueryID')
+      if (this.$route.query.id) {
+        localStorage.removeItem('shopper')
+        dataPost(this.GLOBALDATA.serverUrl+'/home/user/shopperInfo', {
+          membership_id: this.$route.query.id
+        }, (response, all) => {
+          console.log(response.data)
+          localStorage.setItem('shopper',JSON.stringify(response.data))
+        });
+      }
+
     }
   }
 </script>

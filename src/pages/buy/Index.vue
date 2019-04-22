@@ -181,6 +181,7 @@
                 }
               )
             }
+            console.log(shopper,888)
             if (shopper) {
               postForm.shopper = shopper.nickname
               postForm.shopper_id = shopper.membership_id

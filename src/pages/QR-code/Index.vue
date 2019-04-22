@@ -4,7 +4,7 @@
         我的二维码
       </div>
       <div class="qrcode">
-        <img class="ewm"  :style="'background-image: url(http://qr.liantu.com/api.php?text=http://bs-mobile.luckyme.com.cn/)'"></img>
+        <img class="ewm"  :style="'background-image: url(http://qr.liantu.com/api.php?text=http://bs-mobile.luckyme.com.cn?id='+info.membership_id+')'"></img>
       </div>
       <div class="blank" style="width: 100%;height: 50px"></div>
       <BottomBar :item="3"></BottomBar>

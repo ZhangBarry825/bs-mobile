@@ -248,12 +248,13 @@
           flex-direction: column;
           justify-content: space-around;
           .title {
-            word-break: break-all;
-            text-overflow: ellipsis;
-            display: -webkit-box;
+            overflow:hidden;
+            text-overflow:ellipsis;
+            display:-webkit-box;
+            /*! autoprefixer: off */
             -webkit-box-orient: vertical;
-            -webkit-line-clamp: 1;
-            overflow: hidden;
+            /* autoprefixer: on */
+            -webkit-line-clamp:1;
             font-size: 15px;
           }
           .type {
@@ -336,12 +337,13 @@
             text-align: left;
             padding: 0 2px;
             box-sizing: border-box;
-            word-break: break-all;
-            text-overflow: ellipsis;
-            display: -webkit-box;
+            overflow:hidden;
+            text-overflow:ellipsis;
+            display:-webkit-box;
+            /*! autoprefixer: off */
             -webkit-box-orient: vertical;
-            -webkit-line-clamp: 2;
-            overflow: hidden;
+            /* autoprefixer: on */
+            -webkit-line-clamp:2;
           }
           .price {
             font-size: 20px;

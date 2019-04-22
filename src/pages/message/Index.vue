@@ -118,7 +118,9 @@
             word-break: break-all;
             text-overflow: ellipsis;
             display: -webkit-box;
+            /*! autoprefixer: off */
             -webkit-box-orient: vertical;
+            /* autoprefixer: on */
             -webkit-line-clamp: 1;
             overflow: hidden;
             color:black ;
@@ -127,7 +129,9 @@
             word-break: break-all;
             text-overflow: ellipsis;
             display: -webkit-box;
+            /*! autoprefixer: off */
             -webkit-box-orient: vertical;
+            /* autoprefixer: on */
             -webkit-line-clamp: 2;
             overflow: hidden;
             font-size: 13px;

@@ -222,12 +222,13 @@
         }
         .title {
           font-size: 15px;
-          word-break: break-all;
-          text-overflow: ellipsis;
-          display: -webkit-box;
+          overflow:hidden;
+          text-overflow:ellipsis;
+          display:-webkit-box;
+          /*! autoprefixer: off */
           -webkit-box-orient: vertical;
-          -webkit-line-clamp: 2;
-          overflow: hidden;
+          /* autoprefixer: on */
+          -webkit-line-clamp:2;
         }
         .bottom {
           display: flex;
