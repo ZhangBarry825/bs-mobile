@@ -24,7 +24,7 @@
         </div>
         <div class="middle"></div>
         <div class="right">
-          <a>累计营佣金（元）</a>
+          <a>累计佣金（元）</a>
           <h2>{{info.commission+encashList.success_account}}</h2>
         </div>
       </div>
